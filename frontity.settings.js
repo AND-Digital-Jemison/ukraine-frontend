@@ -16,7 +16,14 @@ const settings = {
       "state": {
         "source": {
           // "url": "https://ukraineprojectand.wordpress.com"
-          "url": "https://test.frontity.org"
+          "url": "https://test.frontity.org",
+          "postTypes": [
+            {
+              type: "destinations",
+              endpoint: "destinations",
+              archive: "/destinations"
+            }
+          ]
         }
       }
     },
