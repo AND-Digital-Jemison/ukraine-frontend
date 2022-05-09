@@ -15,8 +15,9 @@ const settings = {
       "name": "@frontity/wp-source",
       "state": {
         "source": {
-          // "url": "https://ukraineprojectand.wordpress.com"
-          "url": "https://test.frontity.org",
+          "url": "https://advice-ukraine.co.uk/",
+          // "url": "https://ukraineprojectand.wordpress.com",
+          // "url": "https://test.frontity.org",
           "postTypes": [
             {
               type: "destinations",
@@ -24,7 +25,10 @@ const settings = {
               archive: "/destinations"
             }
           ]
-        }
+        },
+        "wpSource": {
+          "isWpCom": true // specifies the WP plan in use is Personal/Premium
+        } 
       }
     },
     "@frontity/tiny-router",
