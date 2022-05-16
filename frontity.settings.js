@@ -16,19 +16,14 @@ const settings = {
       "state": {
         "source": {
           "url": "https://advice-ukraine.co.uk/",
-          // "url": "https://ukraineprojectand.wordpress.com",
-          // "url": "https://test.frontity.org",
           "postTypes": [
             {
-              type: "destinations",
-              endpoint: "destinations",
-              archive: "/destinations"
+              type: "home",
+              endpoint: "home",
+              archive: "/home"
             }
           ]
-        },
-        "wpSource": {
-          "isWpCom": true // specifies the WP plan in use is Personal/Premium
-        } 
+        }
       }
     },
     "@frontity/tiny-router",

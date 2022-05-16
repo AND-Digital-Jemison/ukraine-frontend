@@ -5,6 +5,7 @@ import Switch from "@frontity/components/switch"
 import List from './list';
 import Post from './post';
 import Page from './page';
+import Home from './home';
 
 const Root = ({ state }) => {
     const data = state.source.get(state.router.link);
@@ -30,11 +31,9 @@ const Root = ({ state }) => {
                     <nav>
                         <Link link="/">Home</Link>
                         <br />
-                        <Link link="/page/2">More posts</Link>
+                        <Link link="/bezplatna-porada-dotyczaca-imigracji-do-wielkiej-brytanii-dla-ukraincow/">Polish page</Link>
                         <br />
-                        <Link link="/about-us">About us</Link>
-                        <br />
-                        <Link link="/destinations">Destinations</Link>
+                        <Link link="/home/test-home">Home post type</Link>
                     </nav>
                 </HeaderContent>
             </Header>
@@ -44,6 +43,7 @@ const Root = ({ state }) => {
                     <Post when={data.isPost} />
                     <Page when={data.isPage} />
                     <Page when={data.isDestinations} />
+                    <Home when={data.isHome} />
                 </Switch>
             </Main>
         </>
