@@ -5,24 +5,19 @@ const Home = ({ state }) => {
   const data = state.source.get(state.router.link);
   const home = state.source[data.type][data.id];
 
-  const { ctaTitle, ctaDescription, ctaInfoTitle, ctaInfoListItems, 
-    ctaRefugeeLabel, ctaVolunteerLabel } = home.acf;
-  console.log("home", home);
+  const { ctaTitle, ctaDescription, ctaInfo, 
+    ctaRefugeeLabel, ctaVolunteerLabel, nonUkTabContent } = home.acf;
+  console.log("home.acf", home.acf);
 
   return (
     <>
       <h1>{ctaTitle}</h1>
       <p>{ctaDescription}</p>
-      <div>
-        <h3>{ctaInfoTitle}</h3>
-        <ul>
-          {ctaInfoListItems.split('\\n').map((item, index) => {
-            return <li key={index}>{item}</li>;
-          })}
-        </ul>
-      </div>
+      <div dangerouslySetInnerHTML={{__html: ctaInfo}} />
       <button>{ctaRefugeeLabel}</button>
       <a href="#" >{ctaVolunteerLabel}</a>
+      <div dangerouslySetInnerHTML={{__html: nonUkTabContent}} />
+      
     </>
   );
 };
