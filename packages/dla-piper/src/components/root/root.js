@@ -1,26 +1,36 @@
 import { connect, Global, css, styled } from 'frontity';
 import Switch from '@frontity/components/switch';
 import { List, Post, Page, Menu, Home } from '..';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 
 const Root = ({ state }) => {
 
   const { source, router } = state;
-
-  // use source.get over source.data[router.link]
   const data = source.get(router.link);
 
+  const theme = createTheme({
+    palette: {
+      textColor: {
+        main: '#444444',
+      },
+      contrastThreshold: 3,
+      tonalOffset: 0.2,
+    },
+  });
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Global styles={globalStyles} />
 
-      <Header>
+      {/* <Header>
         <HeaderContent>
           <h1>Frontify</h1>
-          {/* <h1>current URL: { state.router.link }</h1> */}
+          <h1>current URL: { state.router.link }</h1>
 
           <Menu />
         </HeaderContent>
-      </Header>
+      </Header> */}
 
       <Main>
         <Switch>
@@ -30,7 +40,7 @@ const Root = ({ state }) => {
           <Home when={data.isHome} />
         </Switch>
       </Main>
-    </>
+    </ThemeProvider>
   )
 };
 
@@ -73,10 +83,12 @@ const Main = styled.main`
 `
 
 const globalStyles = css`
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
   }  
 
   html {
