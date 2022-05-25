@@ -1,14 +1,30 @@
-import React from 'react';
-import { connect } from 'frontity';
+import React from "react";
+import { connect } from "frontity";
 
 const Home = ({ state }) => {
   const data = state.source.get(state.router.link);
   const home = state.source[data.type][data.id];
-  console.log('home', home);
+
+  const { ctaTitle, ctaDescription, ctaInfoTitle, ctaInfoListItems, 
+    ctaRefugeeLabel, ctaVolunteerLabel } = home.acf;
+  console.log("home", home);
 
   return (
-    <div dangerouslySetInnerHTML={{ __html: home.content.rendered }} />
+    <>
+      <h1>{ctaTitle}</h1>
+      <p>{ctaDescription}</p>
+      <div>
+        <h3>{ctaInfoTitle}</h3>
+        <ul>
+          {ctaInfoListItems.split('\\n').map((item, index) => {
+            return <li key={index}>{item}</li>;
+          })}
+        </ul>
+      </div>
+      <button>{ctaRefugeeLabel}</button>
+      <a href="#" >{ctaVolunteerLabel}</a>
+    </>
   );
-}
+};
 
 export default connect(Home);
