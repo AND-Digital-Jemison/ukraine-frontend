@@ -23,7 +23,7 @@ const Home = ({ state }) => {
   }, [])
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
-  const handleChange = (event, newValue) => {
+  const handleTabChange = (event, newValue) => {
     setCurrentTabIndex(newValue);
   };
 
@@ -115,7 +115,7 @@ const Home = ({ state }) => {
         </Link>
       </Box>
 
-      <Tabs value={currentTabIndex} onChange={handleChange}>
+      <Tabs value={currentTabIndex} onChange={handleTabChange}>
         <Tab label="UK Section" {...a11yProps(0)} />
         <Tab label="Non UK Section" {...a11yProps(0)} />
       </Tabs>
