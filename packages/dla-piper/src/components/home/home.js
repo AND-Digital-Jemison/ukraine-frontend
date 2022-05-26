@@ -96,7 +96,6 @@ const Home = ({ state }) => {
             sx={{
               fontWeight: 400,
               fontSize: "15px",
-              fontFamily: "Plus Jakarta Sans",
               minWidth: "288px",
               minHeight: "44px",
             }}
@@ -115,9 +114,19 @@ const Home = ({ state }) => {
         </Link>
       </Box>
 
-      <Tabs value={currentTabIndex} onChange={handleTabChange}>
-        <Tab label="UK Section" {...a11yProps(0)} />
-        <Tab label="Non UK Section" {...a11yProps(0)} />
+      <Tabs value={currentTabIndex} 
+        onChange={handleTabChange} 
+        variant="fullWidth" 
+        TabIndicatorProps={{
+          style: { background: "gold", height:"3px" }
+        }}
+        sx={{
+          "& .MuiTab-textColorPrimary": { color:"grey" },
+          "& .Mui-selected": { color:"black" }
+        }}
+        >
+        <Tab label="UK Section" {...a11yProps(0)} disableRipple/>
+        <Tab label="Non UK Section" {...a11yProps(0)} disableRipple/>
       </Tabs>
 
       <TabPanel value={currentTabIndex} index={0}>
