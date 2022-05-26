@@ -24,6 +24,7 @@
     "@frontity/mars-theme": "./packages/mars-theme",
     "@frontity/tiny-router": "^1.4.4",
     "@frontity/wp-source": "^1.11.7",
+    "@mui/icons-material": "^5.8.0",
     "@mui/material": "^5.8.1",
     "custom-theme": "file:packages/custom-theme",
     "dayjs": "^1.11.2",
