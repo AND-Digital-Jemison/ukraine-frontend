@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { connect, styled } from "frontity";
-import { Typography, Button, List, ListItem, Box, Grid, Tabs, Tab } from "@mui/material";
+import { connect } from "frontity";
+import {
+  Typography,
+  Button,
+  List,
+  ListItem,
+  Box,
+  Tabs,
+  Tab,
+} from "@mui/material";
 import Link from "@frontity/components/link";
-import { Error } from '@mui/icons-material';
+import { Error } from "@mui/icons-material";
+
 
 const Home = ({ state }) => {
   const data = state.source.get(state.router.link);
@@ -15,12 +24,12 @@ const Home = ({ state }) => {
     ctaRefugeeLabel,
     ctaVolunteerLabel,
     nonUkTabContent,
+    alreadyInUKTabContent,
   } = home.acf;
 
   useEffect(() => {
     console.log("home.acf", home.acf);
-
-  }, [])
+  }, []);
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const handleTabChange = (event, newValue) => {
@@ -29,8 +38,8 @@ const Home = ({ state }) => {
 
   const a11yProps = (index) => ({
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  })
+    "aria-controls": `simple-tabpanel-${index}`,
+  });
 
   return (
     <>
@@ -41,7 +50,7 @@ const Home = ({ state }) => {
           fontWeight: 600,
           fontSize: "42px",
           fontFamily: "'Plus Jakarta Sans', sans-serif",
-          margin: '0 0 20px 0',
+          margin: "0 0 20px 0",
         }}
       >
         {ctaTitle}
@@ -57,38 +66,40 @@ const Home = ({ state }) => {
         {ctaDescription}
       </Typography>
 
-      <Box variant='div'
+      <Box
+        variant="div"
         sx={{
-          border: '1px solid',
-          borderColor: 'infoColors.border',
-          bgcolor: 'infoColors.background',
-          borderRadius: '8px',
-          padding: '16px',
-          margin: '0 0 20px 0',
+          border: "1px solid",
+          borderColor: "infoColors.border",
+          bgcolor: "infoColors.background",
+          borderRadius: "8px",
+          padding: "16px",
+          margin: "0 0 20px 0",
         }}
       >
         <Typography
-          variant='h3'
+          variant="h3"
           sx={{
             fontWeight: 600,
-            fontSize: '16px',
+            fontSize: "16px",
             margin: 0,
             padding: 0,
-            color: 'textColor.main',
+            color: "textColor.main",
           }}
         >
           {ctaInfoTitle}
         </Typography>
-        <List sx={{ padding: '0' }}>
+        <List sx={{ padding: "0" }}>
           {ctaInfoListItems.length > 0 &&
-            ctaInfoListItems.split('<br />').map((item, index) => (
-              <ThemedListItem li={item} key={`ctaLI-${index}`} />
-            )
-            )}
+            ctaInfoListItems
+              .split("<br />")
+              .map((item, index) => (
+                <ThemedListItem li={item} key={`ctaLI-${index}`} />
+              ))}
         </List>
       </Box>
 
-      <Box variant='div'>
+      <Box variant="div">
         <Link link="#" style={{ textDecoration: "none" }}>
           <Button
             color="buttonColor"
@@ -110,30 +121,33 @@ const Home = ({ state }) => {
               minWidth: "288px",
               minHeight: "44px",
             }}
-          >{ctaVolunteerLabel}</Button>
+          >
+            {ctaVolunteerLabel}
+          </Button>
         </Link>
       </Box>
 
-      <Tabs value={currentTabIndex} 
-        onChange={handleTabChange} 
-        variant="fullWidth" 
+      <Tabs
+        value={currentTabIndex}
+        onChange={handleTabChange}
+        variant="fullWidth"
         TabIndicatorProps={{
-          style: { background: "gold", height:"3px" }
+          style: { background: "gold", height: "3px" },
         }}
         sx={{
-          "& .MuiTab-textColorPrimary": { color:"grey" },
-          "& .Mui-selected": { color:"black" }
+          "& .MuiTab-textColorPrimary": { color: "#6D7175" },
+          "& .Mui-selected": { color: "#444444 !important" },
         }}
-        >
-        <Tab label="UK Section" {...a11yProps(0)} disableRipple/>
-        <Tab label="Non UK Section" {...a11yProps(0)} disableRipple/>
+      >
+        <Tab label="I'm not in the UK" {...a11yProps(0)} disableRipple />
+        <Tab label="I'm already in the UK" {...a11yProps(0)} disableRipple />
       </Tabs>
 
       <TabPanel value={currentTabIndex} index={0}>
-        <div dangerouslySetInnerHTML={{ __html: nonUkTabContent }} />
+        <div style={{ color: '#444'}} dangerouslySetInnerHTML={{ __html: nonUkTabContent }} />
       </TabPanel>
       <TabPanel value={currentTabIndex} index={1}>
-        <p>other tab</p>
+        <div style={{ color: '#444'}} dangerouslySetInnerHTML={{ __html: alreadyInUKTabContent }} />
       </TabPanel>
     </>
   );
@@ -142,14 +156,14 @@ const Home = ({ state }) => {
 const ThemedListItem = ({ li }) => (
   <ListItem
     sx={{
-      display: 'flex',
-      flexDirection: 'row',
-      gap: '8px',
-      paddingLeft: '8px',
-      fontSize: '14px'
+      display: "flex",
+      flexDirection: "row",
+      gap: "8px",
+      paddingLeft: "8px",
+      fontSize: "14px",
     }}
   >
-    <Error color='infoIconColor' sx={{ alignSelf: 'flex-start' }} />
+    <Error color="infoIconColor" sx={{ alignSelf: "flex-start" }} />
     {li}
   </ListItem>
 );
