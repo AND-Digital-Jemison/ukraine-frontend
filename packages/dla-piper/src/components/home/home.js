@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect, styled } from "frontity";
-import { Typography, Stack, Button, List, ListItem, Box, Grid } from "@mui/material";
+import { Typography, Button, List, ListItem, Box, Grid, Tabs, Tab } from "@mui/material";
 import Link from "@frontity/components/link";
 import { Error } from '@mui/icons-material';
 
@@ -17,7 +17,20 @@ const Home = ({ state }) => {
     nonUkTabContent,
   } = home.acf;
 
-  console.log("home.acf", home.acf);
+  useEffect(() => {
+    console.log("home.acf", home.acf);
+
+  }, [])
+
+  const [currentTabIndex, setCurrentTabIndex] = useState(0);
+  const handleChange = (event, newValue) => {
+    setCurrentTabIndex(newValue);
+  };
+
+  const a11yProps = (index) => ({
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  })
 
   return (
     <>
@@ -43,6 +56,7 @@ const Home = ({ state }) => {
       >
         {ctaDescription}
       </Typography>
+
       <Box variant='div'
         sx={{
           border: '1px solid',
@@ -53,7 +67,7 @@ const Home = ({ state }) => {
           margin: '0 0 20px 0',
         }}
       >
-        <Typography 
+        <Typography
           variant='h3'
           sx={{
             fontWeight: 600,
@@ -70,9 +84,10 @@ const Home = ({ state }) => {
             ctaInfoListItems.split('<br />').map((item, index) => (
               <ThemedListItem li={item} key={`ctaLI-${index}`} />
             )
-          )}
+            )}
         </List>
       </Box>
+
       <Box variant='div'>
         <Link link="#" style={{ textDecoration: "none" }}>
           <Button
@@ -90,7 +105,7 @@ const Home = ({ state }) => {
           </Button>
         </Link>
         <Link link="#">
-          <Button 
+          <Button
             variant="text"
             sx={{
               minWidth: "288px",
@@ -99,24 +114,51 @@ const Home = ({ state }) => {
           >{ctaVolunteerLabel}</Button>
         </Link>
       </Box>
-      <div dangerouslySetInnerHTML={{ __html: nonUkTabContent }} />
+
+      <Tabs value={currentTabIndex} onChange={handleChange}>
+        <Tab label="UK Section" {...a11yProps(0)} />
+        <Tab label="Non UK Section" {...a11yProps(0)} />
+      </Tabs>
+
+      <TabPanel value={currentTabIndex} index={0}>
+        <div dangerouslySetInnerHTML={{ __html: nonUkTabContent }} />
+      </TabPanel>
+      <TabPanel value={currentTabIndex} index={1}>
+        <p>other tab</p>
+      </TabPanel>
     </>
   );
 };
 
 const ThemedListItem = ({ li }) => (
-  <ListItem 
-    sx={{ 
+  <ListItem
+    sx={{
       display: 'flex',
       flexDirection: 'row',
       gap: '8px',
       paddingLeft: '8px',
-      fontSize: '14px' 
+      fontSize: '14px'
     }}
   >
     <Error color='infoIconColor' sx={{ alignSelf: 'flex-start' }} />
     {li}
   </ListItem>
+);
+
+const TabPanel = ({ children, value, index, ...other }) => (
+  <div
+    role="tabpanel"
+    hidden={value !== index}
+    id={`simple-tabpanel-${index}`}
+    aria-labelledby={`simple-tab-${index}`}
+    {...other}
+  >
+    {value === index && (
+      <Box sx={{ p: 3 }}>
+        <Typography>{children}</Typography>
+      </Box>
+    )}
+  </div>
 );
 
 export default connect(Home);
