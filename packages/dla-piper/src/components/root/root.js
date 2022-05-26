@@ -46,13 +46,9 @@ const Root = ({ state }) => {
   return (
     <ThemeProvider theme={theme}>
       <Global styles={globalStyles} />
-      {/* <Header>
-        <HeaderContent>
-          <h1>Frontify</h1>
-          <h1>current URL: { state.router.link }</h1>
+      <header>
           <Menu />
-        </HeaderContent>
-      </Header> */}
+      </header>
       <Main>
         <Switch>
           <List when={data.isArchive} />
@@ -64,20 +60,7 @@ const Root = ({ state }) => {
     </ThemeProvider>
   );
 };
-const Header = styled.header`
-  background-color: #e5edee;
-  border-width: 0 0 8px 0;
-  border-style: solid;
-  border-color: maroon;
-  h1 {
-    color: #4a4a4a;
-  }
-`;
-const HeaderContent = styled.div`
-  max-width: 800px;
-  padding: 2em 1em;
-  margin: auto;
-`;
+
 const Main = styled.main`
   max-width: 800px;
   padding: 1em;

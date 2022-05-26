@@ -1,46 +1,39 @@
-import { connect, styled } from 'frontity';
-import Link from '@frontity/components/link';
+import { connect, styled } from "frontity";
+import Link from "@frontity/components/link";
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
 
-const Menu = ({ state }) => {
-  const { source, router } = state;
-
-  const links = [
-    {
-      name: 'Home',
-      link: '/',
-    },
-    {
-      name: 'Polish',
-      link: '/bezplatna-porada-dotyczaca-imigracji-do-wielkiej-brytanii-dla-ukraincow/',
-    },
-  ]
+const Menu = () => {
 
   return (
-    <nav>
-      <ul>
-        { links.map(({ name, link }) => {
-          const isActive = router.link === link;
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#fff",
+        boxShadow:
+          "0px 2px 1px rgba(0, 0, 0, 0.05), 0px 0px 1px rgba(0, 0, 0, 0.25)",
+      }}
+    >
+      <Toolbar variant="dense">
+        <Link link="/home/en" style={{ textDecoration: "none" }}>
+          <Typography
+            sx={{
+              fontSize: "14px",
+              color: 'textColor.main'
+            }}
+          >
+            Ukraine Advice Project UK
+          </Typography>
+        </Link>
+      </Toolbar>
+    </AppBar>
+  );
+};
 
-          return (
-            <MenuItem key={link} className={isActive ? 'active' : ''}>
-              <Link link={link}>
-                { name }
-              </Link>
-            </MenuItem>
-          )
-        })}
-      </ul>
-    </nav>
-  )
-}
 
-const MenuItem = styled.li`
-  display: inline-block;
-  padding: 0 1em;
-
-  &.active {
-    background-color: green;
-  }
-`;
 
 export default connect(Menu);
