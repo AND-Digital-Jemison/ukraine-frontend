@@ -11,7 +11,7 @@ import {
 import Link from "@frontity/components/link";
 import { Error } from "@mui/icons-material";
 import HeaderShape from "./headerShape";
-import { StyledButton } from "../common";
+import { StyledButton, InfoContainer, InfoItem } from "../common";
 
 const Home = ({ state, libraries }) => {
   const data = state.source.get(state.router.link);
@@ -70,38 +70,14 @@ const Home = ({ state, libraries }) => {
             {ctaDescription}
           </Typography>
 
-          <Box
-            variant="div"
-            sx={{
-              border: "1px solid",
-              borderColor: "infoColors.border",
-              bgcolor: "infoColors.background",
-              borderRadius: "8px",
-              padding: "16px",
-              margin: "0 0 20px 0",
-            }}
-          >
-            <Typography
-              variant="h3"
-              sx={{
-                fontWeight: 600,
-                fontSize: "16px",
-                margin: 0,
-                padding: 0,
-                color: "textColor.main",
-              }}
-            >
-              {ctaInfoTitle}
-            </Typography>
-            <List sx={{ padding: "0" }}>
-              {ctaInfoListItems.length > 0 &&
-                ctaInfoListItems
-                  .split("<br />")
-                  .map((item, index) => (
-                    <ThemedListItem li={item} key={`ctaLI-${index}`} />
-                  ))}
-            </List>
-          </Box>
+          <InfoContainer title={ctaTitle}>
+            {ctaInfoListItems.length > 0 &&
+              ctaInfoListItems
+                .split("<br />")
+                .map((item, index) => (
+                  <InfoItem li={item} key={`ctaLI-${index}`} />
+                ))}
+          </InfoContainer>
 
           <Box variant="div">
             <Link link="#" style={{ textDecoration: "none" }}>
@@ -185,21 +161,6 @@ const ContentBlockWrapper = styled.div`
     color: #2C6ECB;
   }
 `;
-
-const ThemedListItem = ({ li }) => (
-  <ListItem
-    sx={{
-      display: "flex",
-      flexDirection: "row",
-      gap: "8px",
-      paddingLeft: "8px",
-      fontSize: "14px",
-    }}
-  >
-    <Error color="infoIconColor" sx={{ alignSelf: "flex-start" }} />
-    {li}
-  </ListItem>
-);
 
 const TabPanel = ({ children, value, index, ...other }) => (
   <div
