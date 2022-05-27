@@ -181,6 +181,9 @@ const ContentBlockWrapper = styled.div`
     color: #444444;
     font-size: 14px;
   }
+  a {
+    color: #2C6ECB;
+  }
 `;
 
 const ThemedListItem = ({ li }) => (
