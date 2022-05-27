@@ -1,27 +1,21 @@
-import { connect, Global, css, styled } from 'frontity';
-import Switch from '@frontity/components/switch';
-import { List, Post, Page, Menu, Home } from '..';
+import { connect, Global, css, styled } from "frontity";
+import Switch from "@frontity/components/switch";
+import { List, Post, Page, Menu, Home } from "..";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { theme } from "../common";
 
 const Root = ({ state }) => {
-
   const { source, router } = state;
-
-  // use source.get over source.data[router.link]
   const data = source.get(router.link);
 
+  const defaultTheme = createTheme(theme);
+
   return (
-    <>
+    <ThemeProvider theme={defaultTheme}>
       <Global styles={globalStyles} />
-
-      <Header>
-        <HeaderContent>
-          <h1>Frontify</h1>
-          {/* <h1>current URL: { state.router.link }</h1> */}
-
+      <header>
           <Menu />
-        </HeaderContent>
-      </Header>
-
+      </header>
       <Main>
         <Switch>
           <List when={data.isArchive} />
@@ -30,31 +24,12 @@ const Root = ({ state }) => {
           <Home when={data.isHome} />
         </Switch>
       </Main>
-    </>
-  )
+    </ThemeProvider>
+  );
 };
 
-const Header = styled.header`
-  background-color: #e5edee;
-  border-width: 0 0 8px 0;
-  border-style: solid;
-  border-color: maroon;
-
-  h1 {
-    color: #4a4a4a;
-  }
-`;
-
-const HeaderContent = styled.div`
-  max-width: 800px;
-  padding: 2em 1em;
-  margin: auto;
-`
 const Main = styled.main`
-  max-width: 800px;
-  padding: 1em;
   margin: auto;
-
   img {
     max-width: 100%;
   }
@@ -70,15 +45,15 @@ const Main = styled.main`
     font-size: 0.8em;
     margin-bottom: 1em;
   }
-`
-
+`;
 const globalStyles = css`
+  @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap");
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }  
-
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
   html {
     font-family: system-ui, Verdana, Arial, sans-serif;
   }
