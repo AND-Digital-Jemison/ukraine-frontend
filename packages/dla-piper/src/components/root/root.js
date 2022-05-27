@@ -32,6 +32,7 @@ const Root = ({ state }) => {
       button: {
         textTransform: "none",
       },
+      fontFamily: ["'Plus Jakarta Sans', sans-serif"],
     },
     breakpoints: {
       values: {

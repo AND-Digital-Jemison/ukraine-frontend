@@ -168,6 +168,7 @@ const Home = ({ state, libraries }) => {
 const MaxRestraintWrapper = styled.div`
   max-width: 800px;
   margin: 0 auto;
+  padding: 0 20px;
 `;
 
 const CtaHeader = styled.div`
@@ -185,6 +186,7 @@ const ContentBlockWrapper = styled.div`
   h6 {
     color: #333333;
     margin: 5px 0;
+    line-height: 1.2em;
   }
   p {
     color: #444444;
