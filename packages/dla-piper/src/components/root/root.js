@@ -2,50 +2,16 @@ import { connect, Global, css, styled } from "frontity";
 import Switch from "@frontity/components/switch";
 import { List, Post, Page, Menu, Home } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { theme } from "../common";
 
 const Root = ({ state }) => {
   const { source, router } = state;
   const data = source.get(router.link);
 
-  const theme = createTheme({
-    palette: {
-      textColor: {
-        main: "#444444",
-      },
-      buttonColor: {
-        main: "#005BBB",
-        contrastText: "#fff",
-      },
-      infoColors: {
-        background: "#EBF9FC",
-        border: "#98C6CD",
-        contrastText: "#444444",
-      },
-      infoIconColor: {
-        main: "#00A0AC",
-        contrastText: "#FFFFFF"
-      },
-      contrastThreshold: 3,
-      tonalOffset: 0.2,
-    },
-    typography: {
-      button: {
-        textTransform: "none",
-      },
-      fontFamily: ["'Plus Jakarta Sans', sans-serif"],
-    },
-    breakpoints: {
-      values: {
-        mobile: 0,
-        tablet: 640,
-        laptop: 1024,
-        desktop: 1200,
-      },
-    },
-  });
+  const defaultTheme = createTheme(theme);
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={defaultTheme}>
       <Global styles={globalStyles} />
       <header>
           <Menu />

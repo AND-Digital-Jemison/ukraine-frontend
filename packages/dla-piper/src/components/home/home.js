@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect, styled } from "frontity";
 import {
   Typography,
-  Button,
   List,
   ListItem,
   Box,
@@ -12,6 +11,7 @@ import {
 import Link from "@frontity/components/link";
 import { Error } from "@mui/icons-material";
 import HeaderShape from "./headerShape";
+import { StyledButton } from "../common";
 
 const Home = ({ state, libraries }) => {
   const data = state.source.get(state.router.link);
@@ -105,29 +105,18 @@ const Home = ({ state, libraries }) => {
 
           <Box variant="div">
             <Link link="#" style={{ textDecoration: "none" }}>
-              <Button
+              <StyledButton
                 color="buttonColor"
-                variant="contained"
-                sx={{
-                  fontWeight: 400,
-                  fontSize: "15px",
-                  minWidth: "288px",
-                  minHeight: "44px",
-                }}
-              >
-                {ctaRefugeeLabel}
-              </Button>
+                filled
+                fixedWidth
+                label={ctaRefugeeLabel}
+              />
             </Link>
             <Link link="#">
-              <Button
-                variant="text"
-                sx={{
-                  minWidth: "288px",
-                  minHeight: "44px",
-                }}
-              >
-                {ctaVolunteerLabel}
-              </Button>
+              <StyledButton
+                fixedWidth
+                label={ctaVolunteerLabel}
+              />
             </Link>
           </Box>
         </MaxRestraintWrapper>
