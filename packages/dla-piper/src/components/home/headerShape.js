@@ -1,5 +1,4 @@
-import { styled } from "frontity";
-import React, { Component } from "react";
+import { styled } from 'frontity';
 
 const HeaderShape = () => {
   return (
@@ -10,6 +9,11 @@ const HeaderShape = () => {
         viewBox="0 0 1024 31"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
+        style={{
+          width: '100vw',
+          minWidth: '400px',
+          height: 'auto',
+        }}
       >
         <path d="M512 31L0 0H1024L512 31Z" fill="#F8F8F8" />
       </svg>
@@ -18,10 +22,10 @@ const HeaderShape = () => {
 };
 
 const HeaderShapeStyle = styled.div`
-    svg {
-        width: 100vw;
-        height: 50px;
-    }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 `
 
 export default HeaderShape;
