@@ -9,7 +9,7 @@ const settings = {
   },
   "packages": [
     {
-      "name": "custom-theme",
+      "name": "dla-piper",
     },
     {
       "name": "@frontity/wp-source",

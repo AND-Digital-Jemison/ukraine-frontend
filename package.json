@@ -17,12 +17,18 @@
   },
   "prettier": {},
   "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
     "@frontity/core": "^1.15.1",
     "@frontity/html2react": "^1.7.0",
     "@frontity/mars-theme": "./packages/mars-theme",
     "@frontity/tiny-router": "^1.4.4",
     "@frontity/wp-source": "^1.11.7",
+    "@mui/icons-material": "^5.8.0",
+    "@mui/material": "^5.8.1",
     "custom-theme": "file:packages/custom-theme",
+    "dayjs": "^1.11.2",
+    "dla-piper": "file:packages/dla-piper",
     "frontity": "^1.17.2"
   }
 }

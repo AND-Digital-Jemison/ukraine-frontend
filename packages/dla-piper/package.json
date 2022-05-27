@@ -1,0 +1,13 @@
+{
+  "name": "dla-piper",
+  "version": "1.0.0",
+  "description": "Frontity package created using the Frontity CLI.",
+  "keywords": [
+    "frontity",
+    "frontity-dlaPiper"
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "frontity": "^1.17.2"
+  }
+}
