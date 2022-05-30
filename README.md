@@ -4,13 +4,13 @@ This project was bootstrapped with [Frontity](https://frontity.org/).
 
 #### Table of Contents
 
-- [Environments URLs](#launch-a-development-server)
+- [Environment URLs](#environment-urls)
 - [Launch a development server](#launch-a-development-server)
 - [Create your custom theme](#create-your-custom-theme)
 - [Create a production-ready build](#create-a-production-ready-build)
 - [Deploy](#deploy)
 
-### Environments URLs 
+### Environment URLs 
 
 Dev/staging: https://ukraine-frontend-staging.vercel.app/home
 
