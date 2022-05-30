@@ -3,5 +3,13 @@ import theme from "./theme";
 import InfoContainer from "./infoContainer";
 import InfoItem from "./infoItem";
 import LanguageDropdown from "./languageDropdown";
+import StyledMenuItem from './styledMenuItem';
 
-export { StyledButton, theme, InfoContainer, InfoItem, LanguageDropdown};
+export { 
+  StyledButton,
+  theme,
+  InfoContainer,
+  InfoItem,
+  LanguageDropdown,
+  StyledMenuItem
+};

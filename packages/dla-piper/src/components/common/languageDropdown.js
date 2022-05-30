@@ -1,13 +1,13 @@
 import { useState } from "react";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Fade from "@mui/material/Fade";
+import { Fade, Menu, Box, Typography } from "@mui/material";
+import StyledMenuItem from './styledMenuItem';
 import eng from "../../public/flags/eng.png";
 import pol from "../../public/flags/pol.png";
 import rus from "../../public/flags/rus.png";
 import ukr from "../../public/flags/ukr.png";
-
+import { styled } from '@mui/system';
+import { ArrowDropDown } from "@mui/icons-material"
+ 
 const languages = [
   { src: eng, label: "ENG" },
   { src: pol, label: "POL" },
@@ -20,34 +20,30 @@ const LanguageDropdown = () => {
   const [currentLanguage, setCurrentLanguage] = useState("ENG");
 
   const open = Boolean(anchorEl);
-
-  const getFlag = () => languages.find((language) => language.label === currentLanguage).src;
-  
-  const handleClick = (event) => {
+  const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleMenuClose = () => {
     setAnchorEl(null);
   };
 
+  const getFlag = () => languages.find((language) => language.label === currentLanguage).src;
+  
   const handleLanguageChange = (language) => {
     setCurrentLanguage(language);
-    handleClose();
+    handleMenuClose();
   };
 
   return (
-    <div>
-      <img src={getFlag()} />
-      <Button
-        id="fade-button"
-        aria-controls={open ? "fade-menu" : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? "true" : undefined}
-        onClick={handleClick}
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <MenuButton
+        onClick={handleMenuOpen}
       >
-        {currentLanguage}
-      </Button>
+        <img src={getFlag()} />
+        <p style={{ fontSize: '14px' }} >{ currentLanguage }</p>
+        <ArrowDropDown fill={'#5C5F62'} />
+      </MenuButton>
       <Menu
         id="fade-menu"
         MenuListProps={{
@@ -55,20 +51,46 @@ const LanguageDropdown = () => {
         }}
         anchorEl={anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={handleMenuClose}
         TransitionComponent={Fade}
+        sx={{
+          '& .MuiPaper-root': {
+            borderRadius: '8px',
+            border: 'none',
+            padding: '0 8px',
+            minWidth: '166px'
+          },
+        }}
       >
+        <Typography 
+          variant='p'
+          sx={{ fontStyle: 'italic', color: '#6D7175', fontSize: '12px', margin: '8px 2px', textTransform: 'uppercase', fontWeight: 400 }}
+        >
+          Select a language
+        </Typography>
         {languages.map((language) => {
           return (
-            <MenuItem onClick={() => handleLanguageChange(language.label)}>
-              <img src={language.src} />
-              {language.label}
-            </MenuItem>
+            <StyledMenuItem {...language} onClick={handleLanguageChange} />
           );
         })}
       </Menu>
-    </div>
+    </Box>
   );
 };
+
+const MenuButton = styled('div')({
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  cursor: 'pointer',
+  flexDirection: 'row',
+  color: `#444444`,
+  padding: '8px',
+  
+  '& p': {
+    padding: '0 0 0 8px',
+  }
+})
+;
 
 export default LanguageDropdown;
