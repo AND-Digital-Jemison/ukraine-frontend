@@ -7,17 +7,19 @@ import rus from "../../public/flags/rus.png";
 import ukr from "../../public/flags/ukr.png";
 import { styled } from '@mui/system';
 import { ArrowDropDown } from "@mui/icons-material"
+import { connect } from 'frontity';
  
 const languages = [
-  { src: eng, label: "ENG" },
-  { src: pol, label: "POL" },
-  { src: rus, label: "RUS" },
-  { src: ukr, label: "UKR" },
+  { src: eng, label: "ENG", iso639: "en" },
+  { src: pol, label: "POL", iso639: "pl" },
+  { src: rus, label: "RUS", iso639: "ru" },
+  { src: ukr, label: "UKR", iso639: "uk" },
 ];
 
-const LanguageDropdown = () => {
+const LanguageDropdown = ({ state, actions }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [currentLanguage, setCurrentLanguage] = useState("ENG");
+  const currentLanguage = state.theme.currentLanguage;
+  const setCurrentLanguage = actions.theme.setLanguage;
 
   const open = Boolean(anchorEl);
   const handleMenuOpen = (event) => {
@@ -28,10 +30,10 @@ const LanguageDropdown = () => {
     setAnchorEl(null);
   };
 
-  const getFlag = () => languages.find((language) => language.label === currentLanguage).src;
+  const getFlag = () => languages.find((language) => language.iso639 === currentLanguage).src;
   
-  const handleLanguageChange = (language) => {
-    setCurrentLanguage(language);
+  const handleLanguageChange = (iso639) => {
+    setCurrentLanguage(iso639);  // setCurrentLanguage is defined in the root index.js of this /src (built into frontity)
     handleMenuClose();
   };
 
@@ -41,9 +43,10 @@ const LanguageDropdown = () => {
         onClick={handleMenuOpen}
       >
         <img src={getFlag()} />
-        <p style={{ fontSize: '14px' }} >{ currentLanguage }</p>
+        <p style={{ fontSize: '14px' }} >{ languages.find(lang => lang.iso639 === currentLanguage).label }</p>
         <ArrowDropDown fill={'#5C5F62'} />
       </MenuButton>
+      
       <Menu
         id="fade-menu"
         MenuListProps={{
@@ -70,7 +73,7 @@ const LanguageDropdown = () => {
         </Typography>
         {languages.map((language) => {
           return (
-            <StyledMenuItem {...language} onClick={handleLanguageChange} />
+            <StyledMenuItem {...language} onClick={() => handleLanguageChange(language.iso639)} key={language.iso639} />
           );
         })}
       </Menu>
@@ -93,4 +96,4 @@ const MenuButton = styled('div')({
 })
 ;
 
-export default LanguageDropdown;
+export default connect(LanguageDropdown);

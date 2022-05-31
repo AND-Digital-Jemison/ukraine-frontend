@@ -14,7 +14,8 @@ const StyledMenuItem = ({ src, label, onClick }) => {
         display: 'flex',
         gap: '10px',
         borderRadius: '8px',
-        minHeight: '40px'
+        minHeight: '40px',
+        padding: '8px',
       }}
       disableRipple
     >

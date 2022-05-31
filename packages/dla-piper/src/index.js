@@ -14,7 +14,16 @@ export default {
       }
     }
   },
+  state: {
+    theme: {
+      currentLanguage: 'en',
+    }
+  },
   actions: {
-    ukraine: {}
+    theme: {
+      setLanguage: ({ state }) => value => {
+        state.theme.currentLanguage = value;
+      }
+    }
   }
 };
