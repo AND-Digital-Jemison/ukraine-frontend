@@ -17,7 +17,7 @@ const RadioButtonsGroup = ({ label = "Radio Button", options = [] }) => {
         name="radio-buttons-group"
       >
         {options.map((option) => (
-          <FormControlLabel value={option} control={<Radio />} label={option} />
+          <FormControlLabel key={option} value={option} control={<Radio />} label={option} />
         ))}
       </RadioGroup>
     </FormControl>
