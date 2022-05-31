@@ -88,7 +88,7 @@ const Home = ({ state, libraries }) => {
                 label={ctaRefugeeLabel}
               />
             </Link>
-            <Link link="#">
+            <Link link="#" style={{ textDecorationColor: "#005BBB" }}>
               <StyledButton
                 fixedWidth
                 label={ctaVolunteerLabel}
