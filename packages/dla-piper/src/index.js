@@ -1,4 +1,5 @@
 import { Root } from './components';
+import radioButtonProcessor from './processors/radioButtonProcessor';
 
 export default {
   name: "my-first-theme",
@@ -24,6 +25,11 @@ export default {
       setLanguage: ({ state }) => value => {
         state.theme.currentLanguage = value;
       }
+    }
+  },
+  libraries: {
+    html2react: {
+      processors: [radioButtonProcessor]
     }
   }
 };

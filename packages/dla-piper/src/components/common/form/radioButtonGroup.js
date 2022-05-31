@@ -6,7 +6,7 @@ import {
   FormLabel,
 } from "@mui/material";
 
-const RadioButtonsGroup = ({ label, options }) => {
+const RadioButtonsGroup = ({ label = "Radio Button", options = [] }) => {
 
   const id = `${label.replace(/ /g, '-')}-radio-button-group`;
   return (
