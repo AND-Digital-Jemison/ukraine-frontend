@@ -1,33 +1,40 @@
 import { useState } from "react";
 import { Box, MenuItem, FormControl, Select, FormLabel } from "@mui/material";
 
-const DropDownList = ({ width = 326, label, options }) => {
+const DropDownList = ({
+  width = 326,
+  label,
+  placeholder = "Select",
+  options = [],
+}) => {
   const [option, setOption] = useState("");
 
   const handleChange = (event) => {
     setOption(event.target.value);
   };
 
-  const displayPlaceholderValue = () => {
-    if (option !== "") return undefined;
-    
-    return <span style={{ color: 'grey' }}>Select</span>;
-  }
+  const displayPlaceholderOrValue = () => {
+    if (option !== "") return option;
+
+    return <span style={{ color: "grey" }}>{placeholder}</span>;
+  };
+
+  const id = `${label.replace(/ /g, "-")}-select`;
 
   return (
     <Box sx={{ width }}>
       <FormControl fullWidth>
-        <FormLabel id="demo-simple-select-label">{label}</FormLabel>
+        <FormLabel id={`${id}-label`}>{label}</FormLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId={`${id}-label`}
+          id={id}
           value={option}
           displayEmpty
-          renderValue={displayPlaceholderValue}
+          renderValue={displayPlaceholderOrValue}
           onChange={handleChange}
         >
-          {options.map((option) => (
-            <MenuItem key={option} value={option}>
+          {options.map((option, key) => (
+            <MenuItem key={key} value={option}>
               {option}
             </MenuItem>
           ))}
