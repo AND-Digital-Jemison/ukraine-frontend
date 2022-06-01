@@ -3,18 +3,18 @@ import { Box, MenuItem, FormControl, Select, FormLabel } from "@mui/material";
 
 const DropDownList = ({
   width = 326,
-  label,
+  label = "No Label",
   placeholder = "Select",
   options = [],
 }) => {
-  const [option, setOption] = useState("");
+  const [currentOption, sestCurrentOption] = useState("");
 
   const handleChange = (event) => {
-    setOption(event.target.value);
+    sestCurrentOption(event.target.value);
   };
 
   const displayPlaceholderOrValue = () => {
-    if (option !== "") return option;
+    if (currentOption !== "") return currentOption;
 
     return <span style={{ color: "grey" }}>{placeholder}</span>;
   };
@@ -28,14 +28,14 @@ const DropDownList = ({
         <Select
           labelId={`${id}-label`}
           id={id}
-          value={option}
+          value={currentOption}
           displayEmpty
           renderValue={displayPlaceholderOrValue}
           onChange={handleChange}
         >
-          {options.map((option, key) => (
-            <MenuItem key={key} value={option}>
-              {option}
+          {options.map((currentOption, key) => (
+            <MenuItem key={key} value={currentOption}>
+              {currentOption}
             </MenuItem>
           ))}
         </Select>
