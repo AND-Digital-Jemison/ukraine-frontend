@@ -1,13 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect, styled } from "frontity";
-import {
-  Typography,
-  List,
-  ListItem,
-  Box,
-  Tabs,
-  Tab,
-} from "@mui/material";
+import { Typography, List, ListItem, Box, Tabs, Tab } from "@mui/material";
 import Link from "@frontity/components/link";
 import { Error } from "@mui/icons-material";
 import HeaderShape from "./headerShape";
@@ -70,7 +63,7 @@ const Home = ({ state, libraries }) => {
             {ctaDescription}
           </Typography>
 
-          <InfoContainer title={ctaTitle}>
+          <InfoContainer title={ctaInfoTitle}>
             {ctaInfoListItems.length > 0 &&
               ctaInfoListItems
                 .split("<br />")
@@ -89,10 +82,7 @@ const Home = ({ state, libraries }) => {
               />
             </Link>
             <Link link="#" style={{ textDecorationColor: "#005BBB" }}>
-              <StyledButton
-                fixedWidth
-                label={ctaVolunteerLabel}
-              />
+              <StyledButton fixedWidth label={ctaVolunteerLabel} />
             </Link>
           </Box>
         </MaxRestraintWrapper>
@@ -158,7 +148,7 @@ const ContentBlockWrapper = styled.div`
     font-size: 14px;
   }
   a {
-    color: #2C6ECB;
+    color: #2c6ecb;
   }
 `;
 
