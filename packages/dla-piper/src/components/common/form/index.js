@@ -1,13 +1,15 @@
 import RadioButtonGroup from './radioButtonGroup';
-import DropDownlist from './dropdownlist';
+import DropDownList from './dropDownList';
 import ProgressBar from './progressBar';
 import Stepper from './stepper';
+import Step from './step';
 import InputField from './inputField';
 
 export {
     RadioButtonGroup,
-    DropDownlist,
+    DropDownList,
     ProgressBar,
     Stepper,
+    Step,
     InputField,
 };

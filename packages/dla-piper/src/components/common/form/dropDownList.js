@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Box, MenuItem, FormControl, Select, FormLabel } from "@mui/material";
+import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
 
 const DropDownList = ({
   width = 326,
-  label = "No Label",
+  label = "",
   placeholder = "Select",
   options = [],
 }) => {
@@ -19,15 +19,19 @@ const DropDownList = ({
     return <span style={{ color: "grey" }}>{placeholder}</span>;
   };
 
-  const id = `${label.replace(/ /g, "-")}-select`;
-
   return (
     <Box sx={{ width }}>
       <FormControl fullWidth>
-        <FormLabel id={`${id}-label`}>{label}</FormLabel>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "textColor.main",
+          }}
+        >
+          {label}
+        </Typography>
         <Select
-          labelId={`${id}-label`}
-          id={id}
+          id={`${label?.replace(/ /g, "-")}-select`}
           value={currentOption}
           displayEmpty
           renderValue={displayPlaceholderOrValue}
