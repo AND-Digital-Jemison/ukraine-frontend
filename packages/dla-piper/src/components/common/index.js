@@ -4,6 +4,7 @@ import InfoContainer from "./infoContainer";
 import InfoItem from "./infoItem";
 import LanguageDropdown from "./languageDropdown";
 import StyledMenuItem from './styledMenuItem';
+import {MaxRestraintWrapper, CtaHeader, PageHeader, ContentBlockWrapper} from './wrappers';
 
 export { 
   StyledButton,
@@ -11,5 +12,9 @@ export {
   InfoContainer,
   InfoItem,
   LanguageDropdown,
-  StyledMenuItem
+  StyledMenuItem,
+  MaxRestraintWrapper,
+  CtaHeader,
+  PageHeader,
+  ContentBlockWrapper,
 };
