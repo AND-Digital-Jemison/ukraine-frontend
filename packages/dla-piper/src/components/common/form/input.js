@@ -1,20 +1,41 @@
-import { Box, FormControl, FormLabel, TextField } from "@mui/material";
+import {
+  Typography,
+  Box,
+  FormControl,
+  TextField,
+} from "@mui/material";
+import generateComponentId from "./generateComponentId";
 
-const Input = () => {
+const Input = ({
+  label = "No Label",
+  width = 326,
+  multiline = false,
+  rows = 1,
+}) => {
   return (
     <Box
       component="form"
       sx={{
-        "& > :not(style)": { m: 1, width: "25ch" },
+        m: 1,
+        width,
       }}
-      noValidate
-      autoComplete="off"
     >
       <FormControl fullWidth>
-        <FormLabel>Label</FormLabel>
-        <TextField id="outlined-basic" label="Outlined" variant="outlined" />
-        <TextField id="filled-basic" label="Filled" variant="filled" />
-        <TextField id="standard-basic" label="Standard" variant="standard" />
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "textColor.main",
+          }}
+        >
+          {label}
+        </Typography>
+        <TextField
+          id={generateComponentId(label, "text-field")}
+          name="textField"
+          variant="outlined"
+          multiline={multiline}
+          rows={rows}
+        />
       </FormControl>
     </Box>
   );

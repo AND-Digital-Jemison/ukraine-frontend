@@ -3,8 +3,9 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  Typography
+  Typography,
 } from "@mui/material";
+import generateComponentId from "./generateComponentId";
 
 const normaliseLabel = (label) => {
   return (
@@ -13,19 +14,20 @@ const normaliseLabel = (label) => {
 };
 
 const RadioButtonsGroup = ({ label = "No Label", options = [] }) => {
-  const id = `${label.replace(/ /g, "-")}-radio-button-group`;
-  
   return (
     <FormControl>
       <Typography
         sx={{
-          fontWeight: 'bold',
+          fontWeight: "bold",
           color: "textColor.main",
         }}
       >
         {normaliseLabel(label)}
       </Typography>
-      <RadioGroup aria-labelledby={id} name="radio-buttons-group">
+      <RadioGroup
+        id={generateComponentId(label, "radio-buttons-group")}
+        name="radio-buttons-group"
+      >
         {options.map((option) => (
           <FormControlLabel
             key={option}
