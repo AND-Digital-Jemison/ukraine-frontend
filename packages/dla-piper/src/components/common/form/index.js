@@ -1,9 +1,9 @@
 import RadioButtonGroup from './radioButtonGroup';
 import DropDownlist from './dropdownlist';
-import Input from './input';
+import InputField from './inputField';
 
 export {
     RadioButtonGroup,
     DropDownlist,
-    Input
+    InputField
 }

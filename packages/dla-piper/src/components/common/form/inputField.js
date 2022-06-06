@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import generateComponentId from "./generateComponentId";
 
-const Input = ({
+const InputField = ({
   label = "No Label",
   width = 326,
   multiline = false,
@@ -41,4 +41,4 @@ const Input = ({
   );
 };
 
-export default Input;
+export default InputField;
