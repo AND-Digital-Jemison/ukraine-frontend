@@ -10,15 +10,11 @@ const radioButtonProcessor = {
     );
   },
   processor: ({ node }) => {
-      console.log('node', node)
-    const content = node.children[0].children[0];
-    console.log('content', content)
+    const label = node?.children[1]?.children[0]?.children[0]?.props?.name;
+    const options = node?.children?.map(x => x?.children[0]?.children[0]?.props?.value);
 
     return {
-      props: { 
-          label: "Some label",
-          options: ['test1', 'test2']
-       },
+      props: { label, options },
       component: RadioButtonGroup,
     };
   },

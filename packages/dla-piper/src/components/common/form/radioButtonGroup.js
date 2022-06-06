@@ -3,21 +3,36 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  FormLabel,
+  Typography
 } from "@mui/material";
 
-const RadioButtonsGroup = ({ label = "Radio Button", options = [] }) => {
+const normaliseLabel = (label) => {
+  return (
+    label[0].toUpperCase() + label.slice(1).replace(/-/g, " ").replace("[]", "")
+  );
+};
 
-  const id = `${label.replace(/ /g, '-')}-radio-button-group`;
+const RadioButtonsGroup = ({ label = "No Label", options = [] }) => {
+  const id = `${label.replace(/ /g, "-")}-radio-button-group`;
+  
   return (
     <FormControl>
-      <FormLabel id={id}>{label}</FormLabel>
-      <RadioGroup
-        aria-labelledby={id}
-        name="radio-buttons-group"
+      <Typography
+        sx={{
+          fontWeight: 'bold',
+          color: "textColor.main",
+        }}
       >
+        {normaliseLabel(label)}
+      </Typography>
+      <RadioGroup aria-labelledby={id} name="radio-buttons-group">
         {options.map((option) => (
-          <FormControlLabel key={option} value={option} control={<Radio />} label={option} />
+          <FormControlLabel
+            key={option}
+            value={option}
+            control={<Radio />}
+            label={option}
+          />
         ))}
       </RadioGroup>
     </FormControl>
