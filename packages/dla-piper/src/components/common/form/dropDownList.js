@@ -7,11 +7,17 @@ const DropDownList = ({
   label = "",
   placeholder = "Select",
   options = [],
+  onChange,
 }) => {
   const [currentOption, setCurrentOption] = useState("");
 
   const handleChange = (event) => {
-    setCurrentOption(event.target.value);
+    const value = event.target.value;
+    setCurrentOption(value);
+    if (!onChange) {
+      return;
+    }
+    onChange(value);
   };
 
   const displayPlaceholderOrValue = () => {
