@@ -4,6 +4,7 @@ import ProgressBar from './progressBar';
 import Stepper from './stepper';
 import Step from './step';
 import InputField from './inputField';
+import FamilyMemberSelector from './familyMemberSelector';
 
 export {
     RadioButtonGroup,
@@ -12,4 +13,6 @@ export {
     Stepper,
     Step,
     InputField,
+    FamilyMemberSelector,
+
 };
