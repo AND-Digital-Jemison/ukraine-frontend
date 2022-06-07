@@ -13,7 +13,12 @@ const normaliseLabel = (label) => {
   );
 };
 
-const RadioButtonGroup = ({ label, options = [] }) => {
+const RadioButtonGroup = ({ label, options = [], onChange }) => {
+  const handleChange = (event) => {
+    if (!onChange) return;
+    onChange(event.target.value);
+  };
+  
   return (
     <FormControl>
       {label &&
@@ -32,6 +37,7 @@ const RadioButtonGroup = ({ label, options = [] }) => {
           fontWeight: "normal",
           fontSize: "14px"
         }}
+        onChange={handleChange}
       >
         {options.map((option) => (
           <FormControlLabel
