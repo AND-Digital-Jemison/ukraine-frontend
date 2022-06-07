@@ -14,6 +14,7 @@ const normaliseLabel = (label) => {
 };
 
 const RadioButtonGroup = ({ label, options = [], onChange }) => {
+  
   const handleChange = (event) => {
     if (!onChange) return;
     onChange(event.target.value);
