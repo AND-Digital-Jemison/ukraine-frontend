@@ -13,20 +13,25 @@ const normaliseLabel = (label) => {
   );
 };
 
-const RadioButtonsGroup = ({ label = "No Label", options = [] }) => {
+const RadioButtonGroup = ({ label, options = [] }) => {
   return (
     <FormControl>
-      <Typography
-        sx={{
-          fontWeight: "bold",
-          color: "textColor.main",
-        }}
-      >
-        {normaliseLabel(label)}
-      </Typography>
+      {label &&
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "textColor.main",
+          }}
+        >
+          {normaliseLabel(label)}
+        </Typography>}
       <RadioGroup
         id={generateComponentId(label, "radio-buttons-group")}
         name="radio-buttons-group"
+        sx={{
+          fontWeight: "normal",
+          fontSize: "14px"
+        }}
       >
         {options.map((option) => (
           <FormControlLabel
@@ -41,4 +46,4 @@ const RadioButtonsGroup = ({ label = "No Label", options = [] }) => {
   );
 };
 
-export default RadioButtonsGroup;
+export default RadioButtonGroup;
