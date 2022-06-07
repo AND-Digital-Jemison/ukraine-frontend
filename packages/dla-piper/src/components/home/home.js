@@ -77,13 +77,13 @@ const Home = ({ state, libraries }) => {
             <Link link={ctaRefugeeLink} style={{ textDecoration: "none" }}>
               <StyledButton
                 color="buttonColor"
-                filled
                 fixedWidth
                 label={ctaRefugeeLabel}
+                width={{ mobile: "100%", tablet: "288px" }}
               />
             </Link>
             <Link link="#" style={{ textDecorationColor: "#005BBB" }}>
-              <StyledButton fixedWidth label={ctaVolunteerLabel} />
+              <StyledButton fixedWidth variant="text" label={ctaVolunteerLabel} width={{ mobile: "100%", tablet: "288px" }} />
             </Link>
           </Box>
         </MaxRestraintWrapper>

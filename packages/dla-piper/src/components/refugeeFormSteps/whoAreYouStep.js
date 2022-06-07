@@ -11,12 +11,12 @@ const WhoAreYouStep = () => {
           tablet: '1fr 1fr'
         },
         flex: 1,
-        gap: '10px'
+        gap: '20px'
       }}>
 
         <InputField label="First name" width='100%' />
         <InputField label="Last name" width='100%' />
-        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '3px' }}>
+        <Box sx={{ flex: 1, display: 'flex', flexDirection: 'row', alignItems: 'flex-end', gap: '10px' }}>
           <DropDownList label="Date of birth" placeholder="dd" width='100%' />
           <DropDownList  placeholder="mm" width='100%' />
           <DropDownList  placeholder="yyyy" width='100%' />
