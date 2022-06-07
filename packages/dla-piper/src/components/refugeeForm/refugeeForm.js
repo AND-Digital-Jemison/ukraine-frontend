@@ -68,7 +68,6 @@ const RefugeeForm = ({ state, libraries }) => {
       </PageHeader>
       <MaxRestraintWrapper>
         <Stepper steps={[
-          <ContactForm7Step html={refugeeForm.content.rendered} />,
           <WhoAreYouStep />,
           <TravelStep />,
           <WhoAreYouStep />,
