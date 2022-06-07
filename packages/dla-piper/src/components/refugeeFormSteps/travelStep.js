@@ -1,4 +1,4 @@
-import { Step, RadioButtonGroup } from "../common/form";
+import { Step, RadioButtonGroup, FamilyMemberSelector } from "../common/form";
 import { useState } from "react";
 
 const TravelStep = () => {
@@ -9,9 +9,15 @@ const TravelStep = () => {
         familyMembers: [],
     });
 
-    const handleRadioButtonChange = (event) => {
+    const handleRadioButtonChange = option => {
         setTravelState(state => {
-            return { ...state, option: event };
+            return { ...state, option: option };
+        });
+    }
+
+    const handleFamilyMembersChange = members => {
+        setTravelState(state => {
+            return { ...state, familyMembers: members };
         });
     }
 
@@ -19,9 +25,7 @@ const TravelStep = () => {
         <Step label="Who are you traveling with?">
             <RadioButtonGroup options={options} onChange={handleRadioButtonChange} />
             {travelState.option === options[1] &&
-                (
-                    <p>Test</p>
-                )
+                <FamilyMemberSelector onChange={handleFamilyMembersChange} />
             }
         </Step>
     );
