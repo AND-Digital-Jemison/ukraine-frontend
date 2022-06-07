@@ -31,6 +31,7 @@ export const ContentBlockWrapper = styled.div`
   p {
     color: #444444;
     font-size: 14px;
+    line-height: 20px;
   }
   a {
     color: #2c6ecb;

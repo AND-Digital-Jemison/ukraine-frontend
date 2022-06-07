@@ -1,11 +1,12 @@
 import { Typography } from "@mui/material";
 
-const Label = ({ children }) => {
+const Label = ({ fontSize, fontWeight, color, children }) => {
   return (
     <Typography
       sx={{
-        fontWeight: "bold",
-        color: "textColor.main",
+        fontWeight: fontWeight ? fontWeight : "normal",
+        fontSize: fontSize ? fontSize : '1rem',
+        color: color ? color : "textColor.main",
       }}
     >
       {children}

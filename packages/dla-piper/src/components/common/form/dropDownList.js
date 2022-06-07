@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
+import { Label } from '../';
 
 const DropDownList = ({
   width = 326,
@@ -7,10 +8,10 @@ const DropDownList = ({
   placeholder = "Select",
   options = [],
 }) => {
-  const [currentOption, sestCurrentOption] = useState("");
+  const [currentOption, setCurrentOption] = useState("");
 
   const handleChange = (event) => {
-    sestCurrentOption(event.target.value);
+    setCurrentOption(event.target.value);
   };
 
   const displayPlaceholderOrValue = () => {
@@ -22,14 +23,7 @@ const DropDownList = ({
   return (
     <Box sx={{ width }}>
       <FormControl fullWidth>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            color: "textColor.main",
-          }}
-        >
-          {label}
-        </Typography>
+      <Label fontSize="14px">{ label }</Label>
         <Select
           id={`${label?.replace(/ /g, "-")}-select`}
           value={currentOption}
