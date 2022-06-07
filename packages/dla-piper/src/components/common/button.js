@@ -15,7 +15,7 @@ const StyledButton = ({ color, fontWeight, fontSize, width, minHeight, label, on
     return (
         <ThemeProvider theme={defaultTheme}>
             <Button
-                bgColor={ color ? color : "primary" }
+                bgcolor={ color ? color : "primary" }
                 variant={ variant ? variant : "contained" }
                 sx={{  
                     width: width ? width : "auto",                 
