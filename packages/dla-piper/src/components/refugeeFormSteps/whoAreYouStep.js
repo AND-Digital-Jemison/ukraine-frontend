@@ -1,15 +1,20 @@
 import { useState, useEffect } from "react";
 import { InputField, DateSelector, Step } from "../common/form";
 import { Box } from "@mui/material";
-import { parse, format, isValid } from "date-fns";
+import { parse, getMonth, format, isValid } from "date-fns";
 import { enGB } from "date-fns/locale";
 
 const formatString = "P";
+
+const parseDate = (dateString) => {
+  return parse(dateString, formatString, new Date(), {
+    locale: enGB,
+  })
+}
+
 const isValidDate = (day, month, year) => {
   return isValid(
-    parse(`${day}/${month}/${year}`, formatString, new Date(), {
-      locale: enGB,
-    })
+    parseDate(`${day}/${month}/${year}`)
   );
 };
 
@@ -19,9 +24,11 @@ const WhoAreYouStep = () => {
   const [year, setYear] = useState(null);
 
   useEffect(() => {
+    if (day) setMonth(format(parseDate(day), 'MM'));
+
     const result = isValidDate(day, month, year);
     console.log("isValidDate: ", result);
-  });
+  }, [day]);
 
   return (
     <Step label="Who are you?">
@@ -58,6 +65,8 @@ const WhoAreYouStep = () => {
           <DateSelector
             setDate={setMonth}
             placeholder="mm"
+            readOnly
+            defaultValue={month}
             views={["month"]}
             displayFormat="MM"
             width="100%"
@@ -67,6 +76,7 @@ const WhoAreYouStep = () => {
             placeholder="yyyy"
             views={["year"]}
             displayFormat="yyyy"
+            valueFormat='yyyy'
             width="100%"
           />
         </Box>
