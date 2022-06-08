@@ -25,7 +25,7 @@ const VisaStep = () => {
     return (
         <Step label="Do you have any existing visas for the UK?">
             <RadioButtonGroup options={optionsVisa} onChange={handleHasVisaChange}/>
-            <br></br>
+            <br/>
             {visaState.option === optionsVisa[1] &&
                 <RadioButtonGroup label="Which visa do you have?" options={optionsVisaType} onChange={handleVisaTypeChange}/>
             }

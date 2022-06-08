@@ -8,7 +8,7 @@ import {
   PageHeader,
 } from "../common";
 import { Stepper } from "../common/form";
-import { WhoAreYouStep, TravelStep, VisaStep } from "../refugeeFormSteps";
+import { WhoAreYouStep, TravelStep, VisaStep, FamilyStep} from "../refugeeFormSteps";
 
 const RefugeeForm = ({ state, libraries }) => {
   const data = state.source.get(state.router.link);
@@ -71,7 +71,7 @@ const RefugeeForm = ({ state, libraries }) => {
           <WhoAreYouStep />,
           <TravelStep />,
           <VisaStep />,
-          <WhoAreYouStep />,
+          <FamilyStep />,
           ]} />
       </MaxRestraintWrapper>
     </>
