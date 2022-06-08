@@ -21,6 +21,11 @@ const settings = {
               type: "home",
               endpoint: "home",
               archive: "/home"
+            },
+            {
+              type: "refugee-form",
+              endpoint: "refugee-form",
+              archive: "/refugee-form"
             }
           ]
         }

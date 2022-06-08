@@ -5,6 +5,7 @@ import {
   TextField,
 } from "@mui/material";
 import generateComponentId from "./generateComponentId";
+import { Label } from '../'
 
 const InputField = ({
   label = "No Label",
@@ -18,17 +19,15 @@ const InputField = ({
       sx={{
         m: 1,
         width,
+        flex: 1,
+        margin: 0
       }}
     >
-      <FormControl fullWidth>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            color: "textColor.main",
-          }}
-        >
-          {label}
-        </Typography>
+      <FormControl 
+        fullWidth
+        sx={{ margin: 0 }}
+      >
+        <Label fontSize="14px">{ label }</Label>
         <TextField
           id={generateComponentId(label, "text-field")}
           name="textField"

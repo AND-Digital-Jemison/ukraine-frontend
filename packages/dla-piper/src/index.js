@@ -1,5 +1,6 @@
 import { Root } from './components';
-import radioButtonProcessor from './processors/radioButtonProcessor';
+// import radioButtonProcessor from './processors/radioButtonProcessor';
+import { WhoAreYouProcessor } from './processors';
 
 export default {
   name: "my-first-theme",
@@ -24,12 +25,18 @@ export default {
     theme: {
       setLanguage: ({ state }) => value => {
         state.theme.currentLanguage = value;
+      },
+      beforeSSR: async ({ actions }) => {
+        await actions.source.fetch('/who-are-you-form');
       }
     }
   },
   libraries: {
     html2react: {
-      processors: [radioButtonProcessor]
+      processors: [
+        WhoAreYouProcessor,
+        
+      ]
     }
   }
 };

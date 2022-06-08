@@ -2,7 +2,7 @@ import { RadioButtonGroup } from "../components/common/form";
 
 const radioButtonProcessor = {
   name: "RadioButton",
-  priority: 1,
+  priority: 2,
   test: ({ node }) => {
     return (
       node.component === "span" &&
