@@ -8,19 +8,17 @@ import {
   PageHeader,
 } from "../common";
 import { Stepper } from "../common/form";
-import { WhoAreYouStep, TravelStep, VisaStep, FamilyStep} from "../refugeeFormSteps";
+import { WhoAreYouStep, TravelStep, VisaStep, FamilyStep, AdditionalStep } from "../refugeeFormSteps";
 
-const RefugeeForm = ({ state, libraries }) => {
+const RefugeeForm = ({ state }) => {
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
-  const Html2React = libraries.html2react.Component;
 
   const {
     rfTitle,
     rfDescription,
     rfInfoTitle,
     rfInfoListItems,
-    rfWhoAreYouLabel,
   } = refugeeForm.acf;
 
   useEffect(() => {
@@ -72,6 +70,7 @@ const RefugeeForm = ({ state, libraries }) => {
           <TravelStep />,
           <VisaStep />,
           <FamilyStep />,
+          <AdditionalStep />,
           ]} />
       </MaxRestraintWrapper>
     </>
