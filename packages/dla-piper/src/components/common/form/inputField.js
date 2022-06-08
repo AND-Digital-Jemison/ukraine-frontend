@@ -1,5 +1,5 @@
+import { useState, useEffect } from 'react';
 import {
-  Typography,
   Box,
   FormControl,
   TextField,
@@ -12,7 +12,23 @@ const InputField = ({
   width = 326,
   multiline = false,
   rows = 1,
+  onChange,
 }) => {
+
+  const [value, setValue] = useState()
+
+  const handleChange = event => {
+    setValue(event.target.value);
+  }
+
+  useEffect(() => {
+    if (!onChange) {
+      return;
+    }
+    onChange(value);
+
+  }, [value])
+
   return (
     <Box
       component="form"
@@ -34,6 +50,7 @@ const InputField = ({
           variant="outlined"
           multiline={multiline}
           rows={rows}
+          onChange={handleChange}
         />
       </FormControl>
     </Box>
