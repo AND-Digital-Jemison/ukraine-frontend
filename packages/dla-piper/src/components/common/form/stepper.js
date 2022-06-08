@@ -50,13 +50,14 @@ const Stepper = ({ steps=['no steps passed'] }) => {
       
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <StyledButton
-          label='Previous'
-          filled
+          label='Back'
+          width={'115px'}
+          variant="outlined"
           onClick={handlePreviousStep}
         />
         <StyledButton
           label='Next'
-          filled
+          width={'115px'}
           onClick={handleNextStep}
         />
       </Box>

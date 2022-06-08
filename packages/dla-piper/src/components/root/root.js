@@ -1,6 +1,6 @@
 import { connect, Global, css, styled } from "frontity";
 import Switch from "@frontity/components/switch";
-import { List, Post, Page, Menu, Home } from "..";
+import { List, Post, Page, Menu, Home, RefugeeForm } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
 
@@ -22,6 +22,7 @@ const Root = ({ state }) => {
           <Post when={data.isPost} />
           <Page when={data.isPage} />
           <Home when={data.isHome} />
+          <RefugeeForm when={data.isRefugeeForm} />
         </Switch>
       </Main>
     </ThemeProvider>

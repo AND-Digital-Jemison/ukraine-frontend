@@ -4,7 +4,7 @@ import { Typography, List, ListItem, Box, Tabs, Tab } from "@mui/material";
 import Link from "@frontity/components/link";
 import { Error } from "@mui/icons-material";
 import HeaderShape from "./headerShape";
-import { StyledButton, InfoContainer, InfoItem } from "../common";
+import { StyledButton, InfoContainer, InfoItem, MaxRestraintWrapper, CtaHeader, ContentBlockWrapper} from "../common";
 
 const Home = ({ state, libraries }) => {
   const data = state.source.get(state.router.link);
@@ -17,6 +17,7 @@ const Home = ({ state, libraries }) => {
     ctaInfoTitle,
     ctaInfoListItems,
     ctaRefugeeLabel,
+    ctaRefugeeLink,
     ctaVolunteerLabel,
     nonUkTabContent,
     alreadyInUKTabContent,
@@ -73,16 +74,16 @@ const Home = ({ state, libraries }) => {
           </InfoContainer>
 
           <Box variant="div">
-            <Link link="#" style={{ textDecoration: "none" }}>
+            <Link link={ctaRefugeeLink} style={{ textDecoration: "none" }}>
               <StyledButton
                 color="buttonColor"
-                filled
                 fixedWidth
                 label={ctaRefugeeLabel}
+                width={{ mobile: "100%", tablet: "288px" }}
               />
             </Link>
             <Link link="#" style={{ textDecorationColor: "#005BBB" }}>
-              <StyledButton fixedWidth label={ctaVolunteerLabel} />
+              <StyledButton fixedWidth variant="text" label={ctaVolunteerLabel} width={{ mobile: "100%", tablet: "288px" }} />
             </Link>
           </Box>
         </MaxRestraintWrapper>
@@ -119,38 +120,6 @@ const Home = ({ state, libraries }) => {
     </>
   );
 };
-
-const MaxRestraintWrapper = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px;
-`;
-
-const CtaHeader = styled.div`
-  padding: 20px 0;
-  width: 100vw;
-  background-color: #f8f8f8;
-`;
-
-const ContentBlockWrapper = styled.div`
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: #333333;
-    margin: 5px 0;
-    line-height: 1.2em;
-  }
-  p {
-    color: #444444;
-    font-size: 14px;
-  }
-  a {
-    color: #2c6ecb;
-  }
-`;
 
 const TabPanel = ({ children, value, index, ...other }) => (
   <div
