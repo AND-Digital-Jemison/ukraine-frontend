@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import { DropDownList } from '.';
+import { DropDownList, relations } from '.';
 import uuid from 'react-uuid';
 
 class MemberOfFamily {
@@ -127,7 +127,7 @@ const FamilyMember = ({ id, relation, onRemove, onChange, index }) => {
           <DropDownList
             label='Relation to you'
             width={'100%'}
-            options={['Father', 'Mother', 'Son', 'Daughter', 'Brother', 'Sister', 'Grandfather', 'Grandmother', 'Other']}
+            options={relations}
             onChange={handleDropDownChange}
           />
           <Typography
