@@ -30,6 +30,7 @@
     "dayjs": "^1.11.2",
     "dla-piper": "file:packages/dla-piper",
     "frontity": "^1.17.2",
+    "react-hook-form": "^7.31.3",
     "react-uuid": "^1.0.2"
   }
 }
