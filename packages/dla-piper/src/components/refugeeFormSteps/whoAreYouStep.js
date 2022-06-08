@@ -18,9 +18,8 @@ const WhoAreYouStep = () => {
       };
     }, [value])
   });
-  
+
   useEffect(() => {
-    console.log(value);
     reset(value)
   }, [value])
 
