@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { InputField, DropDownList, DateSelector, Step } from "../common/form";
+import { InputField, DateSelector, Step } from "../common/form";
 import { Box } from "@mui/material";
 import { parse, format, isValid } from "date-fns";
 import { enGB } from "date-fns/locale";
