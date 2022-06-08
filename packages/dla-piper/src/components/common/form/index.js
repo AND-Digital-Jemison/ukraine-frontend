@@ -6,6 +6,7 @@ import Step from './step';
 import InputField from './inputField';
 import FamilyMemberSelector from './familyMemberSelector';
 import relations from './relations';
+import TextArea from './textArea';
 
 export {
     RadioButtonGroup,
@@ -16,5 +17,6 @@ export {
     InputField,
     FamilyMemberSelector,
     relations,
+    TextArea,
     
 };
