@@ -1,16 +1,23 @@
 import { useState } from "react";
-import { Box, MenuItem, FormControl, Select, FormLabel } from "@mui/material";
+import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
+import { Label } from '../';
 
 const DropDownList = ({
   width = 326,
-  label = "No Label",
+  label = "",
   placeholder = "Select",
   options = [],
+  onChange,
 }) => {
-  const [currentOption, sestCurrentOption] = useState("");
+  const [currentOption, setCurrentOption] = useState("");
 
   const handleChange = (event) => {
-    sestCurrentOption(event.target.value);
+    const value = event.target.value;
+    setCurrentOption(value);
+    if (!onChange) {
+      return;
+    }
+    onChange(value);
   };
 
   const displayPlaceholderOrValue = () => {
@@ -19,15 +26,12 @@ const DropDownList = ({
     return <span style={{ color: "grey" }}>{placeholder}</span>;
   };
 
-  const id = `${label.replace(/ /g, "-")}-select`;
-
   return (
     <Box sx={{ width }}>
       <FormControl fullWidth>
-        <FormLabel id={`${id}-label`}>{label}</FormLabel>
+      <Label fontSize="14px">{ label }</Label>
         <Select
-          labelId={`${id}-label`}
-          id={id}
+          id={`${label?.replace(/ /g, "-")}-select`}
           value={currentOption}
           displayEmpty
           renderValue={displayPlaceholderOrValue}

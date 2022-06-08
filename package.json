@@ -29,6 +29,7 @@
     "custom-theme": "file:packages/custom-theme",
     "dayjs": "^1.11.2",
     "dla-piper": "file:packages/dla-piper",
-    "frontity": "^1.17.2"
+    "frontity": "^1.17.2",
+    "react-uuid": "^1.0.2"
   }
 }

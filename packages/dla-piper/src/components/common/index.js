@@ -3,13 +3,25 @@ import theme from "./theme";
 import InfoContainer from "./infoContainer";
 import InfoItem from "./infoItem";
 import LanguageDropdown from "./languageDropdown";
-import StyledMenuItem from './styledMenuItem';
+import StyledMenuItem from "./styledMenuItem";
+import Label from './label';
+import {
+  MaxRestraintWrapper,
+  CtaHeader,
+  PageHeader,
+  ContentBlockWrapper,
+} from "./wrappers";
 
-export { 
+export {
   StyledButton,
   theme,
   InfoContainer,
   InfoItem,
   LanguageDropdown,
-  StyledMenuItem
+  StyledMenuItem,
+  MaxRestraintWrapper,
+  CtaHeader,
+  PageHeader,
+  ContentBlockWrapper,
+  Label
 };
