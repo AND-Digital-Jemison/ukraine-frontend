@@ -1,18 +1,20 @@
 import { Step, RadioButtonGroup, FamilyMemberSelector } from "../common/form";
-import { useState } from "react";
+import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
+import { StyledButton } from '../common';
 
 const schema = {
     travelParty: '',
-    familyMembers: [ ],
+    familyMembers: [],
 }
 
-const TravelStep = () => {
-    
-    const [value, setValue] = useSessionStorage('au_travel_step', schema);
+const TravelStep = ({ onNext, onPrevious }) => {
 
+    const options = ["Just me", "Me and my family"];
+
+    const [value, setValue] = useSessionStorage('au_travel_step', schema);
     const { control, reset, handleSubmit } = useForm({
         defaultValues: useMemo(() => {
             return value;
@@ -24,16 +26,19 @@ const TravelStep = () => {
     }, [value])
 
     const onSubmit = data => {
+        
         setValue(data);
-        console.log('data test', data);
+        if (!onNext) {
+            return;
+        }
+        onNext();
     }
-    
-    const options = ["Just me", "Me and my family"];
 
-    const handleFamilyMembersChange = members => {
-        setTravelState(state => {
-            return { ...state, familyMembers: members };
-        });
+    const handlePrevious = () => {
+        if (!onPrevious) {
+            return;
+        }
+        onPrevious();
     }
 
     return (
@@ -41,12 +46,26 @@ const TravelStep = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <RadioButtonGroup options={options}
                     name='travelParty'
-                    control={control}/>
+                    control={control} 
+                />
                 {value.travelParty === options[1] &&
                     // <FamilyMemberSelector onChange={handleFamilyMembersChange} />
                     <p>test</p>
                 }
-                <input type="submit" value="Next" />
+
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
+                    <StyledButton
+                        label='Back'
+                        width={'115px'}
+                        variant="outlined"
+                        onClick={handlePrevious}
+                    />
+                    <StyledButton
+                        label='Next'
+                        width={'115px'}
+                        submit
+                    />
+                </Box>
             </form>
         </Step>
     );

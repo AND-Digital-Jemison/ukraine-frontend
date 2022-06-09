@@ -1,6 +1,6 @@
 import { Step, RadioButtonGroup, InputField, DropDownList, relations } from "../common/form";
-import { useState, useMemo, useEffect } from "react";
-import { Label } from '../common';
+import { useMemo, useEffect } from "react";
+import { Label, StyledButton } from '../common';
 import { Box } from '@mui/material';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useForm } from 'react-hook-form';
@@ -13,10 +13,19 @@ const schema = {
   familyMemberRelation: '',
 }
 
-const FamilyStep = () => {
-  
+const FamilyStep = ({ onNext, onPrevious }) => {
+
+  const optionsFamily = ["No, I don't have a family member in the UK", "Yes, I have a family member in the UK"];
+  const optionsFamilyType = [
+    "British citizen",
+    "Settled in the UK (also known as indefinite leave to enter or remain, or settled status)",
+    "Refugee or person with humanitarian protection in the UK",
+    "Person with pre-settled status under the EU Settlement Scheme in the UK",
+    "Non of the above"
+  ];
+
   const [value, setValue] = useSessionStorage('au_family_in_uk', schema);
-  
+
   const { control, reset, handleSubmit } = useForm({
     defaultValues: useMemo(() => {
       return value;
@@ -29,46 +38,27 @@ const FamilyStep = () => {
 
   const onSubmit = data => {
     setValue(data);
-    console.log('data test', data);
+
+    if (!onNext) {
+      return;
+    }
+    onNext();
   };
 
-  // const [familyState, setFamilyState] = useState({
-  //   option: optionsFamily[0],
-  //   familyMember: {
-  //     status: null,
-  //     firstName: null,
-  //     lastName: null,
-  //     relation: null,
-  //   },
-  // });
+  const handlePrevious = () => {
+    if (!onPrevious) {
+      return;
+    }
+    onPrevious();
+  }
 
-  // const handleHasFamilyChange = option => {
-  //   setFamilyState(state => {
-  //     return { ...state, option: option };
-  //   })
-  // }
-
-  // const handleFamilyMemberChange = (key, value) => {
-  //   setFamilyState(state => {
-  //     return { ...state, familyMember: { ...state.familyMember, [key]: value } };
-  //   })
-  // }
-
-  const optionsFamily = ["No, I don't have a family member in the UK", "Yes, I have a family member in the UK"];
-  const optionsFamilyType = [
-    "British citizen",
-    "Settled in the UK (also known as indefinite leave to enter or remain, or settled status)",
-    "Refugee or person with humanitarian protection in the UK",
-    "Person with pre-settled status under the EU Settlement Scheme in the UK",
-    "Non of the above"
-  ];
 
   return (
     <Step label="Do you have any existing visas for the UK?">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <RadioButtonGroup options={optionsFamily} 
-        name='familyMember'
-        control={control} />
+        <RadioButtonGroup options={optionsFamily}
+          name='familyMember'
+          control={control} />
         <br />
         {value.familyMember === optionsFamily[1] &&
           <>
@@ -78,7 +68,7 @@ const FamilyStep = () => {
                 options={optionsFamilyType}
                 name='familyMemberType'
                 control={control}
-                // onChange={value => handleFamilyMemberChange("status", value)}
+              // onChange={value => handleFamilyMemberChange("status", value)}
               />
               <Box sx={{ padding: '20px 0 0 0' }} >
                 <Label
@@ -99,13 +89,13 @@ const FamilyStep = () => {
                 gap: '20px'
               }}
             >
-              <InputField 
+              <InputField
                 name='familyMemberFirstName'
                 control={control}
                 label='First Name'
                 width={'100%'}
               />
-              <InputField 
+              <InputField
                 control={control}
                 name='familyMemberLastName'
                 label='Last Name'
@@ -114,13 +104,24 @@ const FamilyStep = () => {
               <DropDownList
                 label='Relation to you'
                 options={relations}
-                // onChange={value => handleFamilyMemberChange("relation", value)}
               />
             </Box>
           </>
         }
 
-        <input type="submit" value="Next" /> 
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
+          <StyledButton
+            label='Back'
+            width={'115px'}
+            variant="outlined"
+            onClick={handlePrevious}
+          />
+          <StyledButton
+            label='Next'
+            width={'115px'}
+            submit
+          />
+        </Box>
       </form>
     </Step>
   );
