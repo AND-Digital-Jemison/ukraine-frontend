@@ -6,7 +6,7 @@ import { useEffect, useMemo } from 'react';
 
 const WhoAreYouStep = () => {
 
-  const [value, setValue] = useSessionStorage('whoAreYou');
+  const [value, setValue] = useSessionStorage('au_who_are_you');
   
   const { control, reset, handleSubmit } = useForm({
     defaultValues: useMemo(() => {
