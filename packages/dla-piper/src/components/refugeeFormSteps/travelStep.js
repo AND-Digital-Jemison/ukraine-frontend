@@ -4,16 +4,18 @@ import { useForm } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
 
+const schema = {
+    travelParty: '',
+    familyMembers: [ ],
+}
+
 const TravelStep = () => {
     
-    const [value, setValue] = useSessionStorage('au_travel_step');
+    const [value, setValue] = useSessionStorage('au_travel_step', schema);
 
     const { control, reset, handleSubmit } = useForm({
         defaultValues: useMemo(() => {
-            return value ? value : {
-                travelParty: '',
-                familyMembers: [''],
-            };
+            return value;
         }, [value])
     });
 
