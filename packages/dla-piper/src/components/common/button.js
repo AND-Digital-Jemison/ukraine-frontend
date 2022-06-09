@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
 
-const StyledButton = ({ color, fontWeight, fontSize, width, minHeight, label, onClick, variant }) => {
+const StyledButton = ({ color, fontWeight, fontSize, width, minHeight, label, onClick, variant, submit }) => {
     const defaultTheme = createTheme(theme);
     const handleClick = () => {
         if (!onClick) {
@@ -26,6 +26,7 @@ const StyledButton = ({ color, fontWeight, fontSize, width, minHeight, label, on
                 }}
                 onClick={handleClick}
                 disableRipple
+                type={submit ? "submit" : "button"}
             >
                 {label}
             </Button>
