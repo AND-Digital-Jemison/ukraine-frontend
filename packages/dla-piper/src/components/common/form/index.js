@@ -5,6 +5,7 @@ import Stepper from './stepper';
 import Step from './step';
 import InputField from './inputField';
 import FamilyMemberSelector from './familyMemberSelector';
+import DateSelector from './dateSelector';
 
 export {
     RadioButtonGroup,
@@ -14,5 +15,6 @@ export {
     Step,
     InputField,
     FamilyMemberSelector,
-
+    DateSelector
 };
+
