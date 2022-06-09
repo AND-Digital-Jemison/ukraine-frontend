@@ -1,19 +1,32 @@
 import { Step, RadioButtonGroup, FamilyMemberSelector } from "../common/form";
 import { useState } from "react";
+import { useForm } from 'react-hook-form';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useEffect, useMemo } from 'react';
 
 const TravelStep = () => {
-    const options = ["Just me", "Me and my family"];
+    
+    const [value, setValue] = useSessionStorage('au_travel_step');
 
-    const [travelState, setTravelState] = useState({
-        option: options[0],
-        familyMembers: [],
+    const { control, reset, handleSubmit } = useForm({
+        defaultValues: useMemo(() => {
+            return value ? value : {
+                travelParty: '',
+                familyMembers: [''],
+            };
+        }, [value])
     });
 
-    const handleRadioButtonChange = option => {
-        setTravelState(state => {
-            return { ...state, option: option };
-        });
+    useEffect(() => {
+        reset(value)
+    }, [value])
+
+    const onSubmit = data => {
+        setValue(data);
+        console.log('data test', data);
     }
+    
+    const options = ["Just me", "Me and my family"];
 
     const handleFamilyMembersChange = members => {
         setTravelState(state => {
@@ -23,10 +36,16 @@ const TravelStep = () => {
 
     return (
         <Step label="Who are you traveling with?">
-            <RadioButtonGroup options={options} onChange={handleRadioButtonChange} />
-            {travelState.option === options[1] &&
-                <FamilyMemberSelector onChange={handleFamilyMembersChange} />
-            }
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <RadioButtonGroup options={options}
+                    name='travelParty'
+                    control={control}/>
+                {value.travelParty === options[1] &&
+                    // <FamilyMemberSelector onChange={handleFamilyMembersChange} />
+                    <p>test</p>
+                }
+                <input type="submit" value="Next" />
+            </form>
         </Step>
     );
 }
