@@ -2,26 +2,27 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/';
 import { TextField, Box } from '@mui/material';
-import { useState } from 'react';
 import { Label } from '../../common';
 import { useController } from 'react-hook-form';
 
-const DatePicker = ({ name, control, label }) => {
-  const [value, setValue] = useState(new Date());
+const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props }) => {
+
+  // here we are accessing the regular react-hook-form controller
+  // however we also need access to the on change function from field.onChange
+  // so pull that out on its own
+  const { field: { onChange, ...fieldOther }, fieldState } = useController({ name, control, defaultValue, ...props });
 
   return (
-    <Box>
+    <Box sx={{ width: '100%' }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Label fontSize="14px">{ label }</Label>
         <MuiDatePicker
           openTo="year"
           views={['year', 'month', 'day']}
           disableFuture
-          value={value}
-          onChange={(newValue) => {
-            setValue(newValue);
-          }}
-          renderInput={(params) => <TextField {...params} helperText={null} />}
+          onChange={onChange}
+          {...fieldOther}
+          renderInput={(params) => <TextField sx={{ width }} {...params} helperText={null} />}
         />
       </LocalizationProvider>
     </Box>
