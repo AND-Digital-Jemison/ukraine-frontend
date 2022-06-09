@@ -4,18 +4,20 @@ import { useForm } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
 
+const schema = {
+  firstName: '',
+  lastName: '',
+  dob: '',
+  email: '',
+}
+
 const WhoAreYouStep = () => {
 
-  const [value, setValue] = useSessionStorage('au_who_are_you');
+  const [value, setValue] = useSessionStorage('au_who_are_you', schema);
   
   const { control, reset, handleSubmit } = useForm({
     defaultValues: useMemo(() => {
-      return value ? value : {
-        firstName: '',
-        lastName: '',
-        dob: '',
-        email: '',
-      };
+      return value;
     }, [value])
   });
 
