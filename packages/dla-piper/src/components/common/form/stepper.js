@@ -3,24 +3,7 @@ import { Box, Typography } from '@mui/material';
 import { ProgressBar } from '.';
 import { StyledButton } from '../';
 
-const Stepper = ({ steps=['no steps passed'] }) => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const handleNextStep = () => {
-    setCurrentStep(step => {
-      if (step === steps.length - 1) {
-        return step;
-      }
-      return step + 1;
-    })
-  }
-  const handlePreviousStep = () => {
-    setCurrentStep(step => {
-      if (step === 0) {
-        return step;
-      }
-      return step - 1;
-    })
-  }
+const Stepper = ({ currentStep, steps=['no steps passed'] }) => {
 
   return (
     <Box 
@@ -44,22 +27,8 @@ const Stepper = ({ steps=['no steps passed'] }) => {
 
       <ProgressBar progressPercent={((100 / (steps.length))) * (currentStep + 1)} />
       
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '0' }}>
         { steps[currentStep] }
-      </Box>
-      
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <StyledButton
-          label='Back'
-          width={'115px'}
-          variant="outlined"
-          onClick={handlePreviousStep}
-        />
-        <StyledButton
-          label='Next'
-          width={'115px'}
-          onClick={handleNextStep}
-        />
       </Box>
     </Box>
   )
