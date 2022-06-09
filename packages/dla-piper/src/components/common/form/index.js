@@ -7,6 +7,7 @@ import InputField from './inputField';
 import FamilyMemberSelector from './familyMemberSelector';
 import relations from './relations';
 import TextArea from './textArea';
+import DateSelector from './dateSelector';
 
 export {
     RadioButtonGroup,
@@ -18,5 +19,6 @@ export {
     FamilyMemberSelector,
     relations,
     TextArea,
-    
+    DateSelector
 };
+
