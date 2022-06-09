@@ -1,34 +1,43 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { InputField, DateSelector, Step } from "../common/form";
 import { Box } from "@mui/material";
-import { parse, getMonth, format, isValid } from "date-fns";
+import { parse, format } from "date-fns";
 import { enGB } from "date-fns/locale";
+import UpDownArrowIcon from "../../public/icons/upDownArrowIcon";
 
 const formatString = "P";
-
 const parseDate = (dateString) => {
   return parse(dateString, formatString, new Date(), {
     locale: enGB,
-  })
-}
-
-const isValidDate = (day, month, year) => {
-  return isValid(
-    parseDate(`${day}/${month}/${year}`)
-  );
+  });
 };
 
 const WhoAreYouStep = () => {
-  const [day, setDay] = useState(null);
-  const [month, setMonth] = useState(null);
-  const [year, setYear] = useState(null);
+  const [date, setDate] = useState({ day: null, month: null, year: null });
 
-  useEffect(() => {
-    if (day) setMonth(format(parseDate(day), 'MM'));
-
-    const result = isValidDate(day, month, year);
-    console.log("isValidDate: ", result);
-  }, [day]);
+  const handleDateChange = (key, selectedDate) => {
+    [
+      {
+        key: "day",
+        setValue: () =>
+          setDate({
+            ...date,
+            day: format(parseDate(selectedDate), "dd"),
+            month: format(parseDate(selectedDate), "MM"),
+          }),
+      },
+      {
+        key: "year",
+        setValue: () =>
+          setDate({
+            ...date,
+            year: format(parseDate(selectedDate), "yyyy"),
+          }),
+      },
+    ]
+      .find((item) => item?.key === key)
+      .setValue();
+  };
 
   return (
     <Step label="Who are you?">
@@ -55,29 +64,30 @@ const WhoAreYouStep = () => {
           }}
         >
           <DateSelector
-            setDate={setDay}
+            onChange={(selectedDate) => handleDateChange("day", selectedDate)}
             label="Date of birth"
             views={["day"]}
             placeholder="dd"
             displayFormat="dd"
             width="100%"
+            icon={UpDownArrowIcon}
           />
           <DateSelector
-            setDate={setMonth}
             placeholder="mm"
             readOnly
-            defaultValue={month}
+            defaultValue={date?.month}
             views={["month"]}
             displayFormat="MM"
             width="100%"
+            icon={UpDownArrowIcon}
           />
           <DateSelector
-            setDate={setYear}
+            onChange={(selectedDate) => handleDateChange("year", selectedDate)}
             placeholder="yyyy"
             views={["year"]}
             displayFormat="yyyy"
-            valueFormat='yyyy'
             width="100%"
+            icon={UpDownArrowIcon}
           />
         </Box>
         <InputField label="Email" width="100%" />

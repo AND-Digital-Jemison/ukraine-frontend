@@ -5,23 +5,26 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { format } from "date-fns";
 import { Label } from "../";
-import UpDownArrowIcon from "../../../public/icons/upDownArrowIcon";
 
 const getReadOnlyStyles = (readOnly) =>
   readOnly ? { backgroundColor: "#c7c7c7", borderRadius: "4px" } : {};
+
+const defaultFormat = "dd/MM/yyyy";
 
 const DateSelector = ({
   label = "",
   width = 326,
   views = ["day", "month", "year"],
-  displayFormat = "dd/MM/yyyy",
-  valueFormat = "dd/M/yyyy",
-  placeholder = "dd/MM/yyyy",
+  displayFormat = defaultFormat,
+  placeholder = defaultFormat,
   readOnly = false,
   defaultValue = "",
-  setDate,
+  icon,
+  onChange,
 }) => {
   const [value, setValue] = useState(null);
+
+  const dateIcon = icon ? { OpenPickerIcon: icon } : {};
 
   return (
     <Box sx={{ width }}>
@@ -33,10 +36,10 @@ const DateSelector = ({
             views={views}
             value={defaultValue ? defaultValue : value}
             readOnly={readOnly}
-            components={{ OpenPickerIcon: UpDownArrowIcon }}
+            components={{ ...dateIcon }}
             onChange={(newValue) => {
-              if (setDate) {
-                setDate(format(newValue, valueFormat));
+              if (onChange) {
+                onChange(format(newValue, defaultFormat));
               }
               setValue(newValue);
             }}
