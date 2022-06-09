@@ -1,7 +1,9 @@
 import { Step, RadioButtonGroup, InputField, DropDownList, relations } from "../common/form";
-import { useState } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Label } from '../common';
 import { Box } from '@mui/material';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useForm } from 'react-hook-form';
 
 const FamilyStep = () => {
   const optionsFamily = ["No, I don't have a family member in the UK", "Yes, I have a family member in the UK"];
@@ -12,6 +14,27 @@ const FamilyStep = () => {
     "Person with pre-settled status under the EU Settlement Scheme in the UK",
     "Non of the above"
   ];
+
+  const [value, setValue] = useSessionStorage('au_family_in_uk');
+  
+  const { control, reset, handleSubmit } = useForm({
+    defaultValues: useMemo(() => {
+      return value ? value : {
+        familyInUk: null,
+        familyMemberFirstName: null,
+        familyMemberLastName: null,
+        familyMemberRelation: null,
+      };
+    }, [value])
+  });
+
+  useEffect(() => {
+    reset(value)
+  }, [value])
+
+  const onSubmit = data => {
+    setValue(data);
+  };
 
   const [familyState, setFamilyState] = useState({
     option: optionsFamily[0],
@@ -37,51 +60,59 @@ const FamilyStep = () => {
 
   return (
     <Step label="Do you have any existing visas for the UK?">
-      <RadioButtonGroup options={optionsFamily} onChange={handleHasFamilyChange} />
-      <br />
-      {familyState.option === optionsFamily[1] &&
-        <>
-          <Box>
-            <RadioButtonGroup
-              label="Which of the following best describes your UK based family member?"
-              options={optionsFamilyType}
-              onChange={value => handleFamilyMemberChange("status", value)}
-            />
-            <Box sx={{ padding: '20px 0 0 0' }} >
-              <Label
-                fontSize='16px'
-                fontWeight={600}
-              >
-                Details of your UK based family member
-              </Label>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <RadioButtonGroup options={optionsFamily} onChange={handleHasFamilyChange} />
+        <br />
+        {familyState.option === optionsFamily[1] &&
+          <>
+            <Box>
+              <RadioButtonGroup
+                label="Which of the following best describes your UK based family member?"
+                options={optionsFamilyType}
+                onChange={value => handleFamilyMemberChange("status", value)}
+              />
+              <Box sx={{ padding: '20px 0 0 0' }} >
+                <Label
+                  fontSize='16px'
+                  fontWeight={600}
+                >
+                  Details of your UK based family member
+                </Label>
+              </Box>
             </Box>
-          </Box>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: {
-                tablet: '1fr 1fr',
-                mobile: '1fr'
-              },
-              gap: '20px'
-            }}
-          >
-            <InputField 
-              label='First Name'
-              onChange={value => handleFamilyMemberChange("firstName", value)}
-            />
-            <InputField 
-              label='Last Name'
-              onChange={value => handleFamilyMemberChange("lastName", value)}
-            />
-            <DropDownList
-              label='Relation to you'
-              options={relations}
-              onChange={value => handleFamilyMemberChange("relation", value)}
-            />
-          </Box>
-        </>
-      }
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: {
+                  tablet: '1fr 1fr',
+                  mobile: '1fr'
+                },
+                gap: '20px'
+              }}
+            >
+              <InputField 
+                name='firstName'
+                control={control}
+                label='First Name'
+                width={'100%'}
+              />
+              <InputField 
+                control={control}
+                name='lastName'
+                label='Last Name'
+                width={'100%'}
+              />
+              <DropDownList
+                label='Relation to you'
+                options={relations}
+                onChange={value => handleFamilyMemberChange("relation", value)}
+              />
+            </Box>
+          </>
+        }
+
+        <input type={'submit'}/>
+      </form>
     </Step>
   );
 }
