@@ -4,6 +4,7 @@ import { DatePicker as MuiDatePicker } from '@mui/x-date-pickers/';
 import { TextField, Box } from '@mui/material';
 import { Label } from '../../common';
 import { useController } from 'react-hook-form';
+import UpDownArrowIcon from '../../../public/icons/upDownArrowIcon';
 
 const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props }) => {
 
@@ -23,6 +24,7 @@ const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props
           onChange={onChange}
           {...fieldOther}
           renderInput={(params) => <TextField sx={{ width }} {...params} helperText={null} />}
+          components={{ OpenPickerIcon: UpDownArrowIcon }}
         />
       </LocalizationProvider>
     </Box>
