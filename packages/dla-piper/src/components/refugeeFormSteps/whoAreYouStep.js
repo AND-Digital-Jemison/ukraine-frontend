@@ -3,7 +3,6 @@ import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
-// import UpDownArrowIcon from "../../public/icons/upDownArrowIcon";
 
 const WhoAreYouStep = () => {
 
@@ -57,7 +56,9 @@ const WhoAreYouStep = () => {
           />
           <DatePicker 
             name='dob'
+            control={control}
             label='Date of birth'
+            width='100%'
           />
           <InputField
             name='email'
