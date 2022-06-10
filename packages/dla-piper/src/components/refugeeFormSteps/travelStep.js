@@ -55,19 +55,21 @@ const TravelStep = ({ onNext, onPrevious }) => {
     return (
         <Step label="Who are you traveling with?">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <RadioButtonGroup options={options}
-                    name='travelingWith'
-                    control={control}
-                />
-                {travelingWith === options[1] &&
-                    <FamilyMemberSelector
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <RadioButtonGroup options={options}
+                        name='travelingWith'
                         control={control}
-                        fields={fields}
-                        append={append}
-                        remove={remove}
-                        update={update}
                     />
-                }
+                    {travelingWith === options[1] &&
+                        <FamilyMemberSelector
+                            control={control}
+                            fields={fields}
+                            append={append}
+                            remove={remove}
+                            update={update}
+                        />
+                    }
+                </Box>
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
                     <StyledButton
