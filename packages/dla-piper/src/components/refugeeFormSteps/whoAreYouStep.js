@@ -75,7 +75,7 @@ const WhoAreYouStep = ({ onNext }) => {
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
-          <Link link={'/home/en/'}>
+          <Link link={'/home/en/'} style={{ textDecoration: "none" }}>
             <StyledButton
               label='Back'
               width={'115px'}
