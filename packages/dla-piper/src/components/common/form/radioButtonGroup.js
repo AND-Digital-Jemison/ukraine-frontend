@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import generateComponentId from "./generateComponentId";
+import { useController } from 'react-hook-form';
 
 const normaliseLabel = (label) => {
   return (
@@ -13,12 +14,14 @@ const normaliseLabel = (label) => {
   );
 };
 
-const RadioButtonGroup = ({ label, options = [], onChange }) => {
+const RadioButtonGroup = ({ name, control, defaultValue, label, options = [], ...props}) => {
   
-  const handleChange = (event) => {
-    if (!onChange) return;
-    onChange(event.target.value);
-  };
+  const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
+
+  // const handleChange = (event) => {
+  //   if (!onChange) return;
+  //   onChange(event.target.value);
+  // };
   
   return (
     <FormControl>
@@ -33,12 +36,13 @@ const RadioButtonGroup = ({ label, options = [], onChange }) => {
         </Typography>}
       <RadioGroup
         id={generateComponentId(label, "radio-buttons-group")}
-        name="radio-buttons-group"
+        name={name}
         sx={{
           fontWeight: "normal",
           fontSize: "14px"
         }}
-        onChange={handleChange}
+        onChange={onChange}
+        {...fieldOther}
       >
         {options.map((option) => (
           <FormControlLabel

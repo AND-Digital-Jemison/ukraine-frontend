@@ -19,6 +19,9 @@ export default {
   state: {
     theme: {
       currentLanguage: 'en',
+    },
+    source: {
+      homepage: '/home/en',
     }
   },
   actions: {

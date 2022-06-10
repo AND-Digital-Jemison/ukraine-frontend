@@ -1,21 +1,17 @@
 import {
-  Typography,
   Box,
-  FormControl,
   TextField,
 } from "@mui/material";
-import generateComponentId from "./generateComponentId";
-import { Label } from '../'
+import { Label } from '../';
+import { useController } from 'react-hook-form';
 
-const InputField = ({
-  label = "No Label",
-  width = 326,
-  multiline = false,
-  rows = 1,
-}) => {
+const InputField = ({ name, control, defaultValue, label = "No Label", width = 326, ...props }) => {
+
+  const { field, fieldState } = useController({ name, control, defaultValue, ...props });
+
   return (
     <Box
-      component="form"
+      component="div"
       sx={{
         m: 1,
         width,
@@ -23,21 +19,29 @@ const InputField = ({
         margin: 0
       }}
     >
-      <FormControl 
-        fullWidth
-        sx={{ margin: 0 }}
-      >
-        <Label fontSize="14px">{ label }</Label>
-        <TextField
-          id={generateComponentId(label, "text-field")}
-          name="textField"
-          variant="outlined"
-          multiline={multiline}
-          rows={rows}
-        />
-      </FormControl>
+      <Label fontSize="14px">{label}</Label>
+      <TextField
+        {...field}
+        sx={{ width: width }}
+      />
     </Box>
   );
 };
 
 export default InputField;
+
+
+
+
+// function Input(props) {
+//   const { field, fieldState } = useController(props);
+
+//   return (
+//     <div>
+//       <input {...field} placeholder={props.name} />
+//       <p>{fieldState.isTouched && "Touched"}</p>
+//       <p>{fieldState.isDirty && "Dirty"}</p>
+//       <p>{fieldState.invalid ? "invalid" : "valid"}</p>
+//     </div>
+//   );
+// }
