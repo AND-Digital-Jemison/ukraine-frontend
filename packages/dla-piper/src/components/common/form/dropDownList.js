@@ -1,49 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
 import { Label } from '../';
+import { useController, useWatch } from 'react-hook-form';
 
 const DropDownList = ({
-  width = 326,
+  name,
+  control,
+  defaultValue,
+  width = '100%',
   label = "",
   placeholder = "Select",
   options = [],
-  onChange,
+  onChange: onChangeProp,
+  ...props
 }) => {
-  const [currentOption, setCurrentOption] = useState("");
+  const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
 
-  const handleChange = (event) => {
-    const value = event.target.value;
-    setCurrentOption(value);
-    if (!onChange) {
-      return;
+  const selectValue = useWatch({
+    control,
+    name: name,
+  })
+
+  const handleChange = e => {
+    onChange(e);
+
+    // used for any extra updates that need to be done
+    if (onChangeProp) {
+      onChangeProp(e);
     }
-    onChange(value);
-  };
-
-  const displayPlaceholderOrValue = () => {
-    if (currentOption !== "") return currentOption;
-
-    return <span style={{ color: "grey" }}>{placeholder}</span>;
-  };
-
+  }
+    
   return (
     <Box sx={{ width }}>
-      <FormControl fullWidth>
       <Label fontSize="14px">{ label }</Label>
         <Select
           id={`${label?.replace(/ /g, "-")}-select`}
-          value={currentOption}
+          name={name}
           displayEmpty
-          renderValue={displayPlaceholderOrValue}
           onChange={handleChange}
+          {...fieldOther}
+          sx={{
+            width
+          }}
         >
-          {options.map((currentOption, key) => (
-            <MenuItem key={key} value={currentOption}>
-              {currentOption}
+          {options.map((option) => (
+            <MenuItem key={option} 
+              value={option}>
+              {option}
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
     </Box>
   );
 };

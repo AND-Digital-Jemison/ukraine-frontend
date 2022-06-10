@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "frontity";
 import { Typography } from "@mui/material";
 import {
@@ -8,24 +8,44 @@ import {
   PageHeader,
 } from "../common";
 import { Stepper } from "../common/form";
-import { WhoAreYouStep, ContactForm7Step, TravelStep } from "../refugeeFormSteps";
+import { WhoAreYouStep, TravelStep, VisaStep, FamilyStep, AdditionalStep } from "../refugeeFormSteps";
 
-const RefugeeForm = ({ state, libraries }) => {
+const RefugeeForm = ({ state }) => {
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
-  const Html2React = libraries.html2react.Component;
-
   const {
     rfTitle,
     rfDescription,
     rfInfoTitle,
     rfInfoListItems,
-    rfWhoAreYouLabel,
   } = refugeeForm.acf;
 
-  useEffect(() => {
-    console.log("refugeeForm.acf", refugeeForm.acf);
-  }, []);
+  // stepper state etc...
+  const [currentStep, setCurrentStep] = useState(0);
+  const formConfig = [
+    { step: 1 },
+    { step: 2 },
+    { step: 3 },
+    { step: 4 },
+    { step: 5 },
+  ]
+  const handleNextStep = () => {
+    setCurrentStep(step => {
+      if (step === formConfig.length - 1) {
+        return step;
+      }
+      return step + 1;
+    })
+  }
+  const handlePreviousStep = () => {
+    setCurrentStep(step => {
+      if (step === 0) {
+        return step;
+      }
+      return step - 1;
+    })
+  }
+
 
   return (
     <>
@@ -66,13 +86,18 @@ const RefugeeForm = ({ state, libraries }) => {
           )}
         </MaxRestraintWrapper>
       </PageHeader>
+      
       <MaxRestraintWrapper>
-        <Stepper steps={[
-          <WhoAreYouStep />,
-          <TravelStep />,
-          <WhoAreYouStep />,
-          <WhoAreYouStep />,
-          ]} />
+        <Stepper 
+          currentStep={currentStep}
+          steps={[
+            <WhoAreYouStep onNext={handleNextStep} />,
+            <TravelStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
+            <VisaStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
+            <FamilyStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
+            <AdditionalStep onPrevious={handlePreviousStep} />,
+          ]} 
+        />
       </MaxRestraintWrapper>
     </>
   );

@@ -1,57 +1,24 @@
-import { useState, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
-import { DropDownList } from '.';
-import uuid from 'react-uuid';
+import { DropDownList, relations } from '.';
+import { useController } from 'react-hook-form';
 
-class MemberOfFamily {
-  constructor () {
-    this.id = uuid();
-    this.relation = '';
-  }
-}
-
-const FamilyMemberSelector = ({ onChange }) => {
-  const [familyMembers, setFamilyMembers] = useState([]);
-
-  const handleChange = () => {
-    if (!onChange) {
-      return;
-    }
-    onChange();
-  }
-
-  useEffect(() => {
-    // every time the familyMembers array is changed, we need to call the onChange function
-    // to pass the updated familyMembers array to the parent component
-    handleChange(familyMembers);
-  }, [familyMembers])
+const FamilyMemberSelector = ({ fields, append, update, remove, control }) => {
 
   const handleNewFamilyMember = () => {
-    setFamilyMembers(members => ([...members, new MemberOfFamily]));
-  };
-
-  const handleUpdateFamilyMember = (member) => {
-    setFamilyMembers(members => {
-      return members.map(m => m.id === member.id ? member : m);
-    });
-  };
-
-  const handleRemoveFamilyMember = id => {
-    setFamilyMembers(members => {
-      return members.filter(m => m.id !== id);
-    })
-  };
+    append({ relation: '' });  // add an empty field
+  }
 
   return (
     <>
-      {familyMembers.length > 0 &&
-        familyMembers.map((member, index) => (
+      {fields.length > 0 &&
+        fields.map((field, index) => (
           <FamilyMember
-            key={`family-member-${member.id}`}
-            {...member}
+            key={field.id}
+            control={control}
+            value={field}
             index={index}
-            onChange={handleUpdateFamilyMember}
-            onRemove={handleRemoveFamilyMember}
+            update={update}
+            remove={remove}
           />
         ))}
 
@@ -65,36 +32,23 @@ const FamilyMemberSelector = ({ onChange }) => {
         }}
         onClick={handleNewFamilyMember}
       >
-        { familyMembers.length > 0 ? 'Add another family member' : 'Add a family member' }
+        { fields.length > 0 ? 'Add another family member' : 'Add a family member' }
       </Typography>
     </>
   )
 }
 
-const FamilyMember = ({ id, relation, onRemove, onChange, index }) => {
+const FamilyMember = ({ value, update, control, remove, index }) => {
+  
+  const { field: { onChange, ...fieldOther }, fieldState } = useController({
+    name: `familyMembers[${index}].relation`,
+    control,
+  });
 
-  const [member, setMember] = useState({ id, relation });
-
-  const handleStateUpdate = () => {
-    if (!onChange) {
-      return;
-    }
-    onChange(member);
-  }
-
-  // every time the member state is updated, send it to the parent component
-  useEffect(() => handleStateUpdate, [member]);
-
-  const handleRemove = () => {
-    if (!onRemove) {
-      return;
-    }
-    onRemove(id);
-  }
-
-  const handleDropDownChange = relation => {
-    setMember(member => ({ ...member, relation: relation }));
-  }
+  const handleChange = e => {
+    onChange(e);
+    update(index, { relation: e.target.value });
+  };
 
   return (
     <Box sx={{
@@ -125,10 +79,13 @@ const FamilyMember = ({ id, relation, onRemove, onChange, index }) => {
           position: 'relative',
         }}>
           <DropDownList
+            name={`familyMembers[${index}].relation`}
+            control={control}
             label='Relation to you'
             width={'100%'}
-            options={['Father', 'Mother', 'Son', 'Daughter', 'Brother', 'Sister', 'Grandfather', 'Grandmother', 'Other']}
-            onChange={handleDropDownChange}
+            options={relations}
+            onChange={handleChange}
+            defaultValue={value.relation}
           />
           <Typography
             variant='p'
@@ -141,7 +98,7 @@ const FamilyMember = ({ id, relation, onRemove, onChange, index }) => {
               textDecoration: 'underline',
               cursor: 'pointer',
             }}
-            onClick={handleRemove}
+            onClick={() => remove(index)}
           >
             Remove
           </Typography>

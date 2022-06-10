@@ -5,6 +5,10 @@ import Stepper from './stepper';
 import Step from './step';
 import InputField from './inputField';
 import FamilyMemberSelector from './familyMemberSelector';
+import relations from './relations';
+import TextArea from './textArea';
+import DateSelector from './dateSelector';
+import DatePicker from './datePicker';
 
 export {
     RadioButtonGroup,
@@ -14,5 +18,10 @@ export {
     Step,
     InputField,
     FamilyMemberSelector,
-
+    relations,
+    TextArea,
+    DateSelector,
+    DatePicker,
+    
 };
+
