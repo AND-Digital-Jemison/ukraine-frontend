@@ -3,7 +3,7 @@ import { useMemo, useEffect } from "react";
 import { Label, StyledButton } from '../common';
 import { Box } from '@mui/material';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 
 const schema = {
   familyMember: '',
@@ -36,16 +36,23 @@ const FamilyStep = ({ onNext, onPrevious }) => {
     reset(value)
   }, [value])
 
+  const hasFamily = useWatch({
+    control,
+    name: 'familyMember'
+  });
+
   const onSubmit = data => {
     setValue(data);
+    console.log('test data', data);
 
     if (!onNext) {
       return;
-    }
+    };
     onNext();
   };
 
   const handlePrevious = () => {
+
     if (!onPrevious) {
       return;
     }
@@ -60,7 +67,7 @@ const FamilyStep = ({ onNext, onPrevious }) => {
           name='familyMember'
           control={control} />
         <br />
-        {value.familyMember === optionsFamily[1] &&
+        {hasFamily === optionsFamily[1] &&
           <>
             <Box>
               <RadioButtonGroup
