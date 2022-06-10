@@ -12,7 +12,8 @@ const Stepper = ({ currentStep, steps=['no steps passed'] }) => {
         padding: '20px',
         backgroundColor: '#F8F8F8',
         borderRadius: '4px',
-
+        margin: '0 0 20px 0',
+        
       }}
     >
       <Typography variant='p'
