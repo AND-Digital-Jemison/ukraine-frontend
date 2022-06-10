@@ -1,14 +1,15 @@
 import { InputField, DatePicker, Step } from "../common/form";
 import { StyledButton } from '../common';
 import { Box } from '@mui/material';
-import { useWatch, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
+import Link from "@frontity/components/link"
 
 const schema = {
   firstName: '',
   lastName: '',
-  dob: '',
+  dob: Date.now(),
   email: '',
 }
 
@@ -74,11 +75,13 @@ const WhoAreYouStep = ({ onNext }) => {
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
-          <StyledButton
-            label='Back'
-            width={'115px'}
-            variant="outlined"
-          />
+          <Link link={'/home/en/'}>
+            <StyledButton
+              label='Back'
+              width={'115px'}
+              variant="outlined"
+            />
+          </Link>
           <StyledButton
             label='Next'
             width={'115px'}
