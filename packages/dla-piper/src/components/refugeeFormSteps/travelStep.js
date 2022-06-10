@@ -1,39 +1,49 @@
 import { Step, RadioButtonGroup, FamilyMemberSelector } from "../common/form";
 import { Box } from '@mui/material';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
 import { StyledButton } from '../common';
 
 const schema = {
-    travelParty: '',
+    travelingWith: '',
     familyMembers: [],
 }
 
+const options = ["Just me", "Me and my family"];
+
 const TravelStep = ({ onNext, onPrevious }) => {
 
-    const options = ["Just me", "Me and my family"];
-
     const [value, setValue] = useSessionStorage('au_travel_step', schema);
-    const { control, reset, handleSubmit } = useForm({
-        defaultValues: useMemo(() => {
-            return value;
-        }, [value])
+
+    const { control, handleSubmit, reset } = useForm({
+        defaultValues: {
+            travelingWith: options[0],
+        }
     });
+
+    const { fields, append, remove, update } = useFieldArray({
+        control,
+        name: 'familyMembers',
+    });
+
+    const travelingWith = useWatch({
+        control,
+        name: 'travelingWith',
+    })
 
     useEffect(() => {
         reset(value)
     }, [value])
 
+
     const onSubmit = data => {
-        
         setValue(data);
         if (!onNext) {
             return;
         }
         onNext();
     }
-
     const handlePrevious = () => {
         if (!onPrevious) {
             return;
@@ -41,16 +51,22 @@ const TravelStep = ({ onNext, onPrevious }) => {
         onPrevious();
     }
 
+
     return (
         <Step label="Who are you traveling with?">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <RadioButtonGroup options={options}
-                    name='travelParty'
-                    control={control} 
+                    name='travelingWith'
+                    control={control}
                 />
-                {value.travelParty === options[1] &&
-                    // <FamilyMemberSelector onChange={handleFamilyMembersChange} />
-                    <p>test</p>
+                {travelingWith === options[1] &&
+                    <FamilyMemberSelector
+                        control={control}
+                        fields={fields}
+                        append={append}
+                        remove={remove}
+                        update={update}
+                    />
                 }
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>

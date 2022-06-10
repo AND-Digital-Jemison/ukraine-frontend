@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
 import { Label } from '../';
-import { useController } from 'react-hook-form';
+import { useController, useWatch } from 'react-hook-form';
 
 const DropDownList = ({
   name,
@@ -11,10 +11,25 @@ const DropDownList = ({
   label = "",
   placeholder = "Select",
   options = [],
+  onChange: onChangeProp,
   ...props
 }) => {
   const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
 
+  const selectValue = useWatch({
+    control,
+    name: name,
+  })
+
+  const handleChange = e => {
+    onChange(e);
+
+    // used for any extra updates that need to be done
+    if (onChangeProp) {
+      onChangeProp(e);
+    }
+  }
+    
   return (
     <Box sx={{ width }}>
       <Label fontSize="14px">{ label }</Label>
@@ -22,7 +37,7 @@ const DropDownList = ({
           id={`${label?.replace(/ /g, "-")}-select`}
           name={name}
           displayEmpty
-          onChange={onChange}
+          onChange={handleChange}
           {...fieldOther}
           sx={{
             width
