@@ -1,49 +1,40 @@
 import { useState } from "react";
 import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
 import { Label } from '../';
+import { useController } from 'react-hook-form';
 
 const DropDownList = ({
-  width = 326,
+  name,
+  control,
+  defaultValue,
+  width = '100%',
   label = "",
   placeholder = "Select",
   options = [],
-  onChange,
+  ...props
 }) => {
-  const [currentOption, setCurrentOption] = useState("");
-
-  const handleChange = (event) => {
-    const value = event.target.value;
-    setCurrentOption(value);
-    if (!onChange) {
-      return;
-    }
-    onChange(value);
-  };
-
-  const displayPlaceholderOrValue = () => {
-    if (currentOption !== "") return currentOption;
-
-    return <span style={{ color: "grey" }}>{placeholder}</span>;
-  };
+  const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
 
   return (
     <Box sx={{ width }}>
-      <FormControl fullWidth>
       <Label fontSize="14px">{ label }</Label>
         <Select
           id={`${label?.replace(/ /g, "-")}-select`}
-          value={currentOption}
+          name={name}
           displayEmpty
-          renderValue={displayPlaceholderOrValue}
-          onChange={handleChange}
+          onChange={onChange}
+          {...fieldOther}
+          sx={{
+            width
+          }}
         >
-          {options.map((currentOption, key) => (
-            <MenuItem key={key} value={currentOption}>
-              {currentOption}
+          {options.map((option) => (
+            <MenuItem key={option} 
+              value={option}>
+              {option}
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
     </Box>
   );
 };

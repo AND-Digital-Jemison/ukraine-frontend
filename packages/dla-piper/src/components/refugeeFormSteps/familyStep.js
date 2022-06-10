@@ -109,6 +109,8 @@ const FamilyStep = ({ onNext, onPrevious }) => {
                 width={'100%'}
               />
               <DropDownList
+                control={control}
+                name='familyMemberRelation'
                 label='Relation to you'
                 options={relations}
               />
