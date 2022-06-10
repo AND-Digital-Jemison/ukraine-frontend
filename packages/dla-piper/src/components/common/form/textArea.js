@@ -1,24 +1,14 @@
-import { TextareaAutosize, Box, FormControl } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { TextareaAutosize, Box } from '@mui/material';
 import { Label } from '../';
+import { useController } from 'react-hook-form';
 
-const TextArea  = ({ label, width, onChange }) => {
-  const [value, setValue] = useState('');
-
-  const handleChange = event => {
-    setValue(event.target.value);
-  }
-
-  useEffect(() => {
-    if (!onChange) {
-      return;
-    }
-    onChange(value);
-  }, [value])
+const TextArea  = ({ name, control, label, width='100%', onChange }) => {
+  
+  const { field: { onChange: fieldOnChange, ...fieldOther }, fieldState } = useController({ name, control, onChange });
 
   return (
     <Box
-      component="form"
+      component="div"
       sx={{
         m: 1,
         width,
@@ -26,17 +16,13 @@ const TextArea  = ({ label, width, onChange }) => {
         margin: 0
       }}
     >
-      <FormControl 
-        fullWidth
-        sx={{ margin: 0 }}
-      >
-        <Label fontSize="14px">{ label }</Label>
-        <TextareaAutosize
-          minRows={5}
-          style={{ resize: 'vertical' }}
-          onChange={handleChange}
-        />
-      </FormControl>
+      <Label fontSize="14px">{ label }</Label>
+      <TextareaAutosize
+        minRows={5}
+        style={{ resize: 'vertical', width }}
+        {...fieldOther}
+        onChange={fieldOnChange}
+      />
     </Box>
   )
 }
