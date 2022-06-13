@@ -2,7 +2,7 @@ import { Step, TextArea } from '../common/form';
 import { useForm } from 'react-hook-form';
 import { StyledButton } from '../common';
 import { Box } from '@mui/material';
-import { useEffect, useMemo, useCallback } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Link from '@frontity/components/link';
 import { useYupResolver } from "../../hooks";
@@ -13,10 +13,12 @@ const schema = {
 }
 
 const validationSchema = yup.object().shape({
-  additional_risks: yup.string().max(10),
+  additional_risks: yup.string().max(5000),
 })
 
 const AdditionalStep = ({ onNext, onPrevious }) => {
+
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -31,13 +33,20 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
     reset(value)
   }, [value])
 
-  useEffect(() => {
-    console.log("additional step errors: ", errors)
-}, [errors]);
-
   const onSubmit = data => {
     setValue(data);
+    setFormSubmitted(true);
   }
+
+  // redirect the user if the submit button has been pressed and the form is valid
+  useEffect(() => {
+    if (formSubmitted && !errors.additional_risks) {
+      window.location.href = '/confirmation/en';
+      return;
+    }
+    setFormSubmitted(false);
+
+  }, [errors, formSubmitted])
 
   const handlePrevious = () => {
     if (!onPrevious) {
@@ -46,18 +55,9 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
     onPrevious();
   }
 
-  const redirectToForm = () => {
-    console.log('callback thingy: ', errors)
-
-    if (!errors.additional_risks) {
-      window.location.href = '/confirmation/en';
-    };
-    return;
-  }
-
   return (
     <Step label='Are there any reasons you may be at additional risk?'>
-      <form >
+      <form onSubmit={handleSubmit(onSubmit)}>
       <TextArea 
         name={'additional_risks'}
         control={control}
@@ -71,13 +71,11 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
             variant="outlined"
             onClick={handlePrevious}
           />
-          {/* <Link link='/confirmation/en' style={{textDecoration: 'none'}}> */}
           <StyledButton
             label='Submit'
             width={'115px'}
-            // onClick={handleNext}
+            submit
           />
-          {/* </Link> */}
         </Box>
       </form>
     </Step>
