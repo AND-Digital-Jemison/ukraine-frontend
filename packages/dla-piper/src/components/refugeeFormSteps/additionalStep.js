@@ -5,16 +5,23 @@ import { Box } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Link from '@frontity/components/link';
+import { useYupResolver } from "../../hooks";
+import * as yup from 'yup';
 
 const schema = {
-  additionalInfo: '',
+  additional_risks: '',
 }
+
+const validationSchema = yup.object().shape({
+  additional_risks: yup.string().max(5000),
+})
 
 const AdditionalStep = ({ onNext, onPrevious }) => {
 
   const [value, setValue] = useSessionStorage('au_additional', schema);
-
-  const { control, reset, handleSubmit } = useForm({
+  const resolver = useYupResolver(validationSchema);
+  const { control, reset, handleSubmit, formState: { errors } } = useForm({
+    resolver,
     defaultValues: useMemo(() => {
       return value;
     }, [value])
@@ -39,7 +46,7 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
     <Step label='Are there any reasons you may be at additional risk?'>
       <form onSubmit={handleSubmit(onSubmit)}>
       <TextArea 
-        name={'additionalInfo'}
+        name={'additional_risks'}
         control={control}
         label='For example: Unaccompanied children or family members needing medical treatment. '
         width={'100%'}
@@ -51,13 +58,13 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
             variant="outlined"
             onClick={handlePrevious}
           />
-          <Link link='/confirmation/en' style={{textDecoration: 'none'}}>
+          {/* <Link link='/confirmation/en' style={{textDecoration: 'none'}}> */}
           <StyledButton
             label='Submit'
             width={'115px'}
             submit
           />
-          </Link>
+          {/* </Link> */}
         </Box>
       </form>
     </Step>

@@ -4,37 +4,54 @@ import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
 import { StyledButton } from '../common';
-
-const schema = {
-    travelingWith: '',
-    familyMembers: [],
-}
+import { useYupResolver } from '../../hooks';
+import * as yup from 'yup';
 
 const options = ["Just me", "Me and my family"];
+
+const schema = {
+    traveling_with: '',
+    family_members: [],
+}
+
+const validationSchema = yup.object().shape({
+    traveling_with: yup.string().required(''),
+    family_members: yup.array().of(yup.object().shape({
+            relation: yup.string().required('Please select a relation'),
+    })).when(
+        'traveling_with', {is:options[1], then: yup.array().min(1)}
+    )
+});
 
 const TravelStep = ({ onNext, onPrevious }) => {
 
     const [value, setValue] = useSessionStorage('au_travel_step', schema);
 
-    const { control, handleSubmit, reset } = useForm({
+    const resolver = useYupResolver(validationSchema);
+    const { control, handleSubmit, reset , formState: { errors } } = useForm({
+        resolver,
         defaultValues: {
-            travelingWith: options[0],
+            traveling_with: options[0],
         }
     });
 
     const { fields, append, remove, update } = useFieldArray({
         control,
-        name: 'familyMembers',
+        name: 'family_members',
     });
 
     const travelingWith = useWatch({
         control,
-        name: 'travelingWith',
+        name: 'traveling_with',
     })
 
     useEffect(() => {
         reset(value)
     }, [value])
+
+    useEffect(() => {
+        console.log("travel step errors: ", errors)
+    }, [errors]);
 
 
     const onSubmit = data => {
@@ -57,7 +74,7 @@ const TravelStep = ({ onNext, onPrevious }) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <RadioButtonGroup options={options}
-                        name='travelingWith'
+                        name='traveling_with'
                         control={control}
                     />
                     {travelingWith === options[1] &&

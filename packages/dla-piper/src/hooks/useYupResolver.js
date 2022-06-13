@@ -13,6 +13,8 @@ export const useYupResolver = validationSchema =>
           errors: {}
         };
       } catch (errors) {
+        console.log('YUP ERROR: ', errors)
+
         return {
           values: {},
           errors: errors.inner.reduce(
