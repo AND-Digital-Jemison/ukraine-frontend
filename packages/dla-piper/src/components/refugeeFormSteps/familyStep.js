@@ -30,10 +30,10 @@ const validationSchema = yup.object().shape({
     'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('Situation is required') }
   ),
   uk_family_first_name: yup.string().when(
-    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('First name is required') }
+    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().max(64, 'cannot excide 64 characters').required('First name is required') }
   ),
   uk_family_last_name: yup.string().when(
-    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('Last name is required') }
+    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().max(64, 'cannot excide 64 characters').required('Last name is required') }
   ),
   uk_family_relation_to_you: yup.string().when(
     'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('Relation is required') } 
