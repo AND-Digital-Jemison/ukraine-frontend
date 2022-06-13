@@ -18,7 +18,7 @@ const validationSchema = yup.object().shape({
 
 const AdditionalStep = ({ onNext, onPrevious }) => {
 
-  // const [formSubmitted, setFormSubmitted] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -36,17 +36,22 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
   const onSubmit = data => {
     setValue(data);
     setFormSubmitted(true);
+
+    if (!onNext) {
+      return;
+    }
+    onNext();
   }
 
   // redirect the user if the submit button has been pressed and the form is valid
-  // useEffect(() => {
-  //   if (formSubmitted && !errors.additional_risks) {
-  //     window.location.href = '/confirmation/en';
-  //     return;
-  //   }
-  //   setFormSubmitted(false);
+  useEffect(() => {
+    if (formSubmitted && !errors.additional_risks) {
+      window.location.href = '/confirmation/en';
+      return;
+    }
+    setFormSubmitted(false);
 
-  // }, [errors, formSubmitted])
+  }, [errors, formSubmitted])
 
   const handlePrevious = () => {
     if (!onPrevious) {
