@@ -4,6 +4,7 @@ import { StyledButton } from '../common';
 import { Box } from '@mui/material';
 import { useEffect, useMemo } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
+import Link from '@frontity/components/link';
 
 const schema = {
   additionalInfo: '',
@@ -50,11 +51,13 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
             variant="outlined"
             onClick={handlePrevious}
           />
+          <Link link='/confirmation/en' style={{textDecoration: 'none'}}>
           <StyledButton
-            label='Next'
+            label='Submit'
             width={'115px'}
             submit
           />
+          </Link>
         </Box>
       </form>
     </Step>

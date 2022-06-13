@@ -5,7 +5,8 @@ import {
   ContentBlockWrapper,
 } from '../common';
 import { Box, Typography, styled } from '@mui/material';
-import { DoneSharp } from '@mui/icons-material';
+import { CheckCircleOutline } from '@mui/icons-material';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const Confirmation = ({ state, libraries }) => {
   const data = state.source.get(state.router.link);
@@ -19,6 +20,7 @@ const Confirmation = ({ state, libraries }) => {
   } = confirmation.acf;
 
   const Html2React = libraries.html2react.Component;
+  const [refugee] = useSessionStorage("au_who_are_you");
 
   return (
     <>
@@ -34,7 +36,7 @@ const Confirmation = ({ state, libraries }) => {
               margin: "0 0 20px 0",
             }}
           >
-            {confirmTitle}
+            {`${refugee.firstName}${confirmTitle}`}
           </Typography>
           <ReceivedNotification />
         </MaxRestraintWrapper>
@@ -42,16 +44,17 @@ const Confirmation = ({ state, libraries }) => {
       <MaxRestraintWrapper>
         <Box sx={{
           padding: '20px',
-          bgcolor: '#F8F8F8'
+          bgcolor: '#F8F8F8',
+          marginBottom: '20px',
         }} >
-          <Typography>{confirmNextTitle}</Typography>
+          <Typography sx={{fontWeight: 600,}}>{confirmNextTitle}</Typography>
           <ContentBlockWrapper>
             <Html2React html={confirmNextInfo}/>
           </ContentBlockWrapper>
         </Box>
       </MaxRestraintWrapper>
       <MaxRestraintWrapper>
-        <Typography>{confirmDataTitle}</Typography>
+        <Typography sx={{fontWeight: 600,}}>{confirmDataTitle}</Typography>
         <ContentBlockWrapper>
           <Html2React html={confirmDataInfo}/>
         </ContentBlockWrapper>
@@ -69,12 +72,22 @@ const ReceivedNotification = () => {
       display: 'flex',
       flexDirection: 'row',
       padding: '20px',
-      bgcolor: '#EAF9E599'
+      bgcolor: '#EAF9E599',
+      alignItems: 'center',
     }} >
-      <DoneSharp />
+      <CheckCircleOutline sx={{
+        fill: '#62B01E',
+        height: '35px',
+        width: '35px',
+        }}/>
       <Typography
-        sx={{ color: 'textColor.main', fontSize: '16px', fontWeight: '700' }}
-      >
+        sx={{ 
+          color: 'textColor.main', 
+          fontSize: '16px', 
+          fontWeight: '700', 
+          padding: '0px 0px 0px 20px', 
+          margin: '0px 0px 0px 0px !important',
+        }}>
         Your request has been received.
       </Typography>
     </Box>
