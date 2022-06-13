@@ -55,10 +55,6 @@ const FamilyStep = ({ onNext, onPrevious }) => {
     reset(value)
   }, [value])
 
-  useEffect(() => {
-    console.log("family step errors: ", errors)
-}, [errors]);
-
   const hasFamily = useWatch({
     control,
     name: 'family_member_in_uk'
@@ -66,7 +62,6 @@ const FamilyStep = ({ onNext, onPrevious }) => {
 
   const onSubmit = data => {
     setValue(data);
-    console.log('test data', data);
 
     if (!onNext) {
       return;

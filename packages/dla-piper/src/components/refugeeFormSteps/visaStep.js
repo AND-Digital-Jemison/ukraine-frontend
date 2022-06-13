@@ -34,10 +34,6 @@ const VisaStep = ({ onNext, onPrevious }) => {
     })
 
     useEffect(() => {
-        console.log('errors: ', errors);
-      }, [errors])
-
-    useEffect(() => {
         reset(value)
     }, [value])
 

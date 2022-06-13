@@ -49,11 +49,6 @@ const TravelStep = ({ onNext, onPrevious }) => {
         reset(value)
     }, [value])
 
-    useEffect(() => {
-        console.log("travel step errors: ", errors)
-    }, [errors]);
-
-
     const onSubmit = data => {
         setValue(data);
         if (!onNext) {

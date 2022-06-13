@@ -39,10 +39,6 @@ const WhoAreYouStep = ({ onNext }) => {
       return value;
     }, [value])
   });
-  
-  useEffect(() => {
-    console.log('errors: ', errors);
-  }, [errors])
 
   useEffect(() => {
     reset(value)
