@@ -5,6 +5,7 @@ import { TextField, Box } from '@mui/material';
 import { Label } from '../../common';
 import { useController } from 'react-hook-form';
 import UpDownArrowIcon from '../../../public/icons/upDownArrowIcon';
+import { HelperTextError } from '.';
 
 const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props }) => {
 
@@ -23,9 +24,20 @@ const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props
           disableFuture
           onChange={onChange}
           {...fieldOther}
-          renderInput={(params) => <TextField sx={{ width }} {...params} error={error ? true : false} helperText={error?.message} />}
+          renderInput={(params) =>(
+            <TextField 
+              sx={error
+                ? { width: width, border: '#D82C0D 1px solid', borderRadius: '4px', bgcolor: '#FFF4F4' }
+                : { width: width }
+              }
+              {...params}
+            />
+          )}
           components={{ OpenPickerIcon: UpDownArrowIcon }}
         />
+        { error &&
+          <HelperTextError message={error.message} />
+        }
       </LocalizationProvider>
     </Box>
   );
