@@ -33,6 +33,7 @@
     "dla-piper": "file:packages/dla-piper",
     "frontity": "^1.17.2",
     "react-hook-form": "^7.31.3",
-    "react-uuid": "^1.0.2"
+    "react-uuid": "^1.0.2",
+    "yup": "^0.32.11"
   }
 }
