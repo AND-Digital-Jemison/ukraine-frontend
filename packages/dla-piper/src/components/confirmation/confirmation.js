@@ -36,7 +36,7 @@ const Confirmation = ({ state, libraries }) => {
               margin: "0 0 20px 0",
             }}
           >
-            {`${refugee.firstName}${confirmTitle}`}
+            {`${refugee.firstname}${confirmTitle}`}
           </Typography>
           <ReceivedNotification />
         </MaxRestraintWrapper>
