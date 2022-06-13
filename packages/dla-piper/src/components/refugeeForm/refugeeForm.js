@@ -46,6 +46,27 @@ const RefugeeForm = ({ state }) => {
     })
   }
 
+  const handleSubmitForm = () => {
+    const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
+    const travel = JSON.parse(sessionStorage.getItem('au_travel_step'));
+    const visa = JSON.parse(sessionStorage.getItem('au_visa_step'));
+    const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
+    const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional_risks'));
+
+    const payload = {
+      client: {
+        ...whoAreYou,
+      },
+      info: {
+        ...travel,
+        ...visa,
+        ...familyInUk,
+        ...additionalRisks,
+      }
+    }
+
+    console.log(payload);
+  }
 
   return (
     <>
@@ -95,7 +116,7 @@ const RefugeeForm = ({ state }) => {
             <TravelStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
             <VisaStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
             <FamilyStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
-            <AdditionalStep onPrevious={handlePreviousStep} />,
+            <AdditionalStep onNext={handleSubmitForm} onPrevious={handlePreviousStep} />,
           ]} 
         />
       </MaxRestraintWrapper>
