@@ -79,7 +79,7 @@ const FamilyStep = ({ onNext, onPrevious }) => {
 
 
   return (
-    <Step label="Do you have any existing visas for the UK?">
+    <Step label="Do you have a family member in the UK?">
       <form onSubmit={handleSubmit(onSubmit)}>
         <RadioButtonGroup options={optionsFamily}
           name='family_member_in_uk'
