@@ -13,7 +13,7 @@ const schema = {
 }
 
 const validationSchema = yup.object().shape({
-  additional_risks: yup.string().max(5000),
+  additional_risks: yup.string().max(10),
 })
 
 const AdditionalStep = ({ onNext, onPrevious }) => {
@@ -31,6 +31,10 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
     reset(value)
   }, [value])
 
+  useEffect(() => {
+    console.log("additional step errors: ", errors)
+}, [errors]);
+
   const onSubmit = data => {
     setValue(data);
   }
@@ -42,9 +46,21 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
     onPrevious();
   }
 
+  const handleNext = e => {
+    handleSubmit(onSubmit)(e)
+      .catch(err => {
+        console.log("from catch: ", err)
+      })
+
+    // if (errors['additional_risks']) {
+    //   return;
+    // }
+    // window.location.href = '/confirmation/en';
+  }
+
   return (
     <Step label='Are there any reasons you may be at additional risk?'>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form >
       <TextArea 
         name={'additional_risks'}
         control={control}
@@ -62,7 +78,7 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
           <StyledButton
             label='Submit'
             width={'115px'}
-            submit
+            onClick={handleNext}
           />
           {/* </Link> */}
         </Box>

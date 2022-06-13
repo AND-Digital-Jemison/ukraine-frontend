@@ -26,16 +26,16 @@ const schema = {
 
 const validationSchema = yup.object().shape({
   family_member_in_uk: yup.string().required(''),
-  best_describes_uk_family_member: yup.string().required('').when(
+  best_describes_uk_family_member: yup.string().when(
     'family_member_in_uk', {is:optionsFamily[1], then: yup.string().required('')}
   ),
-  uk_family_first_name: yup.string().required('').when(
+  uk_family_first_name: yup.string().when(
     'family_member_in_uk', {is:optionsFamily[1], then: yup.string().required('')}
   ),
-  uk_family_last_name: yup.string().required('').when(
+  uk_family_last_name: yup.string().when(
     'family_member_in_uk', {is:optionsFamily[1], then: yup.string().required('')}
   ),
-  uk_family_relation_to_you: yup.string().required('').when(
+  uk_family_relation_to_you: yup.string().when(
     'family_member_in_uk', {is:optionsFamily[1], then: yup.string().required('')}
   ),
 })
@@ -54,6 +54,10 @@ const FamilyStep = ({ onNext, onPrevious }) => {
   useEffect(() => {
     reset(value)
   }, [value])
+
+  useEffect(() => {
+    console.log("family step errors: ", errors)
+}, [errors]);
 
   const hasFamily = useWatch({
     control,
