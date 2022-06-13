@@ -11,7 +11,7 @@ const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props
   // here we are accessing the regular react-hook-form controller
   // however we also need access to the on change function from field.onChange
   // so pull that out on its own
-  const { field: { onChange, ...fieldOther }, fieldState } = useController({ name, control, defaultValue, ...props });
+  const { field: { onChange, ...fieldOther }, fieldState: { error } } = useController({ name, control, defaultValue, ...props });
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -23,7 +23,7 @@ const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props
           disableFuture
           onChange={onChange}
           {...fieldOther}
-          renderInput={(params) => <TextField sx={{ width }} {...params} helperText={null} />}
+          renderInput={(params) => <TextField sx={{ width }} {...params} error={error ? true : false} helperText={error?.message} />}
           components={{ OpenPickerIcon: UpDownArrowIcon }}
         />
       </LocalizationProvider>

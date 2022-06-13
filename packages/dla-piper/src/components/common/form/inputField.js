@@ -7,7 +7,7 @@ import { useController } from 'react-hook-form';
 
 const InputField = ({ name, control, defaultValue, label = "No Label", width = 326, ...props }) => {
 
-  const { field, fieldState } = useController({ name, control, defaultValue, ...props });
+  const { field, fieldState: { error } } = useController({ name, control, defaultValue, ...props });
 
   return (
     <Box
@@ -23,6 +23,8 @@ const InputField = ({ name, control, defaultValue, label = "No Label", width = 3
       <TextField
         {...field}
         sx={{ width: width }}
+        error={error ? true : false}
+        helperText={error?.message}
       />
     </Box>
   );
