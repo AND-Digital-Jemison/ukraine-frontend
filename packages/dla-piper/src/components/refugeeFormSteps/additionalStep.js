@@ -2,7 +2,7 @@ import { Step, TextArea } from '../common/form';
 import { useForm } from 'react-hook-form';
 import { StyledButton } from '../common';
 import { Box } from '@mui/material';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useCallback } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import Link from '@frontity/components/link';
 import { useYupResolver } from "../../hooks";
@@ -46,16 +46,13 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
     onPrevious();
   }
 
-  const handleNext = e => {
-    handleSubmit(onSubmit)(e)
-      .catch(err => {
-        console.log("from catch: ", err)
-      })
+  const redirectToForm = () => {
+    console.log('callback thingy: ', errors)
 
-    // if (errors['additional_risks']) {
-    //   return;
-    // }
-    // window.location.href = '/confirmation/en';
+    if (!errors.additional_risks) {
+      window.location.href = '/confirmation/en';
+    };
+    return;
   }
 
   return (
@@ -78,7 +75,7 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
           <StyledButton
             label='Submit'
             width={'115px'}
-            onClick={handleNext}
+            // onClick={handleNext}
           />
           {/* </Link> */}
         </Box>
