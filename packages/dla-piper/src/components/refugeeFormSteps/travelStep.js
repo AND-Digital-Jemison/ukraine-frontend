@@ -10,7 +10,7 @@ import * as yup from 'yup';
 const options = ["Just me", "Me and my family"];
 
 const schema = {
-    traveling_with: '',
+    traveling_with: options[0],
     family_members: [],
 }
 
