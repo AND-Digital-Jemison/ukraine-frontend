@@ -31,6 +31,11 @@ const settings = {
               type: "confirmation",
               endpoint: "confirmation",
               archive: "/confirmation"
+            },
+            {
+              type: "volunteer",
+              endpoint: "volunteer",
+              archive: "/volunteer"
             }
           ]
         }
