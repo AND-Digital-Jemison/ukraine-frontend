@@ -59,7 +59,7 @@ const VisaStep = ({ onNext, onPrevious }) => {
     }
 
     return (
-        <Step label="do you have an existing visa for the UK?">
+        <Step label="Do you have an existing visa for the UK?">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <RadioButtonGroup options={optionsVisa}
                     name='have_visa'
