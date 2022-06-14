@@ -3,6 +3,7 @@ import {
   MaxRestraintWrapper,
   PageHeader, 
   ContentBlockWrapper,
+  NotificationBlock,
 } from '../common';
 import { Box, Typography, styled } from '@mui/material';
 import { CheckCircleOutline } from '@mui/icons-material';
@@ -38,7 +39,9 @@ const Confirmation = ({ state, libraries }) => {
           >
             {`${refugee.firstname}${confirmTitle}`}
           </Typography>
-          <ReceivedNotification />
+          <NotificationBlock 
+            message={'Your request has been received.'}
+          />
         </MaxRestraintWrapper>
       </PageHeader>
       <MaxRestraintWrapper>
@@ -64,32 +67,3 @@ const Confirmation = ({ state, libraries }) => {
 }
 
 export default connect(Confirmation);
-
-
-const ReceivedNotification = () => {
-  return (
-    <Box sx={{
-      display: 'flex',
-      flexDirection: 'row',
-      padding: '20px',
-      bgcolor: '#EAF9E599',
-      alignItems: 'center',
-    }} >
-      <CheckCircleOutline sx={{
-        fill: '#62B01E',
-        height: '35px',
-        width: '35px',
-        }}/>
-      <Typography
-        sx={{ 
-          color: 'textColor.main', 
-          fontSize: '16px', 
-          fontWeight: '700', 
-          padding: '0px 0px 0px 20px', 
-          margin: '0px 0px 0px 0px !important',
-        }}>
-        Your request has been received.
-      </Typography>
-    </Box>
-  )
-};
