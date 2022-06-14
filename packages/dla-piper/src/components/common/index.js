@@ -11,6 +11,7 @@ import {
   PageHeader,
   ContentBlockWrapper,
 } from "./wrappers";
+import NotificationBlock from './NotificationBlock';
 
 export {
   StyledButton,
@@ -23,5 +24,7 @@ export {
   CtaHeader,
   PageHeader,
   ContentBlockWrapper,
-  Label
+  Label,
+  NotificationBlock,
+  
 };
