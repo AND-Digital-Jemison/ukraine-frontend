@@ -18,6 +18,7 @@ const Home = ({ state, libraries }) => {
     ctaRefugeeLabel,
     ctaRefugeeLink,
     ctaVolunteerLabel,
+    ctaVolunteerLink,
     nonUkTabContent,
     alreadyInUKTabContent,
   } = home.acf;
@@ -78,7 +79,7 @@ const Home = ({ state, libraries }) => {
                 width={{ mobile: "100%", tablet: "288px" }}
               />
             </Link>
-            <Link link="#" style={{ textDecorationColor: "#005BBB" }}>
+            <Link link={ctaVolunteerLink} style={{ textDecorationColor: "#005BBB" }}>
               <StyledButton fixedWidth variant="text" label={ctaVolunteerLabel} width={{ mobile: "100%", tablet: "288px" }} />
             </Link>
           </Box>
