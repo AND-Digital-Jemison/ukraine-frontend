@@ -8,14 +8,14 @@ const relations = [
   'Step-Mother',
   'Step-Father',
   'Grandparent',
-  'Aunt / Uncle',
-  'Niece / Nephew',
+  'Aunt/Uncle',
+  'Niece/Nephew',
   'Cousin',
-  'Farther-in-law',
+  'Father-in-law',
   'Mother-in-law',
   'Sister-in-law',
   'Brother-in-law',
-  'Spouse / Civil-Partner',
+  'Spouse/Civil-Partner',
 ];
 
 export default relations;
