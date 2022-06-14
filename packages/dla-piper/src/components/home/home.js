@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { connect, styled } from "frontity";
-import { Typography, List, ListItem, Box, Tabs, Tab } from "@mui/material";
+import React, { useState } from "react";
+import { connect } from "frontity";
+import { Typography, Box, Tabs, Tab } from "@mui/material";
 import Link from "@frontity/components/link";
-import { Error } from "@mui/icons-material";
 import HeaderShape from "./headerShape";
 import { StyledButton, InfoContainer, InfoItem, MaxRestraintWrapper, CtaHeader, ContentBlockWrapper} from "../common";
 
@@ -23,9 +22,6 @@ const Home = ({ state, libraries }) => {
     alreadyInUKTabContent,
   } = home.acf;
 
-  useEffect(() => {
-    console.log("home.acf", home.acf);
-  }, []);
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const handleTabChange = (event, newValue) => {

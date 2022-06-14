@@ -36,4 +36,10 @@ export const ContentBlockWrapper = styled.div`
   a {
     color: #2c6ecb;
   }
+  br{
+    margin-bottom:20px;
+    display: block;
+    line-height: 20px;
+    content: " ";
+  }
 `;

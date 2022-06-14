@@ -4,20 +4,37 @@ import { Box } from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
-import Link from "@frontity/components/link"
+import Link from "@frontity/components/link";
+import { format, toDate } from "date-fns";
+import { useYupResolver } from '../../hooks';
+import * as yup from 'yup';
 
+
+// we are using this naming convention to follow the shape of the data
+// that legal connection is expecting, yes we would like it to be 
+// camelCase, but we can't always have what we want :( 
 const schema = {
-  firstName: '',
-  lastName: '',
-  dob: Date.now(),
+  firstname: '',
+  lastname: '',
+  date_of_birth: format(toDate(Date.now()), 'yyyy/MM/dd'),
   email: '',
 }
+
+const validationSchema = yup.object().shape({
+  firstname: yup.string().max(64, 'cannot excide 64 characters').required('First name is required'),
+  lastname: yup.string().max(64, 'cannot excide 64 characters').required('Last name is required'),
+  date_of_birth: yup.date().required('Date of birth is required'),
+  email: yup.string().email('Email is invalid').required('Email is required'),
+})
 
 const WhoAreYouStep = ({ onNext }) => {
 
   const [value, setValue] = useSessionStorage('au_who_are_you', schema);
 
-  const { control, reset, handleSubmit } = useForm({
+  
+  const resolver = useYupResolver(validationSchema);
+  const { control, reset, handleSubmit, formState: { errors } } = useForm({
+    resolver,
     defaultValues: useMemo(() => {
       return value;
     }, [value])
@@ -28,7 +45,11 @@ const WhoAreYouStep = ({ onNext }) => {
   }, [value])
 
   const onSubmit = data => {
-    setValue(data);
+    const payload = {
+      ...data,
+      date_of_birth: format(toDate(data.date_of_birth), 'yyyy/MM/dd')
+    }
+    setValue(payload);
 
     if (!onNext) {
       return;
@@ -49,19 +70,19 @@ const WhoAreYouStep = ({ onNext }) => {
           gap: '20px'
         }}>
           <InputField
-            name='firstName'
+            name='firstname'
             control={control}
             label="First name"
             width='100%'
           />
           <InputField
-            name='lastName'
+            name='lastname'
             control={control}
             label="Last name"
             width='100%'
           />
           <DatePicker
-            name='dob'
+            name='date_of_birth'
             control={control}
             label='Date of birth'
             width='100%'

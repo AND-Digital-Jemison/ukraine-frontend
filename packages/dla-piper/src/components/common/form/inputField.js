@@ -3,11 +3,12 @@ import {
   TextField,
 } from "@mui/material";
 import { Label } from '../';
+import { HelperTextError } from '.';
 import { useController } from 'react-hook-form';
 
 const InputField = ({ name, control, defaultValue, label = "No Label", width = 326, ...props }) => {
 
-  const { field, fieldState } = useController({ name, control, defaultValue, ...props });
+  const { field, fieldState: { error } } = useController({ name, control, defaultValue, ...props });
 
   return (
     <Box
@@ -22,8 +23,14 @@ const InputField = ({ name, control, defaultValue, label = "No Label", width = 3
       <Label fontSize="14px">{label}</Label>
       <TextField
         {...field}
-        sx={{ width: width }}
+        sx={error
+          ? { width: width, border: '#D82C0D 1px solid', borderRadius: '4px', bgcolor: '#FFF4F4' }
+          : { width: width }
+        }
       />
+      { error &&
+        <HelperTextError message={error.message} />
+      }
     </Box>
   );
 };

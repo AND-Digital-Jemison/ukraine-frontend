@@ -16,12 +16,7 @@ const normaliseLabel = (label) => {
 
 const RadioButtonGroup = ({ name, control, defaultValue, label, options = [], ...props}) => {
   
-  const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
-
-  // const handleChange = (event) => {
-  //   if (!onChange) return;
-  //   onChange(event.target.value);
-  // };
+  const { field: {onChange, ...fieldOther}, fieldState: { errors } } = useController({ name, control, defaultValue, ...props });
   
   return (
     <FormControl>
@@ -53,6 +48,7 @@ const RadioButtonGroup = ({ name, control, defaultValue, label, options = [], ..
           />
         ))}
       </RadioGroup>
+      { errors && errors.message }
     </FormControl>
   );
 };

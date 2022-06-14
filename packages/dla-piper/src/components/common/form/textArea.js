@@ -1,10 +1,11 @@
 import { TextareaAutosize, Box } from '@mui/material';
 import { Label } from '../';
 import { useController } from 'react-hook-form';
+import { HelperTextError } from '.';
 
 const TextArea  = ({ name, control, label, width='100%', onChange }) => {
   
-  const { field: { onChange: fieldOnChange, ...fieldOther }, fieldState } = useController({ name, control, onChange });
+  const { field: { onChange: fieldOnChange, ...fieldOther }, fieldState: { error } } = useController({ name, control, onChange });
 
   return (
     <Box
@@ -23,6 +24,9 @@ const TextArea  = ({ name, control, label, width='100%', onChange }) => {
         {...fieldOther}
         onChange={fieldOnChange}
       />
+      { error &&
+        <HelperTextError message={error?.message} />
+      }
     </Box>
   )
 }

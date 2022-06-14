@@ -41,7 +41,7 @@ const FamilyMemberSelector = ({ fields, append, update, remove, control }) => {
 const FamilyMember = ({ value, update, control, remove, index }) => {
   
   const { field: { onChange, ...fieldOther }, fieldState } = useController({
-    name: `familyMembers[${index}].relation`,
+    name: `family_members[${index}].relation`,
     control,
   });
 
@@ -79,7 +79,7 @@ const FamilyMember = ({ value, update, control, remove, index }) => {
           position: 'relative',
         }}>
           <DropDownList
-            name={`familyMembers[${index}].relation`}
+            name={`family_members[${index}].relation`}
             control={control}
             label='Relation to you'
             width={'100%'}
