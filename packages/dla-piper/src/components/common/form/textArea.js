@@ -23,6 +23,7 @@ const TextArea  = ({ name, control, label, width='100%', onChange }) => {
         style={{ resize: 'vertical', width }}
         {...fieldOther}
         onChange={fieldOnChange}
+        placeholder={'Optional'}
       />
       { error &&
         <HelperTextError message={error?.message} />
