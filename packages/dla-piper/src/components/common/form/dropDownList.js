@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 import { Label } from '../';
-import { useController, useWatch } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 import HelperTextError from './helperTextError';
 
 const DropDownList = ({
@@ -16,11 +16,6 @@ const DropDownList = ({
   ...props
 }) => {
   const { field: {onChange, ...fieldOther}, fieldState: { error } } = useController({ name, control, defaultValue, ...props });
-
-  const selectValue = useWatch({
-    control,
-    name: name,
-  })
 
   const handleChange = e => {
     onChange(e);
@@ -46,9 +41,9 @@ const DropDownList = ({
         }
       >
         {options.map((option) => (
-          <MenuItem key={option} 
-            value={option}>
-            {option}
+          <MenuItem key={option.value} 
+            value={option.value}>
+            {option.label}
           </MenuItem>
         ))}
       </Select>

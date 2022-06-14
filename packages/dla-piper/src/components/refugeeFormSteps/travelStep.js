@@ -2,7 +2,7 @@ import { Step, RadioButtonGroup, FamilyMemberSelector } from "../common/form";
 import { Box } from '@mui/material';
 import { useForm, useFieldArray, useWatch } from 'react-hook-form';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { StyledButton } from '../common';
 import { useYupResolver } from '../../hooks';
 import * as yup from 'yup';

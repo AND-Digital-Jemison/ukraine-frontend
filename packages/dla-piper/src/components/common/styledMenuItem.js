@@ -1,4 +1,3 @@
-import { Padding } from '@mui/icons-material';
 import { MenuItem } from '@mui/material';
 
 const StyledMenuItem = ({ src, label, onClick }) => {
@@ -19,7 +18,10 @@ const StyledMenuItem = ({ src, label, onClick }) => {
       }}
       disableRipple
     >
-      <img src={src} />
+      <img 
+        src={src} 
+        style={{ height: '24px', border: 'solid #FFF 3px', borderRadius: '100%' }}
+      />
       <p style={{ fontSize: '14px' }} >{ label }</p>
     </MenuItem>
   );

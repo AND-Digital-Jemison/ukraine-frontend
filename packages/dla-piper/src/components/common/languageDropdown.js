@@ -1,19 +1,19 @@
 import { useState } from "react";
 import { Fade, Menu, Box, Typography } from "@mui/material";
 import StyledMenuItem from './styledMenuItem';
-import eng from "../../public/flags/eng.png";
-import pol from "../../public/flags/pol.png";
-import rus from "../../public/flags/rus.png";
-import ukr from "../../public/flags/ukr.png";
 import { styled } from '@mui/system';
 import { ArrowDropDown } from "@mui/icons-material"
 import { connect } from 'frontity';
- 
+import en from 'flag-icons/flags/1x1/gb.svg'; 
+import pl from 'flag-icons/flags/1x1/pl.svg'; 
+import ru from 'flag-icons/flags/1x1/ru.svg'; 
+import uk from 'flag-icons/flags/1x1/ua.svg'; 
+
 const languages = [
-  { src: eng, label: "ENG", iso639: "en" },
-  { src: pol, label: "POL", iso639: "pl" },
-  { src: rus, label: "RUS", iso639: "ru" },
-  { src: ukr, label: "UKR", iso639: "uk" },
+  { src: en, label: "ENG", iso639: "en" },
+  { src: pl, label: "POL", iso639: "pl" },
+  { src: ru, label: "RUS", iso639: "ru" },
+  { src: uk, label: "UKR", iso639: "uk" },
 ];
 
 const LanguageDropdown = ({ state, actions }) => {
@@ -42,7 +42,10 @@ const LanguageDropdown = ({ state, actions }) => {
       <MenuButton
         onClick={handleMenuOpen}
       >
-        <img src={getFlag()} />
+        <img 
+          src={getFlag()} 
+          style={{ height: '24px', border: 'solid #FFF 3px', borderRadius: '100%' }}
+        />
         <p style={{ fontSize: '14px' }} >{ languages.find(lang => lang.iso639 === currentLanguage).label }</p>
         <ArrowDropDown fill={'#5C5F62'} />
       </MenuButton>

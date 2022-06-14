@@ -13,7 +13,7 @@ const optionsFamilyType = [
     "Settled in the UK (also known as indefinite leave to enter or remain, or settled status)",
     "Refugee or person with humanitarian protection in the UK",
     "Person with pre-settled status under the EU Settlement Scheme in the UK",
-    "Non of the above"
+    "None of the above"
 ];
 
 const schema = {

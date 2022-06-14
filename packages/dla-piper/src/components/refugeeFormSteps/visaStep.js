@@ -7,7 +7,7 @@ import { StyledButton } from '../common';
 import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
 
-const optionsVisa = ["No, I don't have any visas for the UK", "Yes, I have a visa for the UK"];
+const optionsVisa = ["No, I don't have a visa", "Yes, I have a visa for the UK"];
 const optionsVisaType = ["Working visa", "Study visa", "Visitor visa", "Indefinite stay visa", "Transit through visa", "Permanent living visa", "Refugee visa", "Stateless person visa"];
 
 const schema = {
@@ -59,7 +59,7 @@ const VisaStep = ({ onNext, onPrevious }) => {
     }
 
     return (
-        <Step label="Do you have any existing visas for the UK?">
+        <Step label="Do you have an existing visa for the UK?">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <RadioButtonGroup options={optionsVisa}
                     name='have_visa'
