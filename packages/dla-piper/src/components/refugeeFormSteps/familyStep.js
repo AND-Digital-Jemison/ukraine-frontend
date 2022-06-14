@@ -25,7 +25,7 @@ const schema = {
 }
 
 const validationSchema = yup.object().shape({
-  family_member_in_uk: yup.string().required(''),
+  family_member_in_uk: yup.string().required('A selection is required'),
   best_describes_uk_family_member: yup.string().when(
     'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('Situation is required') }
   ),
