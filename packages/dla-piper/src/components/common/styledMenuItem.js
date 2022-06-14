@@ -1,4 +1,3 @@
-import { Padding } from '@mui/icons-material';
 import { MenuItem } from '@mui/material';
 
 const StyledMenuItem = ({ src, label, onClick }) => {
