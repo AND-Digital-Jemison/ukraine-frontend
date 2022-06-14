@@ -9,6 +9,7 @@ import relations from './relations';
 import TextArea from './textArea';
 import DateSelector from './dateSelector';
 import DatePicker from './datePicker';
+import HelperTextError from './helperTextError';
 
 export {
     RadioButtonGroup,
@@ -22,6 +23,7 @@ export {
     TextArea,
     DateSelector,
     DatePicker,
+    HelperTextError,
     
 };
 

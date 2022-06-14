@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
-import { Box, MenuItem, FormControl, Select, Typography } from "@mui/material";
+import { Box, MenuItem, Select } from "@mui/material";
 import { Label } from '../';
-import { useController, useWatch } from 'react-hook-form';
+import { useController } from 'react-hook-form';
+import HelperTextError from './helperTextError';
 
 const DropDownList = ({
   name,
@@ -14,12 +15,7 @@ const DropDownList = ({
   onChange: onChangeProp,
   ...props
 }) => {
-  const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
-
-  const selectValue = useWatch({
-    control,
-    name: name,
-  })
+  const { field: {onChange, ...fieldOther}, fieldState: { error } } = useController({ name, control, defaultValue, ...props });
 
   const handleChange = e => {
     onChange(e);
@@ -33,23 +29,27 @@ const DropDownList = ({
   return (
     <Box sx={{ width }}>
       <Label fontSize="14px">{ label }</Label>
-        <Select
-          id={`${label?.replace(/ /g, "-")}-select`}
-          name={name}
-          displayEmpty
-          onChange={handleChange}
-          {...fieldOther}
-          sx={{
-            width
-          }}
-        >
-          {options.map((option) => (
-            <MenuItem key={option} 
-              value={option}>
-              {option}
-            </MenuItem>
-          ))}
-        </Select>
+      <Select
+        id={`${label?.replace(/ /g, "-")}-select`}
+        name={name}
+        displayEmpty
+        onChange={handleChange}
+        {...fieldOther}
+        sx={error
+          ? { width: width, border: '#D82C0D 1px solid', borderRadius: '4px', bgcolor: '#FFF4F4' }
+          : { width: width }
+        }
+      >
+        {options.map((option) => (
+          <MenuItem key={option.value} 
+            value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </Select>
+      { error &&
+        <HelperTextError message={error?.message} />
+      }
     </Box>
   );
 };

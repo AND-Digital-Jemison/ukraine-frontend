@@ -26,6 +26,16 @@ const settings = {
               type: "refugee-form",
               endpoint: "refugee-form",
               archive: "/refugee-form"
+            },
+            {
+              type: "confirmation",
+              endpoint: "confirmation",
+              archive: "/confirmation"
+            },
+            {
+              type: "volunteer",
+              endpoint: "volunteer",
+              archive: "/volunteer"
             }
           ]
         }

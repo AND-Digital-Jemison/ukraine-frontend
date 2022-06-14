@@ -4,30 +4,42 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { useEffect, useMemo } from 'react';
 import { Box } from '@mui/material';
 import { StyledButton } from '../common';
+import { useYupResolver } from "../../hooks";
+import * as yup from 'yup';
 
-const optionsVisa = ["No, I don't have any visas for the UK", "Yes, I have a visa for the UK"];
+const optionsVisa = ["No, I don't have a visa", "Yes, I have a visa for the UK"];
 const optionsVisaType = ["Working visa", "Study visa", "Visitor visa", "Indefinite stay visa", "Transit through visa", "Permanent living visa", "Refugee visa", "Stateless person visa"];
 
 const schema = {
-    hasVisa: '',
-    visaType: '',
+    have_visa: optionsVisa[0],
+    visa_type: '',
 }
+
+const validationSchema = yup.object().shape({
+    have_visa: yup.string().required(''),
+    visa_type: yup.string().when(
+        'have_visa', {is:optionsVisa[1], then: yup.string().required('Please select a visa type')}
+    ),
+})
 
 const VisaStep = ({ onNext, onPrevious }) => {
 
     const [value, setValue] = useSessionStorage('au_visa_step', schema);
-    const { control, reset, handleSubmit } = useForm({
+    const resolver = useYupResolver(validationSchema);
+    const { control, reset, handleSubmit, formState: { errors } } = useForm({
+        resolver,
         defaultValues: useMemo(() => {
             return value;
         }, [value])
     })
+
     useEffect(() => {
         reset(value)
     }, [value])
 
     const hasVisa = useWatch({ 
         control, 
-        name: 'hasVisa' 
+        name: 'have_visa' 
     });
 
     const onSubmit = data => {
@@ -47,16 +59,16 @@ const VisaStep = ({ onNext, onPrevious }) => {
     }
 
     return (
-        <Step label="Do you have any existing visas for the UK?">
+        <Step label="Do you have an existing visa for the UK?">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <RadioButtonGroup options={optionsVisa}
-                    name='hasVisa'
+                    name='have_visa'
                     control={control} />
                 <br />
                 {hasVisa === optionsVisa[1] &&
                     <RadioButtonGroup label="Which visa do you have?"
                         options={optionsVisaType}
-                        name='visaType'
+                        name='visa_type'
                         control={control} />
                 }
 

@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import generateComponentId from "./generateComponentId";
 import { useController } from 'react-hook-form';
+import HelperTextError from './helperTextError';
 
 const normaliseLabel = (label) => {
   return (
@@ -16,24 +17,23 @@ const normaliseLabel = (label) => {
 
 const RadioButtonGroup = ({ name, control, defaultValue, label, options = [], ...props}) => {
   
-  const { field: {onChange, ...fieldOther}, fieldState } = useController({ name, control, defaultValue, ...props });
-
-  // const handleChange = (event) => {
-  //   if (!onChange) return;
-  //   onChange(event.target.value);
-  // };
+  const { field: {onChange, ...fieldOther}, fieldState: { error } } = useController({ name, control, defaultValue, ...props });
   
   return (
     <FormControl>
       {label &&
-        <Typography
+        (<Typography
           sx={{
             fontWeight: "bold",
             color: "textColor.main",
           }}
         >
           {normaliseLabel(label)}
-        </Typography>}
+        </Typography>)
+      }
+      { error &&
+        <HelperTextError message={error.message} />
+      }
       <RadioGroup
         id={generateComponentId(label, "radio-buttons-group")}
         name={name}
