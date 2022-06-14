@@ -46,7 +46,7 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
   // redirect the user if the submit button has been pressed and the form is valid
   useEffect(() => {
     if (formSubmitted && !errors.additional_risks) {
-      window.location.href = '/confirmation/en';
+      // window.location.href = '/confirmation/en';
       return;
     }
     setFormSubmitted(false);
