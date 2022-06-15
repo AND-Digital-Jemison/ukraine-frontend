@@ -16,7 +16,7 @@ import * as yup from 'yup';
 const schema = {
   firstname: '',
   lastname: '',
-  date_of_birth: format(toDate(Date.now()), 'yyyy/MM/dd'),
+  date_of_birth: null,
   email: '',
 }
 
