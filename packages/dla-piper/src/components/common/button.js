@@ -3,7 +3,7 @@ import { Button } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
 
-const StyledButton = ({ color, fontWeight, fontSize, width, minHeight, label, onClick, variant, submit }) => {
+const StyledButton = ({ margin, color, fontWeight, fontSize, width, minHeight, label, onClick, variant, submit }) => {
     const defaultTheme = createTheme(theme);
     const handleClick = () => {
         if (!onClick) {
@@ -23,6 +23,7 @@ const StyledButton = ({ color, fontWeight, fontSize, width, minHeight, label, on
                     fontSize: fontSize ? fontSize : "15px",
                     minHeight: minHeight ? minHeight : "44px",
                     textAlign: "center",
+                    margin: margin ? margin : ''
                 }}
                 onClick={handleClick}
                 disableRipple
