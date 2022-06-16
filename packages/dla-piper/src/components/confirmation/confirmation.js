@@ -63,7 +63,7 @@ const Confirmation = ({ state, libraries }) => {
         <Typography sx={{fontWeight: 600,}}>{confirmDataTitle}</Typography>
         <ContentBlockWrapper>
           <Html2React html={confirmDataInfo}/>
-          <Link link={comfirmGoToHomeLink} style={{ textDecoration: "none", marginTop: "50" }}>
+          <Link link={comfirmGoToHomeLink} style={{ textDecoration: "none" }}>
               <StyledButton
                 color="buttonColor"
                 variant="outlined"
