@@ -26,12 +26,12 @@ export const ContentBlockWrapper = styled.div`
   h6 {
     color: #333333;
     margin: 5px 0;
-    line-height: 1.2em;
+    line-height: 1.6em;
   }
   p {
     color: #444444;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 26px;
   }
   a {
     color: #2c6ecb;
