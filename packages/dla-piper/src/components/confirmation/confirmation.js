@@ -1,12 +1,13 @@
 import { connect } from 'frontity';
+import Link from "@frontity/components/link";
 import {
   MaxRestraintWrapper,
   PageHeader, 
   ContentBlockWrapper,
   NotificationBlock,
+  StyledButton
 } from '../common';
 import { Box, Typography, styled } from '@mui/material';
-import { CheckCircleOutline } from '@mui/icons-material';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const Confirmation = ({ state, libraries }) => {
@@ -18,6 +19,8 @@ const Confirmation = ({ state, libraries }) => {
     confirmNextInfo,
     confirmDataTitle,
     confirmDataInfo,
+    comfirmGoToHomeLink,
+    comfirmGoToHomeLabel
   } = confirmation.acf;
 
   const Html2React = libraries.html2react.Component;
@@ -60,6 +63,14 @@ const Confirmation = ({ state, libraries }) => {
         <Typography sx={{fontWeight: 600,}}>{confirmDataTitle}</Typography>
         <ContentBlockWrapper>
           <Html2React html={confirmDataInfo}/>
+          <Link link={comfirmGoToHomeLink} style={{ textDecoration: "none", marginTop: "50" }}>
+              <StyledButton
+                color="buttonColor"
+                variant="outlined"
+                label={comfirmGoToHomeLabel}
+                margin="25px 0"
+              />
+            </Link>
         </ContentBlockWrapper>
       </MaxRestraintWrapper>
     </>
