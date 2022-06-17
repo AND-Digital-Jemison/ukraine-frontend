@@ -42,4 +42,12 @@ export const ContentBlockWrapper = styled.div`
     line-height: 20px;
     content: " ";
   }
+  ul {
+    margin-left: 25px;
+    margin-bottom: 20px;
+    color: #444444;
+  }
+  li {
+    padding: 2px;
+  }
 `;
