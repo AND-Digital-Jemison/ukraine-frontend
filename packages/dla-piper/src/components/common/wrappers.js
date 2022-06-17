@@ -26,12 +26,12 @@ export const ContentBlockWrapper = styled.div`
   h6 {
     color: #333333;
     margin: 5px 0;
-    line-height: 1.2em;
+    line-height: 1.6em;
   }
   p {
     color: #444444;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 16px;
+    line-height: 26px;
   }
   a {
     color: #2c6ecb;
@@ -41,5 +41,13 @@ export const ContentBlockWrapper = styled.div`
     display: block;
     line-height: 20px;
     content: " ";
+  }
+  ul {
+    margin-left: 25px;
+    margin-bottom: 20px;
+    color: #444444;
+  }
+  li {
+    padding: 2px;
   }
 `;

@@ -1,20 +1,31 @@
-import { connect, Global, css, styled } from "frontity";
+import { connect, Global, css, styled, Head } from "frontity";
 import Switch from "@frontity/components/switch";
-import { List, Post, Page, Menu, Home, RefugeeForm, Confirmation, Volunteer } from "..";
+import {
+  List,
+  Post,
+  Page,
+  Menu,
+  Home,
+  RefugeeForm,
+  Confirmation,
+  Volunteer,
+} from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
 
 const Root = ({ state }) => {
   const { source, router } = state;
   const data = source.get(router.link);
-
   const defaultTheme = createTheme(theme);
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Global styles={globalStyles} />
       <header>
-          <Menu />
+        <Head>
+          <title>{state.theme.currentTitle}</title>
+        </Head>
+        <Menu />
       </header>
       <Main>
         <Switch>

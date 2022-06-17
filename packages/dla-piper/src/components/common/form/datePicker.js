@@ -23,6 +23,8 @@ const DatePicker = ({ name, control, label, width='100%', defaultValue, ...props
           views={['year', 'month', 'day']}
           disableFuture
           onChange={onChange}
+          maxDate={new Date()}
+          inputFormat="dd/MM/yyyy"
           {...fieldOther}
           renderInput={(params) =>(
             <TextField 

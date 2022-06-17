@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "frontity";
 import { Typography, Box, Tabs, Tab } from "@mui/material";
 import Link from "@frontity/components/link";
 import HeaderShape from "./headerShape";
 import { StyledButton, InfoContainer, InfoItem, MaxRestraintWrapper, CtaHeader, ContentBlockWrapper} from "../common";
 
-const Home = ({ state, libraries }) => {
+const Home = ({ state, libraries, actions }) => {
   const data = state.source.get(state.router.link);
   const home = state.source[data.type][data.id];
+  const setCurrentTitle = actions.theme.setCurrentTitle;
   const Html2React = libraries.html2react.Component;
 
   const {
@@ -19,10 +20,16 @@ const Home = ({ state, libraries }) => {
     ctaRefugeeLink,
     ctaVolunteerLabel,
     ctaVolunteerLink,
+    nonUkTabTitle,
     nonUkTabContent,
+    alreadyInUKTabTitle,
     alreadyInUKTabContent,
+    pageTitle
   } = home.acf;
 
+  useEffect(() => {
+    setCurrentTitle(pageTitle);
+  }, [pageTitle])
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0);
   const handleTabChange = (event, newValue) => {
@@ -99,8 +106,8 @@ const Home = ({ state, libraries }) => {
             "& .Mui-selected": { color: "#444444 !important" },
           }}
         >
-          <Tab label="I'm not in the UK" {...a11yProps(0)} disableRipple />
-          <Tab label="I'm already in the UK" {...a11yProps(0)} disableRipple />
+          <Tab label={nonUkTabTitle} {...a11yProps(0)} disableRipple />
+          <Tab label={alreadyInUKTabTitle} {...a11yProps(0)} disableRipple />
         </Tabs>
 
         <TabPanel value={currentTabIndex} index={0}>

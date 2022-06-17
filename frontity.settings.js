@@ -1,12 +1,5 @@
 const settings = {
   "name": "wordpress-react",
-  "state": {
-    "frontity": {
-      "url": "https://test.frontity.org",
-      "title": "Test Frontity Blog",
-      "description": "WordPress installation for Frontity development"
-    }
-  },
   "packages": [
     {
       "name": "dla-piper",
@@ -16,6 +9,8 @@ const settings = {
       "state": {
         "source": {
           "url": "https://advice-ukraine.co.uk/",
+          "title": "Ukraine Advice Project UK",
+          "description": "Free UK immigration and asylum advice for Ukrainians and their families from qualified lawyers",
           "postTypes": [
             {
               type: "home",

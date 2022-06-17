@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Fade, Menu, Box, Typography } from "@mui/material";
-import StyledMenuItem from './styledMenuItem';
-import { styled } from '@mui/system';
-import { ArrowDropDown } from "@mui/icons-material"
-import { connect } from 'frontity';
-import en from 'flag-icons/flags/1x1/gb.svg'; 
-import pl from 'flag-icons/flags/1x1/pl.svg'; 
-import ru from 'flag-icons/flags/1x1/ru.svg'; 
-import uk from 'flag-icons/flags/1x1/ua.svg'; 
+import StyledMenuItem from "./styledMenuItem";
+import { styled } from "@mui/system";
+import { ArrowDropDown } from "@mui/icons-material";
+import { connect } from "frontity";
+import en from "flag-icons/flags/1x1/gb.svg";
+import pl from "flag-icons/flags/1x1/pl.svg";
+import ru from "flag-icons/flags/1x1/ru.svg";
+import uk from "flag-icons/flags/1x1/ua.svg";
 
 const languages = [
   { src: en, label: "ENG", iso639: "en" },
@@ -17,9 +17,26 @@ const languages = [
 ];
 
 const LanguageDropdown = ({ state, actions }) => {
+  const { source, router, theme } = state;
+  const data = source.get(router.link);
   const [anchorEl, setAnchorEl] = useState(null);
-  const currentLanguage = state.theme.currentLanguage;
+  const currentLanguage = theme.currentLanguage;
   const setCurrentLanguage = actions.theme.setLanguage;
+
+  useEffect(() => {
+    if (data.isHome) {
+      const uriLanguage = languages.find((language) =>
+        router.link.includes(language.iso639)
+      );
+      setCurrentLanguage(uriLanguage?.iso639 ?? 'en');
+    }
+  });
+
+  const redirectUser = (selectedLanguage) => {
+    if (data.isHome) {
+      actions.router.set(`/home/${selectedLanguage}`);
+    }
+  };
 
   const open = Boolean(anchorEl);
   const handleMenuOpen = (event) => {
@@ -30,26 +47,34 @@ const LanguageDropdown = ({ state, actions }) => {
     setAnchorEl(null);
   };
 
-  const getFlag = () => languages.find((language) => language.iso639 === currentLanguage).src;
-  
+  const getFlag = () =>
+    languages.find((language) => language.iso639 === currentLanguage)?.src;
+
   const handleLanguageChange = (iso639) => {
-    setCurrentLanguage(iso639);  // setCurrentLanguage is defined in the root index.js of this /src (built into frontity)
+    setCurrentLanguage(iso639); // setCurrentLanguage is defined in the root index.js of this /src (built into frontity)
     handleMenuClose();
+    redirectUser(iso639);
   };
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-      <MenuButton
-        onClick={handleMenuOpen}
-      >
-        <img 
-          src={getFlag()} 
-          style={{ height: '24px', border: 'solid #FFF 3px', borderRadius: '100%' }}
+    <Box
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+    >
+      <MenuButton onClick={handleMenuOpen}>
+        <img
+          src={getFlag()}
+          style={{
+            height: "24px",
+            border: "solid #FFF 3px",
+            borderRadius: "100%",
+          }}
         />
-        <p style={{ fontSize: '14px' }} >{ languages.find(lang => lang.iso639 === currentLanguage).label }</p>
-        <ArrowDropDown fill={'#5C5F62'} />
+        <p style={{ fontSize: "14px" }}>
+          {languages.find((lang) => lang.iso639 === currentLanguage)?.label}
+        </p>
+        <ArrowDropDown fill={"#5C5F62"} />
       </MenuButton>
-      
+
       <Menu
         id="fade-menu"
         MenuListProps={{
@@ -60,23 +85,34 @@ const LanguageDropdown = ({ state, actions }) => {
         onClose={handleMenuClose}
         TransitionComponent={Fade}
         sx={{
-          '& .MuiPaper-root': {
-            borderRadius: '8px',
-            border: 'none',
-            padding: '0 8px',
-            minWidth: '166px'
+          "& .MuiPaper-root": {
+            borderRadius: "8px",
+            border: "none",
+            padding: "0 8px",
+            minWidth: "166px",
           },
         }}
       >
-        <Typography 
-          variant='p'
-          sx={{ fontStyle: 'italic', color: '#6D7175', fontSize: '12px', margin: '8px 2px', textTransform: 'uppercase', fontWeight: 400 }}
+        <Typography
+          variant="p"
+          sx={{
+            fontStyle: "italic",
+            color: "#6D7175",
+            fontSize: "12px",
+            margin: "8px 2px",
+            textTransform: "uppercase",
+            fontWeight: 400,
+          }}
         >
           Select a language
         </Typography>
         {languages.map((language) => {
           return (
-            <StyledMenuItem {...language} onClick={() => handleLanguageChange(language.iso639)} key={language.iso639} />
+            <StyledMenuItem
+              {...language}
+              onClick={() => handleLanguageChange(language.iso639)}
+              key={language.iso639}
+            />
           );
         })}
       </Menu>
@@ -84,19 +120,17 @@ const LanguageDropdown = ({ state, actions }) => {
   );
 };
 
-const MenuButton = styled('div')({
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  cursor: 'pointer',
-  flexDirection: 'row',
+const MenuButton = styled("div")({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  cursor: "pointer",
+  flexDirection: "row",
   color: `#444444`,
-  padding: '8px',
-  
-  '& p': {
-    padding: '0 0 0 8px',
-  }
-})
-;
+  padding: "8px",
 
+  "& p": {
+    padding: "0 0 0 8px",
+  },
+});
 export default connect(LanguageDropdown);
