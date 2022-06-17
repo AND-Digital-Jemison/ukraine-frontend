@@ -7,13 +7,13 @@ import { connect } from "frontity";
 import en from "flag-icons/flags/1x1/gb.svg";
 import pl from "flag-icons/flags/1x1/pl.svg";
 import ru from "flag-icons/flags/1x1/ru.svg";
-import ua from "flag-icons/flags/1x1/ua.svg";
+import uk from "flag-icons/flags/1x1/ua.svg";
 
 const languages = [
   { src: en, label: "ENG", iso639: "en" },
   { src: pl, label: "POL", iso639: "pl" },
   { src: ru, label: "RUS", iso639: "ru" },
-  { src: ua, label: "UKR", iso639: "ua" },
+  { src: uk, label: "UKR", iso639: "uk" },
 ];
 
 const LanguageDropdown = ({ state, actions }) => {
