@@ -3,7 +3,9 @@ import Link from "@frontity/components/link";
 import { Box, Typography, Toolbar, AppBar } from "@mui/material";
 import { LanguageDropdown } from "../common/index";
 
-const Menu = () => {
+const Menu = ({ state }) => {
+  const currentLanguage = state.theme.currentLanguage;
+
   return (
     <AppBar
       position="static"
@@ -15,7 +17,7 @@ const Menu = () => {
     >
       <Toolbar variant="dense" sx={{ flex: 1 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", flex: 1 }}>
-          <Link link="/home/en" style={{ textDecoration: "none", display: 'flex', alignItems: 'center' }}>
+          <Link link={`/home/${currentLanguage}`} style={{ textDecoration: "none", display: 'flex', alignItems: 'center' }}>
             <Typography
               sx={{
                 fontSize: "14px",
