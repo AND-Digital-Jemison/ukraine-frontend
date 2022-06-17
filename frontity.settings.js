@@ -8,7 +8,7 @@ const settings = {
       "name": "@frontity/wp-source",
       "state": {
         "source": {
-          "url": "https://advice-ukraine.co.uk/",
+          "url": "https://adviceukraine.wpcomstaging.com/",
           "title": "Ukraine Advice Project UK",
           "description": "Free UK immigration and asylum advice for Ukrainians and their families from qualified lawyers",
           "postTypes": [
