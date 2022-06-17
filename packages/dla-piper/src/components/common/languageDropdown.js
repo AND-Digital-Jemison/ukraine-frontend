@@ -24,10 +24,12 @@ const LanguageDropdown = ({ state, actions }) => {
   const setCurrentLanguage = actions.theme.setLanguage;
 
   useEffect(() => {
-    const uriLanguage = languages.find((language) =>
-      router.link.includes(language.iso639)
-    );
-    setCurrentLanguage(uriLanguage?.iso639);
+    if (data.isHome) {
+      const uriLanguage = languages.find((language) =>
+        router.link.includes(language.iso639)
+      );
+      setCurrentLanguage(uriLanguage?.iso639 ?? 'en');
+    }
   });
 
   const redirectUser = (selectedLanguage) => {

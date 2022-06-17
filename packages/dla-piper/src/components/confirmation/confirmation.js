@@ -1,18 +1,20 @@
-import { connect } from 'frontity';
+import { connect } from "frontity";
 import Link from "@frontity/components/link";
 import {
   MaxRestraintWrapper,
-  PageHeader, 
+  PageHeader,
   ContentBlockWrapper,
   NotificationBlock,
-  StyledButton
-} from '../common';
-import { Box, Typography, styled } from '@mui/material';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
+  StyledButton,
+} from "../common";
+import { Box, Typography, styled } from "@mui/material";
+import { useSessionStorage } from "../../hooks/useSessionStorage";
 
 const Confirmation = ({ state, libraries }) => {
   const data = state.source.get(state.router.link);
   const confirmation = state.source[data.type][data.id];
+  const currentLanguage = state.theme.currentLanguage;
+
   const {
     confirmTitle,
     confirmNextTitle,
@@ -20,7 +22,7 @@ const Confirmation = ({ state, libraries }) => {
     confirmDataTitle,
     confirmDataInfo,
     comfirmGoToHomeLink,
-    comfirmGoToHomeLabel
+    comfirmGoToHomeLabel,
   } = confirmation.acf;
 
   const Html2React = libraries.html2react.Component;
@@ -42,39 +44,42 @@ const Confirmation = ({ state, libraries }) => {
           >
             {`${refugee.firstname}${confirmTitle}`}
           </Typography>
-          <NotificationBlock 
-            message={'Your request has been received.'}
-          />
+          <NotificationBlock message={"Your request has been received."} />
         </MaxRestraintWrapper>
       </PageHeader>
       <MaxRestraintWrapper>
-        <Box sx={{
-          padding: '20px',
-          bgcolor: '#F8F8F8',
-          marginBottom: '20px',
-        }} >
-          <Typography sx={{fontWeight: 600,}}>{confirmNextTitle}</Typography>
+        <Box
+          sx={{
+            padding: "20px",
+            bgcolor: "#F8F8F8",
+            marginBottom: "20px",
+          }}
+        >
+          <Typography sx={{ fontWeight: 600 }}>{confirmNextTitle}</Typography>
           <ContentBlockWrapper>
-            <Html2React html={confirmNextInfo}/>
+            <Html2React html={confirmNextInfo} />
           </ContentBlockWrapper>
         </Box>
       </MaxRestraintWrapper>
       <MaxRestraintWrapper>
-        <Typography sx={{fontWeight: 600,}}>{confirmDataTitle}</Typography>
+        <Typography sx={{ fontWeight: 600 }}>{confirmDataTitle}</Typography>
         <ContentBlockWrapper>
-          <Html2React html={confirmDataInfo}/>
-          <Link link={comfirmGoToHomeLink} style={{ textDecoration: "none" }}>
-              <StyledButton
-                color="buttonColor"
-                variant="outlined"
-                label={comfirmGoToHomeLabel}
-                margin="25px 0"
-              />
-            </Link>
+          <Html2React html={confirmDataInfo} />
+          <Link
+            link={`${comfirmGoToHomeLink}/${currentLanguage}`}
+            style={{ textDecoration: "none" }}
+          >
+            <StyledButton
+              color="buttonColor"
+              variant="outlined"
+              label={comfirmGoToHomeLabel}
+              margin="25px 0"
+            />
+          </Link>
         </ContentBlockWrapper>
       </MaxRestraintWrapper>
     </>
-  )
-}
+  );
+};
 
 export default connect(Confirmation);

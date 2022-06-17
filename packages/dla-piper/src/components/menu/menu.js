@@ -17,7 +17,7 @@ const Menu = ({ state }) => {
     >
       <Toolbar variant="dense" sx={{ flex: 1 }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", flex: 1 }}>
-          <Link link={`/home/${currentLanguage}`} style={{ textDecoration: "none", display: 'flex', alignItems: 'center' }}>
+          <Link link={`/home/${currentLanguage ?? 'en'}`} style={{ textDecoration: "none", display: 'flex', alignItems: 'center' }}>
             <Typography
               sx={{
                 fontSize: "14px",
