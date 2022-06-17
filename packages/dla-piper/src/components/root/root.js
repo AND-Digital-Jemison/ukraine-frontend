@@ -23,7 +23,7 @@ const Root = ({ state }) => {
       <Global styles={globalStyles} />
       <header>
         <Head>
-          <title>{state.source.title}</title>
+          <title>{state.theme.currentTitle}</title>
         </Head>
         <Menu />
       </header>
