@@ -16,7 +16,7 @@ const validationSchema = yup.object().shape({
   additional_risks: yup.string().max(5000, 'Please enter a maximum of 5000 characters'),
 })
 
-const AdditionalStep = ({ onNext, onPrevious }) => {
+const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -78,6 +78,7 @@ const AdditionalStep = ({ onNext, onPrevious }) => {
             label='Submit'
             width={'115px'}
             submit
+            disabled={isSubmitting}
           />
         </Box>
       </form>

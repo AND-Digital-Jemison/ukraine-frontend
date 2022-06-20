@@ -52,7 +52,12 @@ const RefugeeForm = ({ state, actions }) => {
     });
   };
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmitForm = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
     const travel = JSON.parse(sessionStorage.getItem('au_travel_step'));
     const visa = JSON.parse(sessionStorage.getItem('au_visa_step'));
@@ -114,6 +119,7 @@ const RefugeeForm = ({ state, actions }) => {
       console.error(error);
       setIsRequestError(true);
     }
+    setIsSubmitting(false);
   };
 
   return (
@@ -189,6 +195,7 @@ const RefugeeForm = ({ state, actions }) => {
             <AdditionalStep
               onNext={handleSubmitForm}
               onPrevious={handlePreviousStep}
+              isSubmitting={isSubmitting}
             />,
           ]}
         />
