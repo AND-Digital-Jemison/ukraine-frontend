@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect, Global, css, styled, Head } from "frontity";
 import Switch from "@frontity/components/switch";
 import {
@@ -13,10 +14,19 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
 
-const Root = ({ state }) => {
+const root = '/';
+
+const Root = ({ state, actions }) => {
   const { source, router } = state;
   const data = source.get(router.link);
   const defaultTheme = createTheme(theme);
+  const currentLanguage = state.theme.currentLanguage;
+
+  useEffect(() => {
+    if(router.link === root) {
+      actions.router.set(`/home/${currentLanguage}`);
+    }
+  }, [currentLanguage])
 
   return (
     <ThemeProvider theme={defaultTheme}>
