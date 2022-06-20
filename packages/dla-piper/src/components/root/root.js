@@ -21,7 +21,6 @@ const Root = ({ state, actions }) => {
   const data = source.get(router.link);
   const defaultTheme = createTheme(theme);
   const currentLanguage = state.theme.currentLanguage;
-  console.log('router.link', router)
 
   useEffect(() => {
     if(router.link === root) {
