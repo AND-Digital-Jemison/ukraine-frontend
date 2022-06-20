@@ -38,8 +38,6 @@ const TravelStep = ({ onNext, onPrevious }) => {
         }
     });
 
-    console.log('errors', errors)
-
     const { fields, append, remove, update } = useFieldArray({
         control,
         name: 'family_members',

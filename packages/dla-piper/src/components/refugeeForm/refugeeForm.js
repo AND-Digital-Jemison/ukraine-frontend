@@ -18,7 +18,7 @@ import {
 } from '../refugeeFormSteps';
 import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
 
-const RefugeeForm = ({ state }) => {
+const RefugeeForm = ({ state, actions }) => {
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
@@ -103,9 +103,16 @@ const RefugeeForm = ({ state }) => {
         }
       );
       console.log('response', response);
+
+      if (response.status === 200) {
+        actions.router.set('/confirmation/en/');
+      } else {
+        throw new Error('Something went wrong submitting the data')
+      }
+
     } catch (error) {
-      setIsRequestError(true);
       console.error(error);
+      setIsRequestError(true);
     }
   };
 
