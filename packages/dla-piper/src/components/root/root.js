@@ -14,7 +14,6 @@ import {
 } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
-import { useEffect } from 'react';
 
 const Root = ({ state, actions }) => {
   const { source, router } = state;
