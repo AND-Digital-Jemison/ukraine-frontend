@@ -25,7 +25,7 @@ const InputField = ({ name, control, defaultValue, label = "No Label", width = 3
         {...field}
         sx={error
           ? { width: width, border: '#D82C0D 1px solid', borderRadius: '4px', bgcolor: '#FFF4F4' }
-          : { width: width }
+          : { width: width, bgcolor: '#FFFFFF' }
         }
       />
       { error &&

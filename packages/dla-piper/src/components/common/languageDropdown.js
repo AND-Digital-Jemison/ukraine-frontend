@@ -18,25 +18,24 @@ const languages = [
 
 const LanguageDropdown = ({ state, actions }) => {
   const { source, router, theme } = state;
-  const data = source.get(router.link);
   const [anchorEl, setAnchorEl] = useState(null);
   const currentLanguage = theme.currentLanguage;
   const setCurrentLanguage = actions.theme.setLanguage;
 
   useEffect(() => {
-    if (data.isHome) {
-      const uriLanguage = languages.find((language) =>
-        router.link.includes(language.iso639)
-      );
-      setCurrentLanguage(uriLanguage?.iso639 ?? 'en');
-    }
-  });
+    const link = router.link;
 
-  const redirectUser = (selectedLanguage) => {
-    if (data.isHome) {
-      actions.router.set(`/home/${selectedLanguage}`);
+    if (link.match('/home/[a-z]{2}')) {
+      const lang = link.split('/')[2];
+      if (!languages.map(l => l.iso639).includes(lang)) {
+        return;
+      }
+      if (lang !== currentLanguage) {
+        actions.router.set(`/home/${currentLanguage}`);
+      }
     }
-  };
+
+  }, [currentLanguage]);
 
   const open = Boolean(anchorEl);
   const handleMenuOpen = (event) => {
@@ -53,7 +52,7 @@ const LanguageDropdown = ({ state, actions }) => {
   const handleLanguageChange = (iso639) => {
     setCurrentLanguage(iso639); // setCurrentLanguage is defined in the root index.js of this /src (built into frontity)
     handleMenuClose();
-    redirectUser(iso639);
+    sessionStorage.setItem('client_lang', iso639);
   };
 
   return (

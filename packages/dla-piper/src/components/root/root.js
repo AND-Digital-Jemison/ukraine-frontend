@@ -10,11 +10,10 @@ import {
   RefugeeForm,
   Confirmation,
   Volunteer,
+  NotFound
 } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
-
-const root = '/';
 
 const Root = ({ state, actions }) => {
   const { source, router } = state;
@@ -27,6 +26,19 @@ const Root = ({ state, actions }) => {
       actions.router.set(`/home/${currentLanguage}`);
     }
   }, [currentLanguage])
+
+  const checkForClientLanguage = () => {
+    const excisingClientLang = sessionStorage.getItem('client_lang');
+    
+    if (excisingClientLang) {
+      actions.theme.setLanguage(excisingClientLang);
+    }
+  };
+
+  useEffect(() => {
+    checkForClientLanguage();
+
+  }, [ ])
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -46,6 +58,7 @@ const Root = ({ state, actions }) => {
           <RefugeeForm when={data.isRefugeeForm} />
           <Confirmation when={data.isConfirmation} />
           <Volunteer when={data.isVolunteer} />
+          <NotFound when={data.isError} />
         </Switch>
       </Main>
     </ThemeProvider>
