@@ -7,36 +7,39 @@ import { useForm, useWatch } from 'react-hook-form';
 import { useYupResolver } from '../../hooks';
 import * as yup from 'yup';
 
-const optionsFamily = ["No, I don't have a family member in the UK", "Yes, I have a family member in the UK"];
+export const optionsFamily = [
+  { label: "No, I don't have a family member in the UK", value: "no" }, 
+  { label: "Yes, I have a family member in the UK", value: "yes" }
+];
 const optionsFamilyType = [
-    "British citizen",
-    "Settled in the UK (also known as indefinite leave to enter or remain, or settled status)",
-    "Refugee or person with humanitarian protection in the UK",
-    "Person with pre-settled status under the EU Settlement Scheme in the UK",
-    "None of the above"
+   { label: "British citizen", value: 'british' },
+   { label: "Settled in the UK (also known as indefinite leave to enter or remain, or settled status)", value: 'settled'},
+   { label: "Refugee or person with humanitarian protection in the UK", value: 'refugee'},
+   { label: "Person with pre-settled status under the EU Settlement Scheme in the UK", value: 'pre_settled'},
+   { label: "None of the above", value: 'none'}
 ];
 
 const schema = {
   family_member_in_uk: '',
-  best_describes_uk_family_member: optionsFamilyType[0],
+  best_describes_uk_family_member: '',
   uk_family_first_name: '',
   uk_family_last_name: '',
   uk_family_relation_to_you: '',
 }
 
 const validationSchema = yup.object().shape({
-  family_member_in_uk: yup.string().required('A selection is required'),
+  family_member_in_uk: yup.string().required('Please select an answer'),
   best_describes_uk_family_member: yup.string().when(
-    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('Situation is required') }
+    'family_member_in_uk', { is: optionsFamily[1].value, then: yup.string().required('Please select an answer') }
   ),
   uk_family_first_name: yup.string().when(
-    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().max(64, 'cannot excide 64 characters').required('First name is required') }
+    'family_member_in_uk', { is: optionsFamily[1].value, then: yup.string().max(64, 'cannot excide 64 characters').required('First name is required') }
   ),
   uk_family_last_name: yup.string().when(
-    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().max(64, 'cannot excide 64 characters').required('Last name is required') }
+    'family_member_in_uk', { is: optionsFamily[1].value, then: yup.string().max(64, 'cannot excide 64 characters').required('Last name is required') }
   ),
   uk_family_relation_to_you: yup.string().when(
-    'family_member_in_uk', { is: optionsFamily[1], then: yup.string().required('Relation is required') } 
+    'family_member_in_uk', { is: optionsFamily[1].value, then: yup.string().required('Relation is required') } 
   ),
 })
 
@@ -85,7 +88,7 @@ const FamilyStep = ({ onNext, onPrevious }) => {
           name='family_member_in_uk'
           control={control} />
         <br />
-        {hasFamily === optionsFamily[1] &&
+        {hasFamily === optionsFamily[1].value &&
           <>
             <Box>
               <RadioButtonGroup

@@ -7,20 +7,23 @@ import { StyledButton } from '../common';
 import { useYupResolver } from '../../hooks';
 import * as yup from 'yup';
 
-const options = ["Just me", "Me and my family"];
+const options = [
+    { label: "Just me", value: 'alone' }, 
+    { label: "Me and my family", value: 'with_family' }
+];
 
 const schema = {
-    traveling_with: options[0],
+    traveling_with: '',
     family_members: [],
 }
 
 const validationSchema = yup.object().shape({
-    traveling_with: yup.string().required(''),
+    traveling_with: yup.string().required('Please select an answer'),
     family_members: yup.array().of(yup.object().shape({
             relation: yup.string().required('Please select a relation'),
     })).when(
-        'traveling_with', {is:options[1], then: yup.array().min(1)}
-    )
+        'traveling_with', { is:options[1].value, then: yup.array().min(1, 'Must have at least one family member')
+    })
 });
 
 const TravelStep = ({ onNext, onPrevious }) => {
@@ -31,7 +34,7 @@ const TravelStep = ({ onNext, onPrevious }) => {
     const { control, handleSubmit, reset , formState: { errors } } = useForm({
         resolver,
         defaultValues: {
-            traveling_with: options[0],
+            traveling_with: '',
         }
     });
 
@@ -72,13 +75,14 @@ const TravelStep = ({ onNext, onPrevious }) => {
                         name='traveling_with'
                         control={control}
                     />
-                    {travelingWith === options[1] &&
+                    {travelingWith === options[1].value &&
                         <FamilyMemberSelector
                             control={control}
                             fields={fields}
                             append={append}
                             remove={remove}
                             update={update}
+                            error={errors['family_members']}
                         />
                     }
                 </Box>

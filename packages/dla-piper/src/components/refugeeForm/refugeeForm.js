@@ -1,26 +1,28 @@
-import { useEffect, useState } from "react";
-import { connect } from "frontity";
-import { Box, Typography } from "@mui/material";
+import { useState } from 'react';
+import { connect } from 'frontity';
+import { Box, Typography } from '@mui/material';
 import {
   InfoContainer,
   InfoItem,
   MaxRestraintWrapper,
   NotificationBlock,
   PageHeader,
-} from "../common";
-import { Stepper } from "../common/form";
-import { WhoAreYouStep, TravelStep, VisaStep, FamilyStep, AdditionalStep } from "../refugeeFormSteps";
-import { CheckCircleOutline } from '@mui/icons-material';
+} from '../common';
+import { Stepper } from '../common/form';
+import {
+  WhoAreYouStep,
+  TravelStep,
+  VisaStep,
+  FamilyStep,
+  AdditionalStep,
+} from '../refugeeFormSteps';
+import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
 
-const RefugeeForm = ({ state }) => {
+const RefugeeForm = ({ state, actions }) => {
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
-  const {
-    rfTitle,
-    rfDescription,
-    rfInfoTitle,
-    rfInfoListItems,
-  } = refugeeForm.acf;
+  const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
+    refugeeForm.acf;
 
   const [isRequestError, setIsRequestError] = useState(false);
 
@@ -32,31 +34,39 @@ const RefugeeForm = ({ state }) => {
     { step: 3 },
     { step: 4 },
     { step: 5 },
-  ]
+  ];
   const handleNextStep = () => {
-    setCurrentStep(step => {
+    setCurrentStep((step) => {
       if (step === formConfig.length - 1) {
         return step;
       }
       return step + 1;
-    })
-  }
+    });
+  };
   const handlePreviousStep = () => {
-    setCurrentStep(step => {
+    setCurrentStep((step) => {
       if (step === 0) {
         return step;
       }
       return step - 1;
-    })
-  }
+    });
+  };
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmitForm = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
     const travel = JSON.parse(sessionStorage.getItem('au_travel_step'));
     const visa = JSON.parse(sessionStorage.getItem('au_visa_step'));
+    const visaTypes = optionsVisaType.map(({ value }) =>
+      value === visa.visa_type ? { [value]: 'yes' } : { [value]: 'no' }
+    );
     const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
-    const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional_risks'));
-
+    const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional'));
+    console.log('additionalRisks', additionalRisks)
     const payload = {
       client: {
         ...whoAreYou,
@@ -64,61 +74,76 @@ const RefugeeForm = ({ state }) => {
       info: {
         // travel step
         traveling_with: travel.traveling_with,
-        family_members: travel.family_members.map(m => m.relation).join(', '),
-        // visa step - no idea why they did it like this
-        have_visa: visa.has_visa,
-        working_visa: visa.visa_type === 'working_visa' ? 'yes' : 'no',
-        study_visa: visa.visa_type === 'study_visa' ? 'yes' : 'no',
-        settlement_indefinite_visa: visa.visa_type === 'settlement_indefinite_visa' ? 'yes' : 'no',
-        visitor_visa: visa.visa_type === 'visitor_visa' ? 'yes' : 'no',
-        family_visa: visa.visa_type === 'family_visa' ? 'yes' : 'no',
-        refugee_visa: visa.visa_type === 'refugee_visa' ? 'yes' : 'no',
-        discretionary_leave_visa: visa.visa_type === 'discretionary_leave_visa' ? 'yes' : 'no',
-        permanent_living_visa: visa.visa_type === 'permanent_living_visa' ? 'yes' : 'no',
-        presettled_visa: visa.visa_type === 'presettled_visa' ? 'yes' : 'no',
-        british_citizenship_visa: visa.visa_type === 'british_citizenship_visa' ? 'yes' : 'no',
-        other_visa: visa.visa_type === 'other_visa' ? 'yes' : 'no',
+        family_members: travel.family_members.map((m) => m.relation).join(', '),
+        // visa step
+        have_visa: visa.have_visa,
+        ...Object.assign({}, ...visaTypes),
         // family step
-        family_member_in_uk: 'no',
-        best_describes_uk_family_member: 'british',
-        uk_family_first_name: 'text value',
-        uk_family_last_name: 'text value',
-        uk_family_email: 'text value',
-        uk_family_phone: 'text value',
-        uk_family_relation_to_you: 'mother',
+        family_member_in_uk:
+          familyInUk.family_member_in_uk === optionsFamily[0] ? 'no' : 'yes',
+        best_describes_uk_family_member:
+          familyInUk.best_describes_uk_family_member,
+        uk_family_first_name: familyInUk.uk_family_first_name,
+        uk_family_last_name: familyInUk.uk_family_last_name,
+        uk_family_last_name: familyInUk.uk_family_last_name,
+        uk_family_email: familyInUk?.uk_family_email ?? '', // TODO: do we need to collect this?
+        uk_family_phone: familyInUk?.uk_family_phone ?? '', // TODO: do we need to collect this?
+        uk_family_relation_to_you: familyInUk.uk_family_relation_to_you,
         // additional step
-        why_do_you_need_legal_assistance: 'join_family_or_friends',
-        additional_risks: 'text value'
+        additional_risks: additionalRisks.additional_risks,
+      },
+    };
+
+    console.log('payload:', payload);
+
+    try {
+      const response = await fetch(
+        'https://app.legalconnection.co/dlapiper/ukraine/create',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+      console.log('response', response);
+
+      if (response.status === 200) {
+        actions.router.set('/confirmation/en/');
+      } else {
+        throw new Error('Something went wrong submitting the data')
       }
 
+    } catch (error) {
+      console.error(error);
+      setIsRequestError(true);
     }
-    setIsRequestError(true);
-
-    console.log(payload);
-  }
+    setIsSubmitting(false);
+  };
 
   return (
     <>
       <PageHeader>
         <MaxRestraintWrapper>
           <Typography
-            variant="h1"
-            color="textColor.main"
+            variant='h1'
+            color='textColor.main'
             sx={{
               fontWeight: 600,
-              fontSize: "42px",
+              fontSize: '42px',
               fontFamily: "'Plus Jakarta Sans', sans-serif",
-              margin: "0 0 20px 0",
+              margin: '0 0 20px 0',
             }}
           >
             {rfTitle}
           </Typography>
           <Typography
             paragraph
-            color="textColor.main"
+            color='textColor.main'
             sx={{
               fontWeight: 400,
-              fontSize: "15px",
+              fontSize: '15px',
             }}
           >
             {rfDescription}
@@ -131,7 +156,7 @@ const RefugeeForm = ({ state }) => {
           <InfoContainer title={rfInfoTitle}>
             {rfInfoListItems.length > 0 &&
               rfInfoListItems
-                .split("<br />")
+                .split('<br />')
                 .map((item, index) => (
                   <InfoItem li={item} key={`rfLI-${index}`} />
                 ))}
@@ -139,7 +164,7 @@ const RefugeeForm = ({ state }) => {
         )}
       </MaxRestraintWrapper>
 
-      {isRequestError &&
+      {isRequestError && (
         <MaxRestraintWrapper>
           <Box sx={{ margin: '0 0 20px 0' }}>
             <NotificationBlock
@@ -148,17 +173,30 @@ const RefugeeForm = ({ state }) => {
             />
           </Box>
         </MaxRestraintWrapper>
-      }
+      )}
 
       <MaxRestraintWrapper>
         <Stepper
           currentStep={currentStep}
           steps={[
             <WhoAreYouStep onNext={handleNextStep} />,
-            <TravelStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
-            <VisaStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
-            <FamilyStep onNext={handleNextStep} onPrevious={handlePreviousStep} />,
-            <AdditionalStep onNext={handleSubmitForm} onPrevious={handlePreviousStep} />,
+            <TravelStep
+              onNext={handleNextStep}
+              onPrevious={handlePreviousStep}
+            />,
+            <VisaStep
+              onNext={handleNextStep}
+              onPrevious={handlePreviousStep}
+            />,
+            <FamilyStep
+              onNext={handleNextStep}
+              onPrevious={handlePreviousStep}
+            />,
+            <AdditionalStep
+              onNext={handleSubmitForm}
+              onPrevious={handlePreviousStep}
+              isSubmitting={isSubmitting}
+            />,
           ]}
         />
       </MaxRestraintWrapper>

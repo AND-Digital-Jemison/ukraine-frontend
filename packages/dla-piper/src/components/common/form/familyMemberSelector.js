@@ -1,8 +1,8 @@
 import { Box, Typography } from '@mui/material';
-import { DropDownList, relations } from '.';
+import { DropDownList, relations, HelperTextError } from '.';
 import { useController } from 'react-hook-form';
 
-const FamilyMemberSelector = ({ fields, append, update, remove, control }) => {
+const FamilyMemberSelector = ({ fields, append, update, remove, control, error }) => {
 
   const handleNewFamilyMember = () => {
     append({ relation: '' });  // add an empty field
@@ -34,6 +34,7 @@ const FamilyMemberSelector = ({ fields, append, update, remove, control }) => {
       >
         { fields.length > 0 ? 'Add another family member' : 'Add a family member' }
       </Typography>
+      { error && <HelperTextError message={error.message}/>}
     </>
   )
 }
