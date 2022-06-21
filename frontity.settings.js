@@ -32,8 +32,18 @@ const settings = {
               endpoint: "volunteer",
               archive: "/volunteer"
             }
-          ]
-        }
+          ],
+          data: {
+            '/': {
+              isReady: true,
+              isRedirection: true,
+              is301: true,
+              redirectionStatus: 301,
+              isExternal: false,
+              location: "/home/en",
+            }
+          }
+        },
       }
     },
     "@frontity/tiny-router",
