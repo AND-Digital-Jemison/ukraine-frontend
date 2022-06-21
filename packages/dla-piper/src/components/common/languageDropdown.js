@@ -27,6 +27,9 @@ const LanguageDropdown = ({ state, actions }) => {
 
     if (link.match('/home/[a-z]{2}')) {
       const lang = link.split('/')[2];
+      if (!languages.map(l => l.iso639).includes(lang)) {
+        return;
+      }
       if (lang !== currentLanguage) {
         actions.router.set(`/home/${currentLanguage}`);
       }

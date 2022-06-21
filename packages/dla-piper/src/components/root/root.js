@@ -9,7 +9,8 @@ import {
   Home,
   RefugeeForm,
   Confirmation,
-  Volunteer
+  Volunteer,
+  NotFound
 } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
@@ -58,6 +59,7 @@ const Root = ({ state, actions }) => {
           <RefugeeForm when={data.isRefugeeForm} />
           <Confirmation when={data.isConfirmation} />
           <Volunteer when={data.isVolunteer} />
+          <NotFound when={data.isError} />
         </Switch>
       </Main>
     </ThemeProvider>

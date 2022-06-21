@@ -6,6 +6,7 @@ export * from './home';
 export * from './refugeeForm';
 export * from './confirmation';
 export * from './volunteer';
+export * from './notFound';
 
 // ui components 
 export * from './menu';
