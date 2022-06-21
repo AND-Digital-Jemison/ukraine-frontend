@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect, Global, css, styled, Head } from "frontity";
 import Switch from "@frontity/components/switch";
 import {
@@ -18,6 +19,13 @@ const Root = ({ state, actions }) => {
   const { source, router } = state;
   const data = source.get(router.link);
   const defaultTheme = createTheme(theme);
+  const currentLanguage = state.theme.currentLanguage;
+
+  useEffect(() => {
+    if(router.link === root) {
+      actions.router.set(`/home/${currentLanguage}`);
+    }
+  }, [currentLanguage])
 
   const checkForClientLanguage = () => {
     const excisingClientLang = sessionStorage.getItem('client_lang');

@@ -47,7 +47,7 @@ const WhoAreYouStep = ({ onNext }) => {
   const onSubmit = data => {
     const payload = {
       ...data,
-      date_of_birth: format(toDate(data.date_of_birth), 'yyyy/MM/dd')
+      date_of_birth: format(toDate(data.date_of_birth), 'yyyy-MM-dd')
     }
     setValue(payload);
 
