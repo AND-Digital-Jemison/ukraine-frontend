@@ -8,15 +8,29 @@ import {
   Home,
   RefugeeForm,
   Confirmation,
-  Volunteer,
+  Volunteer
 } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
+import { useEffect } from 'react';
 
-const Root = ({ state }) => {
+const Root = ({ state, actions }) => {
   const { source, router } = state;
   const data = source.get(router.link);
   const defaultTheme = createTheme(theme);
+
+  const checkForClientLanguage = () => {
+    const excisingClientLang = sessionStorage.getItem('client_lang');
+    
+    if (excisingClientLang) {
+      actions.theme.setLanguage(excisingClientLang);
+    }
+  };
+
+  useEffect(() => {
+    checkForClientLanguage();
+
+  }, [ ])
 
   return (
     <ThemeProvider theme={defaultTheme}>
