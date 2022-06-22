@@ -98,7 +98,7 @@ const RefugeeForm = ({ state, actions }) => {
 
     try {
       const response = await fetch(
-        'https://app.legalconnection.co/dlapiper/ukraine/create',
+        '#',
         {
           method: 'POST',
           headers: {
