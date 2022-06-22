@@ -18,16 +18,55 @@ import {
 } from '../refugeeFormSteps';
 import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
 
+const getRequestPayload = () => {
+  const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
+  const travel = JSON.parse(sessionStorage.getItem('au_travel_step'));
+  const visa = JSON.parse(sessionStorage.getItem('au_visa_step'));
+  const visaTypes = optionsVisaType.map(({ value }) =>
+    value === visa.visa_type ? { [value]: 'yes' } : { [value]: 'no' }
+  );
+  const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
+  const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional'));
+  
+  return {
+    client: {
+      ...whoAreYou,
+    },
+    info: {
+      // travel step
+      traveling_with: travel.traveling_with,
+      family_members: travel.family_members.map((m) => m.relation).join(', '),
+      // visa step
+      have_visa: visa.have_visa,
+      ...Object.assign({}, ...visaTypes),
+      // family step
+      family_member_in_uk:
+        familyInUk.family_member_in_uk === optionsFamily[0] ? 'no' : 'yes',
+      best_describes_uk_family_member:
+        familyInUk.best_describes_uk_family_member,
+      uk_family_first_name: familyInUk.uk_family_first_name,
+      uk_family_last_name: familyInUk.uk_family_last_name,
+      uk_family_last_name: familyInUk.uk_family_last_name,
+      uk_family_email: familyInUk?.uk_family_email ?? '', // TODO: do we need to collect this?
+      uk_family_phone: familyInUk?.uk_family_phone ?? '', // TODO: do we need to collect this?
+      uk_family_relation_to_you: familyInUk.uk_family_relation_to_you,
+      // additional step
+      additional_risks: additionalRisks.additional_risks,
+    },
+  };
+}
+
 const RefugeeForm = ({ state, actions }) => {
+  // stepper state etc...
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isRequestError, setIsRequestError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
     refugeeForm.acf;
 
-  const [isRequestError, setIsRequestError] = useState(false);
-
-  // stepper state etc...
-  const [currentStep, setCurrentStep] = useState(0);
   const formConfig = [
     { step: 1 },
     { step: 2 },
@@ -35,6 +74,7 @@ const RefugeeForm = ({ state, actions }) => {
     { step: 4 },
     { step: 5 },
   ];
+
   const handleNextStep = () => {
     setCurrentStep((step) => {
       if (step === formConfig.length - 1) {
@@ -43,6 +83,7 @@ const RefugeeForm = ({ state, actions }) => {
       return step + 1;
     });
   };
+
   const handlePreviousStep = () => {
     setCurrentStep((step) => {
       if (step === 0) {
@@ -52,53 +93,16 @@ const RefugeeForm = ({ state, actions }) => {
     });
   };
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubmitForm = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);
 
-    const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
-    const travel = JSON.parse(sessionStorage.getItem('au_travel_step'));
-    const visa = JSON.parse(sessionStorage.getItem('au_visa_step'));
-    const visaTypes = optionsVisaType.map(({ value }) =>
-      value === visa.visa_type ? { [value]: 'yes' } : { [value]: 'no' }
-    );
-    const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
-    const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional'));
-    console.log('additionalRisks', additionalRisks)
-    const payload = {
-      client: {
-        ...whoAreYou,
-      },
-      info: {
-        // travel step
-        traveling_with: travel.traveling_with,
-        family_members: travel.family_members.map((m) => m.relation).join(', '),
-        // visa step
-        have_visa: visa.have_visa,
-        ...Object.assign({}, ...visaTypes),
-        // family step
-        family_member_in_uk:
-          familyInUk.family_member_in_uk === optionsFamily[0] ? 'no' : 'yes',
-        best_describes_uk_family_member:
-          familyInUk.best_describes_uk_family_member,
-        uk_family_first_name: familyInUk.uk_family_first_name,
-        uk_family_last_name: familyInUk.uk_family_last_name,
-        uk_family_last_name: familyInUk.uk_family_last_name,
-        uk_family_email: familyInUk?.uk_family_email ?? '', // TODO: do we need to collect this?
-        uk_family_phone: familyInUk?.uk_family_phone ?? '', // TODO: do we need to collect this?
-        uk_family_relation_to_you: familyInUk.uk_family_relation_to_you,
-        // additional step
-        additional_risks: additionalRisks.additional_risks,
-      },
-    };
-
+    const payload = getRequestPayload();
     console.log('payload:', payload);
 
     try {
       const response = await fetch(
-        '#',
+        state.env.LEGAL_CONNECTION_URL,
         {
           method: 'POST',
           headers: {
