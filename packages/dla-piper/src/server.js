@@ -1,6 +1,7 @@
+import { config } from 'dotenv';
 import { Root } from './components';
-// import radioButtonProcessor from './processors/radioButtonProcessor';
-// import { WhoAreYouProcessor } from './processors';
+
+config();
 
 export default {
   name: "my-first-theme",
@@ -8,15 +9,10 @@ export default {
     ukraine: Root
   },
   state: {
-    ukraine: {},
-    source: {
-      gfAuth: {
-        key: process.env.GF_KEY,
-        secret: process.env.GF_SECRET,
-      }
-    }
-  },
-  state: {
+    env: {
+      LEGAL_CONNECTION_URL: process.env.LEGAL_CONNECTION_URL,
+      WORDPRESS_SOURCE_URL: process.env.WORDPRESS_SOURCE_URL,
+    },
     theme: {
       currentLanguage: 'en',
       currentTitle: 'Ukraine Advice Project UK'
@@ -36,3 +32,4 @@ export default {
     }
   },
 };
+
