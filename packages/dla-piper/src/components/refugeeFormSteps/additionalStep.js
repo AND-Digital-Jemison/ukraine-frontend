@@ -18,7 +18,6 @@ const validationSchema = yup.object().shape({
 
 const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [formCompleted, setFormCompleted] = useSessionStorage('isFormCompleted', false)
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
   const { control, reset, handleSubmit, formState: { errors } } = useForm({
@@ -33,10 +32,9 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   }, [value])
 
   const onSubmit = data => {
-    console.log('data', data)
     setValue(data);
     setFormSubmitted(true);
-    setFormCompleted(true);
+
   }
 
   // redirect the user if the submit button has been pressed and the form is valid

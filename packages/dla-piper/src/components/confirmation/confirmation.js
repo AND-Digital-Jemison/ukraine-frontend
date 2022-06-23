@@ -31,7 +31,6 @@ const Confirmation = ({ state, libraries, actions }) => {
   
   useEffect(() => {
     const isFormCompleted = sessionStorage.getItem('isFormCompleted');
-    console.log('isFormCompleted', isFormCompleted)
     if (!isFormCompleted) {
       actions.router.set(`/refugee-form/en/`)
     } 
@@ -93,7 +92,7 @@ const Confirmation = ({ state, libraries, actions }) => {
               variant="outlined"
               label={comfirmGoToHomeLabel}
               margin="25px 0"
-              onClick={() => clearFormData()}
+              onClick={clearFormData}
             />
           </Link>
         </ContentBlockWrapper>

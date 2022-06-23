@@ -61,11 +61,15 @@ const RefugeeForm = ({ state, actions }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isFormCompleted, setIsFormCompleted] = useState();
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
     refugeeForm.acf;
+
+  const [formStatus, setFormStatus] = useState({
+    isReady: false,
+    isCompleted: false,
+  })
 
   const formConfig = [
     { step: 1 },
@@ -76,16 +80,23 @@ const RefugeeForm = ({ state, actions }) => {
   ];
 
   useEffect(() => {
-    const x = sessionStorage.getItem('isFormCompleted');
-    console.log('isFormCompleted.x', Boolean(x))
-    setIsFormCompleted(Boolean(x))
-  }, [])
+    const formComplete = Boolean(sessionStorage.getItem('isFormCompleted'));
+    console.log('formComplete', formComplete)
+    
+    setFormStatus(() => ({
+      isReady: true,
+      isCompleted: formComplete,
+    }));
+  }, [ ])
 
   useEffect(() => {
-    if (isFormCompleted) {
+    console.log('form status', formStatus);
+
+    if (formStatus.isReady && formStatus.isCompleted) {
       actions.router.set(`/confirmation/en/`)
     } 
-  },[])
+  }, [formStatus]);
+
   const handleNextStep = () => {
     setCurrentStep((step) => {
       if (step === formConfig.length - 1) {
@@ -125,8 +136,9 @@ const RefugeeForm = ({ state, actions }) => {
       console.log('response', response);
 
       if (response.status === 200) {
+        sessionStorage.setItem('isFormCompleted', true);
         actions.router.set('/confirmation/en/');
-        // setFormCompleted(true);
+
       } else {
         throw new Error('Something went wrong submitting the data')
       }
@@ -138,8 +150,13 @@ const RefugeeForm = ({ state, actions }) => {
     setIsSubmitting(false);
   };
 
-  if (isFormCompleted) 
+  if (!formStatus.isReady) {
     return <></>;
+  }
+
+  if (formStatus.isReady && formStatus.isCompleted) {
+    return <></>;
+  };
 
   return (
     <>
