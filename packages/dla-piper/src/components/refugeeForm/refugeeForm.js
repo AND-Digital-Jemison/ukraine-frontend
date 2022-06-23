@@ -81,7 +81,6 @@ const RefugeeForm = ({ state, actions }) => {
 
   useEffect(() => {
     const formComplete = Boolean(sessionStorage.getItem('isFormCompleted'));
-    console.log('formComplete', formComplete)
     
     setFormStatus(() => ({
       isReady: true,
@@ -120,7 +119,6 @@ const RefugeeForm = ({ state, actions }) => {
     setIsSubmitting(true);
 
     const payload = getRequestPayload();
-    console.log('payload:', payload);
 
     try {
       const response = await fetch(
@@ -133,7 +131,6 @@ const RefugeeForm = ({ state, actions }) => {
           body: JSON.stringify(payload),
         }
       );
-      console.log('response', response);
 
       if (response.status === 200) {
         sessionStorage.setItem('isFormCompleted', true);
