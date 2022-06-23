@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'frontity';
 import { Box, Typography } from '@mui/material';
 import {
@@ -61,7 +61,7 @@ const RefugeeForm = ({ state, actions }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [isFormCompleted, setIsFormCompleted] = useState();
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
@@ -75,6 +75,17 @@ const RefugeeForm = ({ state, actions }) => {
     { step: 5 },
   ];
 
+  useEffect(() => {
+    const x = sessionStorage.getItem('isFormCompleted');
+    console.log('isFormCompleted.x', Boolean(x))
+    setIsFormCompleted(Boolean(x))
+  }, [])
+
+  useEffect(() => {
+    if (isFormCompleted) {
+      actions.router.set(`/confirmation/en/`)
+    } 
+  },[])
   const handleNextStep = () => {
     setCurrentStep((step) => {
       if (step === formConfig.length - 1) {
@@ -115,6 +126,7 @@ const RefugeeForm = ({ state, actions }) => {
 
       if (response.status === 200) {
         actions.router.set('/confirmation/en/');
+        // setFormCompleted(true);
       } else {
         throw new Error('Something went wrong submitting the data')
       }
@@ -125,6 +137,9 @@ const RefugeeForm = ({ state, actions }) => {
     }
     setIsSubmitting(false);
   };
+
+  if (isFormCompleted) 
+    return <></>;
 
   return (
     <>
