@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'frontity';
 import { Box, Typography } from '@mui/material';
 import {
@@ -61,11 +61,15 @@ const RefugeeForm = ({ state, actions }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
     refugeeForm.acf;
+
+  const [formStatus, setFormStatus] = useState({
+    isReady: false,
+    isCompleted: false,
+  })
 
   const formConfig = [
     { step: 1 },
@@ -74,6 +78,23 @@ const RefugeeForm = ({ state, actions }) => {
     { step: 4 },
     { step: 5 },
   ];
+
+  useEffect(() => {
+    const formComplete = Boolean(sessionStorage.getItem('isFormCompleted'));
+    
+    setFormStatus(() => ({
+      isReady: true,
+      isCompleted: formComplete,
+    }));
+  }, [ ])
+
+  useEffect(() => {
+    console.log('form status', formStatus);
+
+    if (formStatus.isReady && formStatus.isCompleted) {
+      actions.router.set(`/confirmation/en/`)
+    } 
+  }, [formStatus]);
 
   const handleNextStep = () => {
     setCurrentStep((step) => {
@@ -98,7 +119,6 @@ const RefugeeForm = ({ state, actions }) => {
     setIsSubmitting(true);
 
     const payload = getRequestPayload();
-    console.log('payload:', payload);
 
     try {
       const response = await fetch(
@@ -111,10 +131,11 @@ const RefugeeForm = ({ state, actions }) => {
           body: JSON.stringify(payload),
         }
       );
-      console.log('response', response);
 
       if (response.status === 200) {
+        sessionStorage.setItem('isFormCompleted', true);
         actions.router.set('/confirmation/en/');
+
       } else {
         throw new Error('Something went wrong submitting the data')
       }
@@ -124,6 +145,14 @@ const RefugeeForm = ({ state, actions }) => {
       setIsRequestError(true);
     }
     setIsSubmitting(false);
+  };
+
+  if (!formStatus.isReady) {
+    return <></>;
+  }
+
+  if (formStatus.isReady && formStatus.isCompleted) {
+    return <></>;
   };
 
   return (

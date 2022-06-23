@@ -28,10 +28,8 @@ const validationSchema = yup.object().shape({
 })
 
 const WhoAreYouStep = ({ onNext }) => {
-
   const [value, setValue] = useSessionStorage('au_who_are_you', schema);
-
-  
+   
   const resolver = useYupResolver(validationSchema);
   const { control, reset, handleSubmit, formState: { errors } } = useForm({
     resolver,
