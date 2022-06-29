@@ -46,6 +46,9 @@ const Root = ({ state, actions }) => {
       <header>
         <Head>
           <title>{state.theme.currentTitle}</title>
+          <meta property="og:title" content="Advice Ukraine Project"/>
+          <meta property="og:description" content="Free immigration advice for people fleeing Ukraine"/>
+          <meta property="og:image" content="https://i0.wp.com/adviceukraine.wpcomstaging.com/wp-content/uploads/2022/02/yehor-milohrodskyi-syuhhpwu-hk-unsplash.jpg?ssl=1&resize=60%2C60"/>
         </Head>
         <Menu />
       </header>
