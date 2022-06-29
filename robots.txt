@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Allow: /home/*/
+Allow: /refugee-form/*/
+Allow: /volunteer/*/
+Disallow: /confirmation/*/
+Sitemap: https://adviceukraine.wpcomstaging.com/home-sitemap.xml
+Sitemap: https://adviceukraine.wpcomstaging.com/refugee-form-sitemap.xml
+Sitemap: https://adviceukraine.wpcomstaging.com/refugee-form-sitemap.xml
+Sitemap: https://adviceukraine.wpcomstaging.com/volunteer-sitemap.xml
+
