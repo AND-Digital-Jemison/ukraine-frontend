@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { connect } from "frontity";
 import Link from "@frontity/components/link";
 import {
@@ -10,7 +11,7 @@ import {
 import { Box, Typography, styled } from "@mui/material";
 import { useSessionStorage } from "../../hooks/useSessionStorage";
 
-const Confirmation = ({ state, libraries }) => {
+const Confirmation = ({ state, libraries, actions }) => {
   const data = state.source.get(state.router.link);
   const confirmation = state.source[data.type][data.id];
   const currentLanguage = state.theme.currentLanguage;
@@ -27,6 +28,23 @@ const Confirmation = ({ state, libraries }) => {
 
   const Html2React = libraries.html2react.Component;
   const [refugee] = useSessionStorage("au_who_are_you");
+  
+  useEffect(() => {
+    const isFormCompleted = sessionStorage.getItem('isFormCompleted');
+    if (!isFormCompleted) {
+      actions.router.set(`/refugee-form/en/`)
+    } 
+  },[])
+
+
+  const clearFormData = () => {
+    window.sessionStorage.removeItem('au_who_are_you')
+    window.sessionStorage.removeItem('au_travel_step')
+    window.sessionStorage.removeItem('au_visa_step')
+    window.sessionStorage.removeItem('au_family_in_uk')
+    window.sessionStorage.removeItem('au_additional')
+    window.sessionStorage.removeItem('isFormCompleted')
+  }
 
   return (
     <>
@@ -74,6 +92,7 @@ const Confirmation = ({ state, libraries }) => {
               variant="outlined"
               label={comfirmGoToHomeLabel}
               margin="25px 0"
+              onClick={clearFormData}
             />
           </Link>
         </ContentBlockWrapper>

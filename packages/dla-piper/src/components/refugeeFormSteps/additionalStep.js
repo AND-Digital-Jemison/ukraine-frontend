@@ -32,11 +32,9 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   }, [value])
 
   const onSubmit = data => {
-    console.log('data', data)
     setValue(data);
     setFormSubmitted(true);
 
-    
   }
 
   // redirect the user if the submit button has been pressed and the form is valid
