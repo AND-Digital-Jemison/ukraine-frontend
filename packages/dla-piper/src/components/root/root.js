@@ -49,7 +49,7 @@ const Root = ({ state, actions }) => {
           <meta property="og:site_name" content="Ukraine Advice Project UK" />
           <meta property="og:title" content="Free UK immigration advice for people fleeing Ukraine"/>
           <meta property="og:description" content="We are providing a free service to connect Ukrainian citizens (and others fleeing Ukraine) with free legal advice on UK immigration, visas and asylum from qualified and regulated lawyers."/>
-          <meta property="og:image" content="https://i0.wp.com/adviceukraine.wpcomstaging.com/wp-content/uploads/2022/02/yehor-milohrodskyi-syuhhpwu-hk-unsplash.jpg?ssl=1&resize=250%2C250"/>
+          <meta property="og:image" content="https://i0.wp.com/adviceukraine.wpcomstaging.com/wp-content/uploads/2022/02/yehor-milohrodskyi-syuhhpwu-hk-unsplash.jpg?ssl=1&resize=100%2C100"/>
         </Head>
         <Menu />
       </header>
