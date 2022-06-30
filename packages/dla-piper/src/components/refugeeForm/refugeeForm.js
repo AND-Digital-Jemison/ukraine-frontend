@@ -14,6 +14,7 @@ import {
   TravelStep,
   VisaStep,
   FamilyStep,
+  SummaryStep,
   AdditionalStep,
 } from '../refugeeFormSteps';
 import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
@@ -26,6 +27,7 @@ const getRequestPayload = () => {
     value === visa.visa_type ? { [value]: 'yes' } : { [value]: 'no' }
   );
   const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
+  const summary = JSON.parse(sessionStorage.getItem('au_summary'));
   const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional'));
   
   return {
@@ -50,6 +52,8 @@ const getRequestPayload = () => {
       uk_family_email: familyInUk?.uk_family_email ?? '', // TODO: do we need to collect this?
       uk_family_phone: familyInUk?.uk_family_phone ?? '', // TODO: do we need to collect this?
       uk_family_relation_to_you: familyInUk.uk_family_relation_to_you,
+      // Summary step
+      summarise_help_needed: summary.summarise_help_needed,
       // additional step
       additional_risks: additionalRisks.additional_risks,
     },
@@ -77,6 +81,7 @@ const RefugeeForm = ({ state, actions }) => {
     { step: 3 },
     { step: 4 },
     { step: 5 },
+    { step: 6 },
   ];
 
   useEffect(() => {
@@ -222,6 +227,10 @@ const RefugeeForm = ({ state, actions }) => {
               onPrevious={handlePreviousStep}
             />,
             <FamilyStep
+              onNext={handleNextStep}
+              onPrevious={handlePreviousStep}
+            />,
+            <SummaryStep
               onNext={handleNextStep}
               onPrevious={handlePreviousStep}
             />,
