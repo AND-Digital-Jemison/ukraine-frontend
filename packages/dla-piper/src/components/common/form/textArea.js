@@ -20,7 +20,7 @@ const TextArea  = ({ name, control, label, width='100%', onChange }) => {
       <Label fontSize="14px">{ label }</Label>
       <TextareaAutosize
         minRows={5}
-        style={{ resize: 'vertical', width, bgcolor: '#FFFFFF' }}
+        style={{ resize: 'vertical', width, bgcolor: '#FFFFFF', padding: '5px' }}
         {...fieldOther}
         onChange={fieldOnChange}
         placeholder={'Optional'}
