@@ -71,6 +71,7 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
             width={'115px'}
             variant="outlined"
             onClick={handlePrevious}
+            disabled={isSubmitting}
           />
           <StyledButton
             label='Submit'
