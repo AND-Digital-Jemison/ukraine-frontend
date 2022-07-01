@@ -63,6 +63,7 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
         name={'additional_risks'}
         control={control}
         label='For example: Unaccompanied children or family members needing medical treatment. '
+        placeholder='optional'
         width={'100%'}
       />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>

@@ -4,7 +4,6 @@ import { StyledButton } from '../common';
 import { Box } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import Link from '@frontity/components/link';
 import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
 
@@ -13,7 +12,7 @@ const schema = {
 }
 
 const validationSchema = yup.object().shape({
-    summarise_help_needed: yup.string().max(5000, 'Please enter a maximum of 5000 characters'),
+    summarise_help_needed: yup.string().max(5000, 'Please enter a maximum of 5000 characters').required('Please provide an answer'),
 })
 
 const SummaryStep = ({ onNext, onPrevious }) => {
@@ -48,12 +47,13 @@ const SummaryStep = ({ onNext, onPrevious }) => {
   }
 
   return (
-    <Step label='Please can you summarise what you need help with?'>
+    <Step label='Please tell us why you need help?'>
       <form onSubmit={handleSubmit(onSubmit)}>
       <TextArea 
         name={'summarise_help_needed'}
         control={control}
-        label='For example: Some label. '
+        label='For example: Currently residing in a refugee camp.'
+        placeholder=''
         width={'100%'}
       />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
