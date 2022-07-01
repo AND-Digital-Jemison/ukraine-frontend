@@ -18,6 +18,7 @@ const Confirmation = ({ state, libraries, actions }) => {
 
   const {
     confirmTitle,
+    confirmSuccessMessage,
     confirmNextTitle,
     confirmNextInfo,
     confirmDataTitle,
@@ -63,7 +64,7 @@ const Confirmation = ({ state, libraries, actions }) => {
           >
             {`${refugee.firstname}${confirmTitle}`}
           </Typography>
-          <NotificationBlock message={"Your request has been received."} />
+          <NotificationBlock message={confirmSuccessMessage} />
         </MaxRestraintWrapper>
       </PageHeader>
       <MaxRestraintWrapper>
