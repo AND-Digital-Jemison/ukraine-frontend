@@ -39,13 +39,16 @@ const Root = ({ state, actions }) => {
     checkForClientLanguage();
 
     // google analytics
-    window.dataLayer = window.dataLayer || [ ];
-    function gtag() {
-      dataLayer.push(arguments);
-    };
+    if (process.env.NODE_ENV === 'production') {
+      window.dataLayer = window.dataLayer || [ ];
+      function gtag() {
+        dataLayer.push(arguments);
+      };
+  
+      gtag('js', new Date());
+      gtag('config', 'G-8D9RH1WVT6');
 
-    gtag('js', new Date());
-    gtag('config', 'G-8D9RH1WVT6');
+    };
 
   }, [ ])
 
