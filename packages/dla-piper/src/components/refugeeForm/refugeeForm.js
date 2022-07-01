@@ -98,7 +98,7 @@ const RefugeeForm = ({ state, actions }) => {
     console.log('form status', formStatus);
 
     if (formStatus.isReady && formStatus.isCompleted) {
-      actions.router.set(`/confirmation/en/`)
+      actions.router.set(`/confirmation/${currentLanguage}/`)
     } 
   }, [formStatus]);
 
