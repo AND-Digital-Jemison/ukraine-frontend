@@ -126,6 +126,22 @@ const RefugeeForm = ({ state, actions }) => {
 
     const payload = getRequestPayload();
 
+    // log the request to mongoDB
+    fetch(
+      state.env.LOG_API_URL,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'no-cors',
+        body: JSON.stringify({
+          name: payload?.client?.firstname,
+          email: payload?.client?.email,
+        }),
+      }
+    )
+
     try {
       const response = await fetch(
         state.env.LEGAL_CONNECTION_URL,
