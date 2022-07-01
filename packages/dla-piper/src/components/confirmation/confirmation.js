@@ -42,6 +42,7 @@ const Confirmation = ({ state, libraries, actions }) => {
     window.sessionStorage.removeItem('au_travel_step')
     window.sessionStorage.removeItem('au_visa_step')
     window.sessionStorage.removeItem('au_family_in_uk')
+    window.sessionStorage.removeItem('au_summary')
     window.sessionStorage.removeItem('au_additional')
     window.sessionStorage.removeItem('isFormCompleted')
   }
