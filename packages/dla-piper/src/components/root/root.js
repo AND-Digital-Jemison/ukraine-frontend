@@ -54,6 +54,16 @@ const Root = ({ state, actions }) => {
           <meta property="twitter:title" content="Free UK immigration advice for people fleeing Ukraine"/>
           <meta property="twitter:description" content="We are providing a free service to connect Ukrainian citizens (and others fleeing Ukraine) with free legal advice on UK immigration, visas and asylum from qualified and regulated lawyers."/>
           <meta property="twitter:image" content="https://i0.wp.com/adviceukraine.wpcomstaging.com/wp-content/uploads/2022/06/Group-68.png?ssl=1&resize=2002C200"/>
+        
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-8D9RH1WVT6"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date());
+
+          gtag('config', 'G-8D9RH1WVT6');
+        </script>
+
         </Head>
         <Menu />
       </header>
