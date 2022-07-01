@@ -22,19 +22,25 @@ const LanguageDropdown = ({ state, actions }) => {
   const currentLanguage = theme.currentLanguage;
   const setCurrentLanguage = actions.theme.setLanguage;
 
-  useEffect(() => {
-    const link = router.link;
 
-    if (link.match('/home/[a-z]{2}')) {
+  const matchCurrentLanguage = (link, route) => {
+    if (link.match(`/${route}/[a-z]{2}`)) {
       const lang = link.split('/')[2];
       if (!languages.map(l => l.iso639).includes(lang)) {
         return;
       }
       if (lang !== currentLanguage) {
-        actions.router.set(`/home/${currentLanguage}`);
+        actions.router.set(`/${route}/${currentLanguage}`);
       }
     }
+  }
+  
+  useEffect(() => {
+    const link = router.link;
 
+    matchCurrentLanguage(link, 'home');
+    matchCurrentLanguage(link, 'refugee-form');
+    matchCurrentLanguage(link, 'confirmation');
   }, [currentLanguage]);
 
   const open = Boolean(anchorEl);
