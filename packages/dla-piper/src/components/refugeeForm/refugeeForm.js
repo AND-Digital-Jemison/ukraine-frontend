@@ -65,6 +65,7 @@ const RefugeeForm = ({ state, actions }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const currentLanguage = state.theme.currentLanguage;
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
@@ -139,7 +140,7 @@ const RefugeeForm = ({ state, actions }) => {
 
       if (response.status === 200) {
         sessionStorage.setItem('isFormCompleted', true);
-        actions.router.set('/confirmation/en/');
+        actions.router.set(`/confirmation/${currentLanguage}/`);
 
       } else {
         throw new Error('Something went wrong submitting the data')
