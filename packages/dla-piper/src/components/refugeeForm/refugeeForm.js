@@ -14,6 +14,7 @@ import {
   TravelStep,
   VisaStep,
   FamilyStep,
+  SummaryStep,
   AdditionalStep,
 } from '../refugeeFormSteps';
 import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
@@ -26,6 +27,7 @@ const getRequestPayload = () => {
     value === visa.visa_type ? { [value]: 'yes' } : { [value]: 'no' }
   );
   const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
+  const summary = JSON.parse(sessionStorage.getItem('au_summary'));
   const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional'));
   
   return {
@@ -50,6 +52,8 @@ const getRequestPayload = () => {
       uk_family_email: familyInUk?.uk_family_email ?? '', // TODO: do we need to collect this?
       uk_family_phone: familyInUk?.uk_family_phone ?? '', // TODO: do we need to collect this?
       uk_family_relation_to_you: familyInUk.uk_family_relation_to_you,
+      // Summary step
+      summarise_help_needed: summary.summarise_help_needed,
       // additional step
       additional_risks: additionalRisks.additional_risks,
     },
@@ -61,6 +65,7 @@ const RefugeeForm = ({ state, actions }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const currentLanguage = state.theme.currentLanguage;
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
   const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
@@ -77,6 +82,7 @@ const RefugeeForm = ({ state, actions }) => {
     { step: 3 },
     { step: 4 },
     { step: 5 },
+    { step: 6 },
   ];
 
   useEffect(() => {
@@ -92,7 +98,7 @@ const RefugeeForm = ({ state, actions }) => {
     console.log('form status', formStatus);
 
     if (formStatus.isReady && formStatus.isCompleted) {
-      actions.router.set(`/confirmation/en/`)
+      actions.router.set(`/confirmation/${currentLanguage}/`)
     } 
   }, [formStatus]);
 
@@ -120,6 +126,22 @@ const RefugeeForm = ({ state, actions }) => {
 
     const payload = getRequestPayload();
 
+    // log the request to mongoDB
+    fetch(
+      state.env.LOG_API_URL,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'no-cors',
+        body: JSON.stringify({
+          name: payload?.client?.firstname,
+          email: payload?.client?.email,
+        }),
+      }
+    )
+
     try {
       const response = await fetch(
         state.env.LEGAL_CONNECTION_URL,
@@ -134,7 +156,7 @@ const RefugeeForm = ({ state, actions }) => {
 
       if (response.status === 200) {
         sessionStorage.setItem('isFormCompleted', true);
-        actions.router.set('/confirmation/en/');
+        actions.router.set(`/confirmation/${currentLanguage}/`);
 
       } else {
         throw new Error('Something went wrong submitting the data')
@@ -222,6 +244,10 @@ const RefugeeForm = ({ state, actions }) => {
               onPrevious={handlePreviousStep}
             />,
             <FamilyStep
+              onNext={handleNextStep}
+              onPrevious={handlePreviousStep}
+            />,
+            <SummaryStep
               onNext={handleNextStep}
               onPrevious={handlePreviousStep}
             />,

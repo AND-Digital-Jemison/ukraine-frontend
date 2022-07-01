@@ -4,21 +4,19 @@ import { StyledButton } from '../common';
 import { Box } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import Link from '@frontity/components/link';
 import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
 
 const schema = {
-  additional_risks: '',
+    summarise_help_needed: '',
 }
 
 const validationSchema = yup.object().shape({
-  additional_risks: yup.string().max(5000, 'Please enter a maximum of 5000 characters'),
+    summarise_help_needed: yup.string().max(5000, 'Please enter a maximum of 5000 characters').required('Please provide an answer'),
 })
 
-const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
-  const [formSubmitted, setFormSubmitted] = useState(false);
-  const [value, setValue] = useSessionStorage('au_additional', schema);
+const SummaryStep = ({ onNext, onPrevious }) => {
+  const [value, setValue] = useSessionStorage('au_summary', schema);
   const resolver = useYupResolver(validationSchema);
   const { control, reset, handleSubmit, formState: { errors } } = useForm({
     resolver,
@@ -31,23 +29,15 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
     reset(value)
   }, [value])
 
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     setValue(data);
-    setFormSubmitted(true);
 
-  }
-
-  // redirect the user if the submit button has been pressed and the form is valid
-  useEffect(() => {
-    if (formSubmitted && !errors.additional_risks) {
-      if (!onNext) {
-        return;
-      }
-      onNext();
+    if (!onNext) {
+      return;
     }
-    setFormSubmitted(false);
+    onNext();
+  };
 
-  }, [errors, formSubmitted])
 
   const handlePrevious = () => {
     if (!onPrevious) {
@@ -57,13 +47,13 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   }
 
   return (
-    <Step label='Are there any reasons you may be at additional risk?'>
+    <Step label='Please tell us why you need help?'>
       <form onSubmit={handleSubmit(onSubmit)}>
       <TextArea 
-        name={'additional_risks'}
+        name={'summarise_help_needed'}
         control={control}
-        label='For example: Unaccompanied children or family members needing medical treatment. '
-        placeholder='optional'
+        label='For example: Currently residing in a refugee camp.'
+        placeholder=''
         width={'100%'}
       />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
@@ -72,13 +62,11 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
             width={'115px'}
             variant="outlined"
             onClick={handlePrevious}
-            disabled={isSubmitting}
           />
           <StyledButton
-            label='Submit'
+            label='Next'
             width={'115px'}
             submit
-            disabled={isSubmitting}
           />
         </Box>
       </form>
@@ -86,4 +74,4 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   )
 }
 
-export default AdditionalStep;
+export default SummaryStep;

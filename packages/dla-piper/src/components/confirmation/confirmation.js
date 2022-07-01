@@ -18,6 +18,7 @@ const Confirmation = ({ state, libraries, actions }) => {
 
   const {
     confirmTitle,
+    confirmSuccessMessage,
     confirmNextTitle,
     confirmNextInfo,
     confirmDataTitle,
@@ -42,6 +43,7 @@ const Confirmation = ({ state, libraries, actions }) => {
     window.sessionStorage.removeItem('au_travel_step')
     window.sessionStorage.removeItem('au_visa_step')
     window.sessionStorage.removeItem('au_family_in_uk')
+    window.sessionStorage.removeItem('au_summary')
     window.sessionStorage.removeItem('au_additional')
     window.sessionStorage.removeItem('isFormCompleted')
   }
@@ -62,7 +64,7 @@ const Confirmation = ({ state, libraries, actions }) => {
           >
             {`${refugee.firstname}${confirmTitle}`}
           </Typography>
-          <NotificationBlock message={"Your request has been received."} />
+          <NotificationBlock message={confirmSuccessMessage} />
         </MaxRestraintWrapper>
       </PageHeader>
       <MaxRestraintWrapper>

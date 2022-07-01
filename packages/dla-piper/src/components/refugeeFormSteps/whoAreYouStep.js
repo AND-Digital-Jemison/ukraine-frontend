@@ -1,3 +1,4 @@
+import { connect } from 'frontity';
 import { InputField, DatePicker, Step } from "../common/form";
 import { StyledButton } from '../common';
 import { Box } from '@mui/material';
@@ -27,7 +28,10 @@ const validationSchema = yup.object().shape({
   email: yup.string().email('Email is invalid').required('Email is required'),
 })
 
-const WhoAreYouStep = ({ onNext }) => {
+const WhoAreYouStep = ({ state, onNext }) => {
+  const { theme } = state;
+  const currentLanguage = theme.currentLanguage;
+
   const [value, setValue] = useSessionStorage('au_who_are_you', schema);
    
   const resolver = useYupResolver(validationSchema);
@@ -94,7 +98,7 @@ const WhoAreYouStep = ({ onNext }) => {
         </Box>
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
-          <Link link={'/home/en/'} style={{ textDecoration: "none" }}>
+          <Link link={`/home/${currentLanguage}/`} style={{ textDecoration: "none" }}>
             <StyledButton
               label='Back'
               width={'115px'}
@@ -112,4 +116,4 @@ const WhoAreYouStep = ({ onNext }) => {
   );
 };
 
-export default WhoAreYouStep;
+export default connect(WhoAreYouStep);
