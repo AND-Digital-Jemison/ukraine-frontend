@@ -19,13 +19,13 @@ const Root = ({ state, actions }) => {
   const { source, router } = state;
   const data = source.get(router.link);
   const defaultTheme = createTheme(theme);
-  const currentLanguage = state.theme.currentLanguage;
+  // const currentLanguage = state.theme.currentLanguage;
 
-  useEffect(() => {
-    if(router.link === root) {
-      actions.router.set(`/home/${currentLanguage}`);
-    }
-  }, [currentLanguage])
+  // useEffect(() => {
+  //   if(router.link === root) {
+  //     actions.router.set(`/home/${currentLanguage}`);
+  //   }
+  // }, [currentLanguage])
 
   const checkForClientLanguage = () => {
     const excisingClientLang = sessionStorage.getItem('client_lang');
@@ -83,6 +83,9 @@ const Root = ({ state, actions }) => {
           <NotFound when={data.isError} />
         </Switch>
       </Main>
+      <footer>
+        footer
+      </footer>
     </ThemeProvider>
   );
 };
