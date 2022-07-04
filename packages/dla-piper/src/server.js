@@ -13,6 +13,7 @@ export default {
       LEGAL_CONNECTION_URL: process.env.LEGAL_CONNECTION_URL,
       WORDPRESS_SOURCE_URL: process.env.WORDPRESS_SOURCE_URL,
       LOG_API_URL: process.env.LOG_API_URL,
+      RECAPTCHA_KEY: process.env.RECAPTCHA_KEY,
     },
     theme: {
       currentLanguage: 'en',

@@ -7,6 +7,8 @@ import { StyledButton } from '../common';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { Step, TextArea } from '../common/form';
 import getFormButtonLabels from './getFormButtonLabels';
+import ReCAPTCHA from "react-google-recaptcha";
+import { connect } from 'frontity';
 import { useYupResolver } from "../../hooks";
 
 const schema = {
@@ -32,6 +34,11 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
   useEffect(() => {
     reset(value)
   }, [value])
+
+  const [userPassedCaptcha, setUserPassedCaptcha] = useState(false);
+  const handleUserPassedCaptcha = () => {
+    setUserPassedCaptcha(true);
+  };
 
   const onSubmit = data => {
     setValue(data);
@@ -68,6 +75,12 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
         placeholder='optional'
         width={'100%'}
       />
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', padding: '20px 0 0 0' }}>
+        <ReCAPTCHA 
+          sitekey={state.env.RECAPTCHA_KEY}
+          onChange={handleUserPassedCaptcha}
+        />
+      </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
             label={back}
@@ -80,7 +93,7 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
             label={submit}
             width={'125px'}
             submit
-            disabled={isSubmitting}
+            disabled={isSubmitting || !userPassedCaptcha}
           />
         </Box>
       </form>
