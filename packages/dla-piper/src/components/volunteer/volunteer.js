@@ -28,8 +28,6 @@ const Volunteer = ({ state, libraries }) => {
     volunteerBackButtonLink,
   } = volunteer.acf;
 
-  console.log('link', `${volunteerBackButtonLabel}/${currentLanguage}`)
-
   return (
     <>
       <PageHeader>
@@ -75,7 +73,7 @@ const Volunteer = ({ state, libraries }) => {
               variant="outlined"
               label={volunteerBackButtonLabel}
               margin="28px 0"
-              width={{ mobile: "100%", tablet: "115px" }}
+              width={{ mobile: "100%", tablet: "125px" }}
             />
           </Link>
         </MaxRestraintWrapper>
