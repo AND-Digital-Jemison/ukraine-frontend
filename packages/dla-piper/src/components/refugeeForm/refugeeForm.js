@@ -18,6 +18,7 @@ import {
   AdditionalStep,
 } from '../refugeeFormSteps';
 import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
 
 const getRequestPayload = () => {
   const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
@@ -62,7 +63,7 @@ const getRequestPayload = () => {
 
 const RefugeeForm = ({ state, actions }) => {
   // stepper state etc...
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useSessionStorage('currentStep', 0);
   const [isRequestError, setIsRequestError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const currentLanguage = state.theme.currentLanguage;
@@ -92,11 +93,9 @@ const RefugeeForm = ({ state, actions }) => {
       isReady: true,
       isCompleted: formComplete,
     }));
-  }, [ ])
+  }, []);
 
   useEffect(() => {
-    console.log('form status', formStatus);
-
     if (formStatus.isReady && formStatus.isCompleted) {
       actions.router.set(`/confirmation/${currentLanguage}/`)
     } 
