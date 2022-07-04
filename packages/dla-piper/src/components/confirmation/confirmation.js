@@ -46,6 +46,7 @@ const Confirmation = ({ state, libraries, actions }) => {
     window.sessionStorage.removeItem('au_summary')
     window.sessionStorage.removeItem('au_additional')
     window.sessionStorage.removeItem('isFormCompleted')
+    window.sessionStorage.removeItem('currentStep')
   }
 
   return (
