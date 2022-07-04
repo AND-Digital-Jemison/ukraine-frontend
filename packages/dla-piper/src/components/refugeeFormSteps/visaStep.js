@@ -1,11 +1,13 @@
-import { Step, RadioButtonGroup } from "../common/form";
-import { useForm, useWatch } from "react-hook-form";
-import { useSessionStorage } from "../../hooks/useSessionStorage";
-import { useEffect, useMemo } from "react";
-import { Box } from "@mui/material";
-import { StyledButton } from "../common";
-import { useYupResolver } from "../../hooks";
 import * as yup from "yup";
+import { useEffect, useMemo } from "react";
+import { connect } from 'frontity';
+import { useForm, useWatch } from "react-hook-form";
+import { Box } from "@mui/material";
+import { RadioButtonGroup, Step } from "../common/form";
+import { StyledButton } from "../common";
+import getFormButtonLabels from './getFormButtonLabels';
+import { useSessionStorage } from "../../hooks/useSessionStorage";
+import { useYupResolver } from "../../hooks";
 
 const optionsVisa = [
   { label: "No, I don't have a visa", value: "no" },
@@ -40,7 +42,8 @@ const validationSchema = yup.object().shape({
     }),
 });
 
-const VisaStep = ({ onNext, onPrevious }) => {
+const VisaStep = ({ state, onNext, onPrevious }) => {
+  const { next, back } = getFormButtonLabels(state);
   const [value, setValue] = useSessionStorage("au_visa_step", schema);
   const resolver = useYupResolver(validationSchema);
   const {
@@ -106,16 +109,16 @@ const VisaStep = ({ onNext, onPrevious }) => {
           }}
         >
           <StyledButton
-            label="Back"
-            width={"115px"}
+            label={back}
+            width={"125px"}
             variant="outlined"
             onClick={handlePrevious}
           />
-          <StyledButton label="Next" width={"115px"} submit />
+          <StyledButton label={next} width={"125px"} submit />
         </Box>
       </form>
     </Step>
   );
 };
 
-export default VisaStep;
+export default connect(VisaStep);

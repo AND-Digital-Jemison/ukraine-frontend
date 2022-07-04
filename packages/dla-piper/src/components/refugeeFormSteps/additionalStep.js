@@ -1,13 +1,14 @@
-import { Step, TextArea } from '../common/form';
-import { useForm } from 'react-hook-form';
-import { StyledButton } from '../common';
-import { Box } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import ReCAPTCHA from "react-google-recaptcha";
-import { connect } from 'frontity';
-import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
+import { useEffect, useMemo, useState } from 'react';
+import { connect } from 'frontity';
+import { useForm } from 'react-hook-form';
+import { Box } from '@mui/material';
+import { StyledButton } from '../common';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { Step, TextArea } from '../common/form';
+import getFormButtonLabels from './getFormButtonLabels';
+import ReCAPTCHA from "react-google-recaptcha";
+import { useYupResolver } from "../../hooks";
 
 const schema = {
   additional_risks: '',
@@ -18,6 +19,7 @@ const validationSchema = yup.object().shape({
 })
 
 const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
+  const { back, submit } = getFormButtonLabels(state);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -80,15 +82,15 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
       </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
-            label='Back'
-            width={'115px'}
+            label={back}
+            width={'125px'}
             variant="outlined"
             onClick={handlePrevious}
             disabled={isSubmitting}
           />
           <StyledButton
-            label='Submit'
-            width={'115px'}
+            label={submit}
+            width={'125px'}
             submit
             disabled={isSubmitting || !userPassedCaptcha}
           />

@@ -30,6 +30,12 @@ export default {
       },
       setCurrentTitle: ({ state }) => value => {
         state.theme.currentTitle = value;
+      },
+      beforeSSR: async ({ actions }) => {
+        await actions.source.fetch(`/formbuttonlabels/en/`);
+        await actions.source.fetch(`/formbuttonlabels/pl/`);
+        await actions.source.fetch(`/formbuttonlabels/ru/`);
+        await actions.source.fetch(`/formbuttonlabels/uk/`);
       }
     }
   },

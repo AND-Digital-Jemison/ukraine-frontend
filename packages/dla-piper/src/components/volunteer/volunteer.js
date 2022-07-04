@@ -75,7 +75,7 @@ const Volunteer = ({ state, libraries }) => {
               variant="outlined"
               label={volunteerBackButtonLabel}
               margin="28px 0"
-              width={{ mobile: "100%", tablet: "115px" }}
+              width={{ mobile: "100%", tablet: "125px" }}
             />
           </Link>
         </MaxRestraintWrapper>
