@@ -5,6 +5,7 @@ import { Box } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
 import ReCAPTCHA from "react-google-recaptcha";
+import { connect } from 'frontity';
 import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
 
@@ -16,7 +17,7 @@ const validationSchema = yup.object().shape({
   additional_risks: yup.string().max(5000, 'Please enter a maximum of 5000 characters'),
 })
 
-const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
+const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -73,7 +74,7 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
       />
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', padding: '20px 0 0 0' }}>
         <ReCAPTCHA 
-          sitekey='6LeFRrYgAAAAADjCEjua9q9soUwx-EEixRnQmN3S'
+          sitekey={state.env.RECAPTCHA_KEY}
           onChange={handleUserPassedCaptcha}
         />
       </Box>
@@ -97,4 +98,4 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   )
 }
 
-export default AdditionalStep;
+export default connect(AdditionalStep);
