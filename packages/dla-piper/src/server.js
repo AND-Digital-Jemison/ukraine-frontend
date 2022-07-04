@@ -14,6 +14,7 @@ export default {
       WORDPRESS_SOURCE_URL: process.env.WORDPRESS_SOURCE_URL,
       LOG_API_URL: process.env.LOG_API_URL,
       RECAPTCHA_KEY: process.env.RECAPTCHA_KEY,
+      RECAPTCHA_API: process.env.RECAPTCHA_API,
     },
     theme: {
       currentLanguage: 'en',

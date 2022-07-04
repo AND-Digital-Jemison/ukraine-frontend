@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { connect } from 'frontity';
 import { useForm } from 'react-hook-form';
 import { Box } from '@mui/material';
@@ -20,6 +20,7 @@ const validationSchema = yup.object().shape({
 
 const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
   const { back, submit } = getFormButtonLabels(state);
+  const captchaRef = useRef(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -35,9 +36,28 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
   }, [value])
 
   const [userPassedCaptcha, setUserPassedCaptcha] = useState(false);
-  const handleUserPassedCaptcha = () => {
-    setUserPassedCaptcha(true);
+  const handleUserCompleteCaptcha = async value => {
+
+    const response = await fetch(state.env.RECAPTCHA_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        token: value,
+      }),
+    })
+
+    if (response.status === 200) {
+      setUserPassedCaptcha(true);
+      return;
+    }
+
+    if (captchaRef) {
+      captchaRef.current.reset();
+    }
   };
+
 
   const onSubmit = data => {
     setValue(data);
@@ -76,8 +96,10 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
       />
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', padding: '20px 0 0 0' }}>
         <ReCAPTCHA 
+          ref={captchaRef}
           sitekey={state.env.RECAPTCHA_KEY}
-          onChange={handleUserPassedCaptcha}
+          onChange={handleUserCompleteCaptcha}
+          hl={state.theme.currentLanguage}
         />
       </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>

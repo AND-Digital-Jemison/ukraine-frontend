@@ -28,8 +28,6 @@ const Volunteer = ({ state, libraries }) => {
     volunteerBackButtonLink,
   } = volunteer.acf;
 
-  console.log('link', `${volunteerBackButtonLabel}/${currentLanguage}`)
-
   return (
     <>
       <PageHeader>
