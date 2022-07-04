@@ -76,9 +76,6 @@ const Root = ({ state, actions }) => {
           <NotFound when={data.isError} />
         </Switch>
       </Main>
-      <footer>
-        footer
-      </footer>
     </ThemeProvider>
   );
 };

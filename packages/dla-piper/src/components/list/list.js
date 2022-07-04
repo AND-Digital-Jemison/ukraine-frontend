@@ -1,38 +1,20 @@
+import { useEffect } from 'react';
 import { connect, styled } from 'frontity';
 import Link from '@frontity/components/link';
 
-const List = ({ state }) => {
+const List = ({ state, actions }) => {
+  const { router } = state;
+  const currentLanguage = state.theme.currentLanguage;
 
-  const { source, router } = state;
-  const data = source.get(router.link);
+  useEffect(() => {
+    if (router.link.includes('volunteer')) {
+      return actions.router.set(`/volunteer/en`);
+    };
 
-  return (
-    <>
-      { data.items.map(item => {
-        const post = source[item.type][item.id];
+    actions.router.set(`/${router.link}/${currentLanguage}`);
+  }, [])
 
-        return (
-          <ListItems>
-            <Link key={post.id} link={post.link}>
-              { post.title.rendered }
-              <br />
-            </Link>
-          </ListItems>
-        )
-      })}
-    </>
-  );
+  return <></>;
 };
-
-
-const ListItems = styled.div`
-  & > a {
-    display: block;
-    margin: 6px 0;
-    font-size: 1.2em;
-    color: steelblue;
-    text-decoration: none;
-  }
-`;
 
 export default connect(List);
