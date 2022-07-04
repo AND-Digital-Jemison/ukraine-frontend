@@ -8,7 +8,6 @@ import { useSessionStorage } from '../../hooks/useSessionStorage';
 import { Step, TextArea } from '../common/form';
 import getFormButtonLabels from './getFormButtonLabels';
 import ReCAPTCHA from "react-google-recaptcha";
-import { connect } from 'frontity';
 import { useYupResolver } from "../../hooks";
 
 const schema = {
