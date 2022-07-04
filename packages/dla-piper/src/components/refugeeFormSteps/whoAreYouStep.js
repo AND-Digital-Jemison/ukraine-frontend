@@ -101,13 +101,13 @@ const WhoAreYouStep = ({ state, onNext }) => {
           <Link link={`/home/${currentLanguage}/`} style={{ textDecoration: "none" }}>
             <StyledButton
               label={back}
-              width={'115px'}
+              width={'125px'}
               variant="outlined"
             />
           </Link>
           <StyledButton
             label={next}
-            width={'115px'}
+            width={'125px'}
             submit
           />
         </Box>

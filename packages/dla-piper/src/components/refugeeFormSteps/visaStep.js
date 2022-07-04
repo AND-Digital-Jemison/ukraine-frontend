@@ -110,11 +110,11 @@ const VisaStep = ({ state, onNext, onPrevious }) => {
         >
           <StyledButton
             label={back}
-            width={"115px"}
+            width={"125px"}
             variant="outlined"
             onClick={handlePrevious}
           />
-          <StyledButton label={next} width={"115px"} submit />
+          <StyledButton label={next} width={"125px"} submit />
         </Box>
       </form>
     </Step>

@@ -71,14 +71,14 @@ const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
             label={back}
-            width={'115px'}
+            width={'125px'}
             variant="outlined"
             onClick={handlePrevious}
             disabled={isSubmitting}
           />
           <StyledButton
             label={submit}
-            width={'115px'}
+            width={'125px'}
             submit
             disabled={isSubmitting}
           />

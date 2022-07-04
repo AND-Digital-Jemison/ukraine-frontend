@@ -62,13 +62,13 @@ const SummaryStep = ({ state, onNext, onPrevious }) => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
             label={back}
-            width={'115px'}
+            width={'125px'}
             variant="outlined"
             onClick={handlePrevious}
           />
           <StyledButton
             label={next}
-            width={'115px'}
+            width={'125px'}
             submit
           />
         </Box>
