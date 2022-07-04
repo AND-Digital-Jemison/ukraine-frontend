@@ -1,15 +1,15 @@
-import { connect } from 'frontity';
-import { InputField, DatePicker, Step } from "../common/form";
-import { StyledButton } from '../common';
-import { Box } from '@mui/material';
-import { useForm } from 'react-hook-form';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useEffect, useMemo } from 'react';
-import Link from "@frontity/components/link";
-import { format, toDate } from "date-fns";
-import { useYupResolver } from '../../hooks';
 import * as yup from 'yup';
-
+import { useEffect, useMemo } from 'react';
+import { connect } from 'frontity';
+import { format, toDate } from "date-fns";
+import { useForm } from 'react-hook-form';
+import { DatePicker, InputField, Step } from "../common/form";
+import { Box } from '@mui/material';
+import Link from "@frontity/components/link";
+import { StyledButton } from '../common';
+import getFormButtonLabels from './getFormButtonLabels';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useYupResolver } from '../../hooks';
 
 // we are using this naming convention to follow the shape of the data
 // that legal connection is expecting, yes we would like it to be 
@@ -31,9 +31,9 @@ const validationSchema = yup.object().shape({
 const WhoAreYouStep = ({ state, onNext }) => {
   const { theme } = state;
   const currentLanguage = theme.currentLanguage;
-
+  const { next, back } = getFormButtonLabels(state);
   const [value, setValue] = useSessionStorage('au_who_are_you', schema);
-   
+
   const resolver = useYupResolver(validationSchema);
   const { control, reset, handleSubmit, formState: { errors } } = useForm({
     resolver,
@@ -100,13 +100,13 @@ const WhoAreYouStep = ({ state, onNext }) => {
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <Link link={`/home/${currentLanguage}/`} style={{ textDecoration: "none" }}>
             <StyledButton
-              label='Back'
+              label={back}
               width={'115px'}
               variant="outlined"
             />
           </Link>
           <StyledButton
-            label='Next'
+            label={next}
             width={'115px'}
             submit
           />

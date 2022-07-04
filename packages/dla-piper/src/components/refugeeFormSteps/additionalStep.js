@@ -1,12 +1,13 @@
-import { Step, TextArea } from '../common/form';
-import { useForm } from 'react-hook-form';
-import { StyledButton } from '../common';
-import { Box } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import Link from '@frontity/components/link';
-import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
+import { useEffect, useMemo, useState } from 'react';
+import { connect } from 'frontity';
+import { useForm } from 'react-hook-form';
+import { Box } from '@mui/material';
+import { StyledButton } from '../common';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { Step, TextArea } from '../common/form';
+import getFormButtonLabels from './getFormButtonLabels';
+import { useYupResolver } from "../../hooks";
 
 const schema = {
   additional_risks: '',
@@ -16,7 +17,8 @@ const validationSchema = yup.object().shape({
   additional_risks: yup.string().max(5000, 'Please enter a maximum of 5000 characters'),
 })
 
-const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
+const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
+  const { back, submit } = getFormButtonLabels(state);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -68,14 +70,14 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
       />
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
-            label='Back'
+            label={back}
             width={'115px'}
             variant="outlined"
             onClick={handlePrevious}
             disabled={isSubmitting}
           />
           <StyledButton
-            label='Submit'
+            label={submit}
             width={'115px'}
             submit
             disabled={isSubmitting}
@@ -86,4 +88,4 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   )
 }
 
-export default AdditionalStep;
+export default connect(AdditionalStep);

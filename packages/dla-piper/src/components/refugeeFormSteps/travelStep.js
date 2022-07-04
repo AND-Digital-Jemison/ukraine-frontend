@@ -1,11 +1,13 @@
-import { Step, RadioButtonGroup, FamilyMemberSelector } from "../common/form";
-import { Box } from '@mui/material';
-import { useForm, useFieldArray, useWatch } from 'react-hook-form';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useEffect } from 'react';
-import { StyledButton } from '../common';
-import { useYupResolver } from '../../hooks';
 import * as yup from 'yup';
+import { useEffect } from 'react';
+import { connect } from 'frontity';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { Box } from '@mui/material';
+import { FamilyMemberSelector, RadioButtonGroup, Step } from "../common/form";
+import { StyledButton } from '../common';
+import getFormButtonLabels from './getFormButtonLabels';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useYupResolver } from '../../hooks';
 
 const options = [
     { label: "Just me", value: 'alone' }, 
@@ -26,8 +28,8 @@ const validationSchema = yup.object().shape({
     })
 });
 
-const TravelStep = ({ onNext, onPrevious }) => {
-
+const TravelStep = ({ state, onNext, onPrevious }) => {
+    const { next, back } = getFormButtonLabels(state);
     const [value, setValue] = useSessionStorage('au_travel_step', schema);
 
     const resolver = useYupResolver(validationSchema);
@@ -89,13 +91,13 @@ const TravelStep = ({ onNext, onPrevious }) => {
 
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
                     <StyledButton
-                        label='Back'
+                        label={back}
                         width={'115px'}
                         variant="outlined"
                         onClick={handlePrevious}
                     />
                     <StyledButton
-                        label='Next'
+                        label={next}
                         width={'115px'}
                         submit
                     />
@@ -105,4 +107,4 @@ const TravelStep = ({ onNext, onPrevious }) => {
     );
 }
 
-export default TravelStep;
+export default connect(TravelStep);

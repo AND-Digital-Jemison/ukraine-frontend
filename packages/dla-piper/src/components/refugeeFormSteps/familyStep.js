@@ -1,11 +1,13 @@
-import { Step, RadioButtonGroup, InputField, DropDownList, relations } from "../common/form";
-import { useMemo, useEffect } from "react";
-import { Label, StyledButton } from '../common';
-import { Box } from '@mui/material';
-import { useSessionStorage } from '../../hooks/useSessionStorage';
-import { useForm, useWatch } from 'react-hook-form';
-import { useYupResolver } from '../../hooks';
 import * as yup from 'yup';
+import { useEffect, useMemo } from "react";
+import { connect } from 'frontity';
+import { useForm, useWatch } from 'react-hook-form';
+import { Box } from '@mui/material';
+import { DropDownList, InputField, RadioButtonGroup, Step, relations } from "../common/form";
+import { Label, StyledButton } from '../common';
+import getFormButtonLabels from './getFormButtonLabels';
+import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { useYupResolver } from '../../hooks';
 
 export const optionsFamily = [
   { label: "No, I don't have a family member in the UK", value: "no" }, 
@@ -43,8 +45,8 @@ const validationSchema = yup.object().shape({
   ),
 })
 
-const FamilyStep = ({ onNext, onPrevious }) => {
-
+const FamilyStep = ({ state, onNext, onPrevious }) => {
+  const { next, back } = getFormButtonLabels(state);
   const [value, setValue] = useSessionStorage('au_family_in_uk', schema);
   const resolver = useYupResolver(validationSchema);
   const { control, reset, handleSubmit, formState: { errors } } = useForm({
@@ -141,13 +143,13 @@ const FamilyStep = ({ onNext, onPrevious }) => {
 
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
-            label='Back'
+            label={back}
             width={'115px'}
             variant="outlined"
             onClick={handlePrevious}
           />
           <StyledButton
-            label='Next'
+            label={next}
             width={'115px'}
             submit
           />
@@ -157,4 +159,4 @@ const FamilyStep = ({ onNext, onPrevious }) => {
   );
 }
 
-export default FamilyStep;
+export default connect(FamilyStep);
