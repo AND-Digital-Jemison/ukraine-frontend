@@ -31,6 +31,11 @@ const settings = {
               type: "volunteer",
               endpoint: "volunteer",
               archive: "/volunteer"
+            },
+            {
+              type: "formbuttonlabels",
+              endpoint: "formbuttonlabels",
+              archive: "/formbuttonlabels"
             }
           ],
           data: {

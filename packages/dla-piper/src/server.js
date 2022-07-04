@@ -13,6 +13,7 @@ export default {
       LEGAL_CONNECTION_URL: process.env.LEGAL_CONNECTION_URL,
       WORDPRESS_SOURCE_URL: process.env.WORDPRESS_SOURCE_URL,
       LOG_API_URL: process.env.LOG_API_URL,
+      RECAPTCHA_KEY: process.env.RECAPTCHA_KEY,
     },
     theme: {
       currentLanguage: 'en',
@@ -29,6 +30,12 @@ export default {
       },
       setCurrentTitle: ({ state }) => value => {
         state.theme.currentTitle = value;
+      },
+      beforeSSR: async ({ actions }) => {
+        await actions.source.fetch(`/formbuttonlabels/en/`);
+        await actions.source.fetch(`/formbuttonlabels/pl/`);
+        await actions.source.fetch(`/formbuttonlabels/ru/`);
+        await actions.source.fetch(`/formbuttonlabels/uk/`);
       }
     }
   },
