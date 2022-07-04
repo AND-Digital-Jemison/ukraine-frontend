@@ -34,6 +34,7 @@
     "dot-env": "^0.0.1",
     "flag-icons": "^6.4.5",
     "frontity": "^1.17.2",
+    "react-google-recaptcha": "^2.1.0",
     "react-hook-form": "^7.31.3",
     "react-uuid": "^1.0.2",
     "yup": "^0.32.11"
