@@ -4,7 +4,8 @@ import { StyledButton } from '../common';
 import { Box } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
-import Link from '@frontity/components/link';
+import ReCAPTCHA from "react-google-recaptcha";
+import { connect } from 'frontity';
 import { useYupResolver } from "../../hooks";
 import * as yup from 'yup';
 
@@ -16,7 +17,7 @@ const validationSchema = yup.object().shape({
   additional_risks: yup.string().max(5000, 'Please enter a maximum of 5000 characters'),
 })
 
-const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
+const AdditionalStep = ({ state, onNext, onPrevious, isSubmitting}) => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [value, setValue] = useSessionStorage('au_additional', schema);
   const resolver = useYupResolver(validationSchema);
@@ -30,6 +31,11 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   useEffect(() => {
     reset(value)
   }, [value])
+
+  const [userPassedCaptcha, setUserPassedCaptcha] = useState(false);
+  const handleUserPassedCaptcha = () => {
+    setUserPassedCaptcha(true);
+  };
 
   const onSubmit = data => {
     setValue(data);
@@ -66,6 +72,12 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
         placeholder='optional'
         width={'100%'}
       />
+      <Box sx={{ display: 'flex', justifyContent: 'flex-start', padding: '20px 0 0 0' }}>
+        <ReCAPTCHA 
+          sitekey={state.env.RECAPTCHA_KEY}
+          onChange={handleUserPassedCaptcha}
+        />
+      </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: '20px 0 0 0' }}>
           <StyledButton
             label='Back'
@@ -78,7 +90,7 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
             label='Submit'
             width={'115px'}
             submit
-            disabled={isSubmitting}
+            disabled={isSubmitting || !userPassedCaptcha}
           />
         </Box>
       </form>
@@ -86,4 +98,4 @@ const AdditionalStep = ({ onNext, onPrevious, isSubmitting}) => {
   )
 }
 
-export default AdditionalStep;
+export default connect(AdditionalStep);
