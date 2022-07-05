@@ -17,66 +17,30 @@ import {
   SummaryStep,
   AdditionalStep,
 } from '../refugeeFormSteps';
-import { optionsFamily, optionsVisaType } from '../refugeeFormSteps';
 import { useSessionStorage } from '../../hooks/useSessionStorage';
+import { getRequestPayload } from './utils';
 
-const getRequestPayload = () => {
-  const whoAreYou = JSON.parse(sessionStorage.getItem('au_who_are_you'));
-  const travel = JSON.parse(sessionStorage.getItem('au_travel_step'));
-  const visa = JSON.parse(sessionStorage.getItem('au_visa_step'));
-  const visaTypes = optionsVisaType.map(({ value }) =>
-    value === visa.visa_type ? { [value]: 'yes' } : { [value]: 'no' }
-  );
-  const familyInUk = JSON.parse(sessionStorage.getItem('au_family_in_uk'));
-  const summary = JSON.parse(sessionStorage.getItem('au_summary'));
-  const additionalRisks = JSON.parse(sessionStorage.getItem('au_additional'));
-  
-  return {
-    client: {
-      ...whoAreYou,
-    },
-    info: {
-      // travel step
-      traveling_with: travel.traveling_with,
-      family_members: travel.family_members.map((m) => m.relation).join(', '),
-      // visa step
-      have_visa: visa.have_visa,
-      ...Object.assign({}, ...visaTypes),
-      // family step
-      family_member_in_uk:
-        familyInUk.family_member_in_uk === optionsFamily[0] ? 'no' : 'yes',
-      best_describes_uk_family_member:
-        familyInUk.best_describes_uk_family_member,
-      uk_family_first_name: familyInUk.uk_family_first_name,
-      uk_family_last_name: familyInUk.uk_family_last_name,
-      uk_family_last_name: familyInUk.uk_family_last_name,
-      uk_family_email: familyInUk?.uk_family_email ?? '', // TODO: do we need to collect this?
-      uk_family_phone: familyInUk?.uk_family_phone ?? '', // TODO: do we need to collect this?
-      uk_family_relation_to_you: familyInUk.uk_family_relation_to_you,
-      // Summary step
-      summarise_help_needed: summary.summarise_help_needed,
-      // additional step
-      additional_risks: additionalRisks.additional_risks,
-    },
-  };
-}
 
 const RefugeeForm = ({ state, actions }) => {
-  // stepper state etc...
-  const [currentStep, setCurrentStep] = useSessionStorage('currentStep', 0);
-  const [isRequestError, setIsRequestError] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const currentLanguage = state.theme.currentLanguage;
+  // frontity state
   const data = state.source.get(state.router.link);
   const refugeeForm = state.source[data.type][data.id];
-  const { rfTitle, rfDescription, rfInfoTitle, rfInfoListItems } =
-    refugeeForm.acf;
+  const { 
+    rfTitle, 
+    rfDescription, 
+    rfInfoTitle, 
+    rfInfoListItems 
+  } = refugeeForm.acf;
+  const currentLanguage = state.theme.currentLanguage;
 
-  const [formStatus, setFormStatus] = useState({
+  // form state
+  const [form, setFormStatus] = useState({
+    isSubmitting: false,
     isReady: false,
     isCompleted: false,
+    error: null,
   })
-
+  const [currentStep, setCurrentStep] = useSessionStorage('currentStep', 0);
   const formConfig = [
     { step: 1 },
     { step: 2 },
@@ -86,20 +50,23 @@ const RefugeeForm = ({ state, actions }) => {
     { step: 6 },
   ];
 
+  // check to see if the form has already been submitted
+  // if so, redirect to the confirmation page
   useEffect(() => {
     const formComplete = Boolean(sessionStorage.getItem('isFormCompleted'));
     
-    setFormStatus(() => ({
+    setFormStatus(state => ({
+      ...state,
       isReady: true,
       isCompleted: formComplete,
     }));
-  }, []);
+  }, [ ]);
 
   useEffect(() => {
-    if (formStatus.isReady && formStatus.isCompleted) {
+    if (form.isReady && form.isCompleted) {
       actions.router.set(`/confirmation/${currentLanguage}/`)
     } 
-  }, [formStatus]);
+  }, [form]);
 
   const handleNextStep = () => {
     setCurrentStep((step) => {
@@ -120,29 +87,20 @@ const RefugeeForm = ({ state, actions }) => {
   };
 
   const handleSubmitForm = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
+    if (form.isSubmitting) return;
 
-    const payload = getRequestPayload();
+    const payload = getRequestPayload(sessionStorage);
 
-    // log the request to mongoDB
-    fetch(
-      state.env.LOG_API_URL,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        mode: 'no-cors',
-        body: JSON.stringify({
-          name: payload?.client?.firstname,
-          email: payload?.client?.email,
-        }),
-      }
-    )
+    // clear any previous errors from the form state
+    // and set the form to submitting to prevent multiple submissions
+    setFormStatus(state => ({
+      ...state,
+      isSubmitting: true,
+      error: null,
+    }));
 
     try {
-      const response = await fetch(
+      const legalConnectionResponse = await fetch(
         state.env.LEGAL_CONNECTION_URL,
         {
           method: 'POST',
@@ -151,28 +109,61 @@ const RefugeeForm = ({ state, actions }) => {
           },
           body: JSON.stringify(payload),
         }
-      );
+      )
+        .then(res => res.json())
+        .catch(err => {
+          throw new Error('Something went wrong, please try again later.');
+        });
 
-      if (response.status === 200) {
-        sessionStorage.setItem('isFormCompleted', true);
-        actions.router.set(`/confirmation/${currentLanguage}/`);
+      if (legalConnectionResponse.result !== 'success') {
+        if (legalConnectionResponse.msg.toLowerCase() === 'client already invited to legal connection.') {
+          throw new Error('You have already submitted your application.');
+        }
 
-      } else {
-        throw new Error('Something went wrong submitting the data')
+        throw new Error(legalConnectionResponse.msg);
       }
+      
+      // the form should now be completed so update the form state,
+      // session storage and redirect to the confirmation page
+      setFormStatus(state => ({
+        ...state,
+        isSubmitting: false,
+        isCompleted: true,
+      }));
+      sessionStorage.setItem('isFormCompleted', true);
 
+      // also log this submission to our logs, however we don't
+      // need to wait for this request to finish or care about
+      // its response as it does't effect the users experience
+      fetch(
+        state.env.LOG_API_URL,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          mode: 'no-cors',
+          body: JSON.stringify({
+            name: payload?.client?.firstname,
+            email: payload?.client?.email,
+          }),
+        }
+      )
+    
     } catch (error) {
-      console.error(error);
-      setIsRequestError(true);
+      setFormStatus(state => ({
+        ...state,
+        isSubmitting: false,
+        error: error,
+      }));
     }
-    setIsSubmitting(false);
   };
 
-  if (!formStatus.isReady) {
+  if (!form.isReady) {
     return <></>;
   }
 
-  if (formStatus.isReady && formStatus.isCompleted) {
+  if (form.isReady && form.isCompleted) {
     return <></>;
   };
 
@@ -218,12 +209,12 @@ const RefugeeForm = ({ state, actions }) => {
         )}
       </MaxRestraintWrapper>
 
-      {isRequestError && (
+      {form.error && (
         <MaxRestraintWrapper>
           <Box sx={{ margin: '0 0 20px 0' }}>
             <NotificationBlock
               type='error'
-              message={'Something went wrong. Please try again later.'}
+              message={form.error.message}
             />
           </Box>
         </MaxRestraintWrapper>
@@ -253,7 +244,7 @@ const RefugeeForm = ({ state, actions }) => {
             <AdditionalStep
               onNext={handleSubmitForm}
               onPrevious={handlePreviousStep}
-              isSubmitting={isSubmitting}
+              isSubmitting={form.isSubmitting}
             />,
           ]}
         />
