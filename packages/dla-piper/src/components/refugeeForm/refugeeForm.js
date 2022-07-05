@@ -31,6 +31,7 @@ const RefugeeForm = ({ state, actions }) => {
     rfInfoTitle, 
     rfInfoListItems,
     rfAlreadyRegistered,
+    rfGeneralError,
   } = refugeeForm.acf;
   const currentLanguage = state.theme.currentLanguage;
 
@@ -68,6 +69,11 @@ const RefugeeForm = ({ state, actions }) => {
       actions.router.set(`/confirmation/${currentLanguage}/`)
     } 
   }, [form]);
+
+  useEffect(() => {
+    console.log('FORM ERROR')
+    console.log(form.error)
+  }, [form.error])
 
   const handleNextStep = () => {
     setCurrentStep((step) => {
@@ -111,17 +117,21 @@ const RefugeeForm = ({ state, actions }) => {
           body: JSON.stringify(payload),
         }
       )
-        .then(res => res.json())
-        .catch(err => {
-          throw new Error('Something went wrong, please try again later.');
-        });
+        .then(res => {
+          switch (res.status) {
+            case 200:
+              return res.json();
+            
+            case 406:
+              throw new Error(rfAlreadyRegistered);
+
+            default:
+              throw new Error(rfGeneralError);
+          }
+        })
 
       if (legalConnectionResponse.result !== 'success') {
-        if (legalConnectionResponse.msg.toLowerCase() === 'client already invited to legal connection.') {
-          throw new Error(rfAlreadyRegistered);
-        }
-
-        throw new Error(legalConnectionResponse.msg);
+        throw new Error(legalConnectionResponse.msg ? legalConnectionResponse.msg : rfGeneralError);
       }
       
       // the form should now be completed so update the form state,
@@ -155,7 +165,7 @@ const RefugeeForm = ({ state, actions }) => {
       setFormStatus(state => ({
         ...state,
         isSubmitting: false,
-        error: error,
+        error,
       }));
     }
   };
