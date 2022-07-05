@@ -29,7 +29,8 @@ const RefugeeForm = ({ state, actions }) => {
     rfTitle, 
     rfDescription, 
     rfInfoTitle, 
-    rfInfoListItems 
+    rfInfoListItems,
+    rfAlreadyRegistered,
   } = refugeeForm.acf;
   const currentLanguage = state.theme.currentLanguage;
 
@@ -117,7 +118,7 @@ const RefugeeForm = ({ state, actions }) => {
 
       if (legalConnectionResponse.result !== 'success') {
         if (legalConnectionResponse.msg.toLowerCase() === 'client already invited to legal connection.') {
-          throw new Error('You have already submitted your application.');
+          throw new Error(rfAlreadyRegistered);
         }
 
         throw new Error(legalConnectionResponse.msg);
