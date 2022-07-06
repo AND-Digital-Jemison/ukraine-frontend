@@ -1,12 +1,19 @@
 import { Box, Typography } from '@mui/material';
 import { DropDownList, relations, HelperTextError } from '.';
 import { useController } from 'react-hook-form';
+import { useEffect } from 'react';
 
 const FamilyMemberSelector = ({ fields, append, update, remove, control, error }) => {
 
   const handleNewFamilyMember = () => {
     append({ relation: '' });  // add an empty field
   }
+
+  useEffect(() => {
+    if (fields.length === 0) {
+      handleNewFamilyMember();
+    }
+  }, [ ])
 
   return (
     <>
