@@ -80,11 +80,22 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
   }, [travelingWith]);
 
   useEffect(() => {
+    // every time a field from the field Array is updated
+    // clear out all the old errors and make sure that a newly
+    // added field does not show as an error.
+    // a new field can be identified when the value of field.relation
+    // is equal to an empty string 
     if (travelingWith === options[1].value) {
-    familyMembers.forEach(member => {
-        trigger(member.id)
-    });
-  }
+      fields.forEach((member, index) => {
+        if (member.relation === '') {
+          return;
+        }
+        trigger(`family_members[${index}].relation`);
+
+      });
+      clearErrors();
+    };
+
   }, [fields, trigger])
 
   useEffect(() => {
