@@ -21,7 +21,7 @@ const NotFound = ({ state, libraries }) => {
 
   useEffect(() => {
     setErrorInfoState(getNotFoundLanguage());
-  },[])
+  },[currentLanguage])
 
   if (loading) {
     return <></>
