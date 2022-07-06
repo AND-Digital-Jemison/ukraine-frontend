@@ -1,10 +1,12 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { connect } from 'frontity';
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { StyledButton, ErrorPageWrapper } from '../common';
 import Link from "@frontity/components/link";
 
 const NotFound = ({ state, libraries }) => {
+  const [loading, setLoading] = useState(true);
+  const [errorInfoState, setErrorInfoState] = useState({errorPageMessage:"", errorPageReturnButton:""});
   const currentLanguage = state.theme.currentLanguage;
   const Html2React = libraries.html2react.Component;
 
@@ -13,14 +15,17 @@ const NotFound = ({ state, libraries }) => {
     const data = state.source.get(`/errorpage/${currentLanguage}/`);
     const errorPage = state.source[data.type][data.id];
 
+    setLoading(false);
     return errorPage.acf
   }
 
-  const [errorInfoState, setErrorInfoState] = useState({errorPageMessage:"", errorPageReturnButton:"Back"});
-
-  useEffect(()=>{
+  useEffect(() => {
     setErrorInfoState(getNotFoundLanguage());
-  },[currentLanguage])
+  },[])
+
+  if (loading) {
+    return <></>
+  }
   
   return (
     <>

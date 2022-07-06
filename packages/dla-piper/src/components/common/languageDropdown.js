@@ -22,15 +22,18 @@ const LanguageDropdown = ({ state, actions }) => {
   const currentLanguage = theme.currentLanguage;
   const setCurrentLanguage = actions.theme.setLanguage;
 
-
   const matchCurrentLanguage = (link, route) => {
     if (link.match(`/${route}/[a-z]{2}`)) {
+      const urlSplit = link.split('/');
       const lang = link.split('/')[2];
+      
       if (!languages.map(l => l.iso639).includes(lang)) {
         return;
       }
+      
+      const urlParts = urlSplit.map(urlPart => (urlPart === lang) ? currentLanguage : urlPart)
       if (lang !== currentLanguage) {
-        actions.router.set(`/${route}/${currentLanguage}`);
+        actions.router.set(urlParts.join('/'));
       }
     }
   }
