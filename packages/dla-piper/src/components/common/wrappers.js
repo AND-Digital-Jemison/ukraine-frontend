@@ -17,6 +17,19 @@ export const PageHeader = styled.div`
   width: 100vw;
 `;
 
+export const ErrorPageWrapper = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    padding: 120px 0px 50px 0px;
+  }
+  p {
+    padding: 0px 0px 50px 0px;
+  }
+`;
+
 export const ContentBlockWrapper = styled.div`
   h1,
   h2,
