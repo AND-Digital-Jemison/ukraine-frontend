@@ -29,18 +29,9 @@ const NotFound = ({ state, libraries }) => {
       justifyContent: 'center',
       alignItems: 'center',
     }}>
-      <Typography 
-        sx={{ 
-          // fontSize: "24px", 
-          // fontWeight: "bold",
-          color: 'textColor.main',
-          padding: '120px 0px 50px 0px'
-        }}
-        >
         <ErrorPageWrapper>
           <Html2React html={errorInfoState.errorPageMessage}/>
         </ErrorPageWrapper>
-      </Typography>
       </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
           <Link link={`/home/${currentLanguage}/`} style={{ textDecoration: "none" }}>

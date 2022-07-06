@@ -18,12 +18,15 @@ export const PageHeader = styled.div`
 `;
 
 export const ErrorPageWrapper = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   h2 {
-    padding: 0px 0px 50px 0px;
-    text-align: center;
+    padding: 120px 0px 50px 0px;
   }
   p {
-    text-align: center;
+    padding: 0px 0px 50px 0px;
   }
 `;
 
