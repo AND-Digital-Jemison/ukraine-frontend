@@ -83,7 +83,6 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
   }, [value])
 
   const onSubmit = data => {
-    console.log(data)
     setValue(data);
     if (!onNext) {
       return;
