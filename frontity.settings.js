@@ -36,6 +36,11 @@ const settings = {
               type: "formbuttonlabels",
               endpoint: "formbuttonlabels",
               archive: "/formbuttonlabels"
+            },
+            {
+              type: "errorpage",
+              endpoint: "errorpage",
+              archive: "/errorpage"
             }
           ],
           data: {

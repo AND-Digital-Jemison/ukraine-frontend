@@ -9,6 +9,7 @@ import {
   MaxRestraintWrapper,
   CtaHeader,
   PageHeader,
+  ErrorPageWrapper,
   ContentBlockWrapper,
 } from "./wrappers";
 import NotificationBlock from './NotificationBlock';
@@ -23,6 +24,7 @@ export {
   MaxRestraintWrapper,
   CtaHeader,
   PageHeader,
+  ErrorPageWrapper,
   ContentBlockWrapper,
   Label,
   NotificationBlock,

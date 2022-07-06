@@ -17,5 +17,10 @@ production: https://ukraine-frontend.vercel.app/home
 
 Create a .env file in the root of the project and populate said file with the following variables:
 
+```
 LEGAL_CONNECTION_URL=https://dev-legal-connection-d8.pantheonsite.io/dlapiper/ukraine/create
 WORDPRESS_SOURCE_URL=https://adviceukraine.wpcomstaging.com/
+LOG_API_URL=https://form-traffic-log.vercel.app/api/log
+RECAPTCHA_KEY=6LeFRrYgAAAAADjCEjua9q9soUwx-EEixRnQmN3S
+RECAPTCHA_API=https://form-traffic-log.vercel.app/api/recaptcha
+```

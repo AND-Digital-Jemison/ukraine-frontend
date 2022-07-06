@@ -37,6 +37,10 @@ export default {
         await actions.source.fetch(`/formbuttonlabels/pl/`);
         await actions.source.fetch(`/formbuttonlabels/ru/`);
         await actions.source.fetch(`/formbuttonlabels/uk/`);
+        await actions.source.fetch(`/errorpage/en`);
+        await actions.source.fetch(`/errorpage/pl`);
+        await actions.source.fetch(`/errorpage/ru`);
+        await actions.source.fetch(`/errorpage/uk`);
       }
     }
   },
