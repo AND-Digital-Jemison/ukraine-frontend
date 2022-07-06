@@ -8,8 +8,6 @@ const FamilyMemberSelector = ({ fields, append, update, remove, control, error }
     append({ relation: '' });  // add an empty field
   }
 
-  if (fields.length == 0) handleNewFamilyMember();
-
   return (
     <>
       {fields.length > 0 &&

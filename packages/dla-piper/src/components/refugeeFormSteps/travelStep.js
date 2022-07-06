@@ -29,10 +29,6 @@ const validationSchema = yup.object().shape({
       })
     )
     .when('traveling_with', {
-      is: options[0].value,
-      then: yup.array().nullable().notRequired(),
-    })
-    .when('traveling_with', {
       is: options[1].value,
       then: yup.array().min(1, 'Must have at least one family member'),
     }),
@@ -64,6 +60,25 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
     control,
     name: 'traveling_with',
   });
+
+  const familyMembers = useWatch({
+    control,
+    name: 'family_members',
+  });
+
+  // add an empty relation dropdown when 'Me and my family' option is selected
+  useEffect(() => {
+    if(travelingWith === options[1].value && !fields.length) {
+      append({ relation: '' })
+    }
+  }, [travelingWith])
+
+  // clear the relation dropdowns when 'Just me' option is selected
+  useEffect(() => {
+    if(travelingWith === options[0].value) {
+      fields.forEach((field) => remove(field.id))
+    } 
+  }, [familyMembers, travelingWith])
 
   useEffect(() => {
     reset(value)
