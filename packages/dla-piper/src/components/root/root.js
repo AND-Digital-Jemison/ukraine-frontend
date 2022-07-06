@@ -10,7 +10,8 @@ import {
   RefugeeForm,
   Confirmation,
   Volunteer,
-  NotFound
+  NotFound,
+  Footer,
 } from "..";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { theme } from "../common";
@@ -76,11 +77,13 @@ const Root = ({ state, actions }) => {
           <NotFound when={data.isError} />
         </Switch>
       </Main>
+      <Footer />
     </ThemeProvider>
   );
 };
 
 const Main = styled.main`
+  min-height: calc(100vh - 48px);
   margin: auto;
   img {
     max-width: 100%;
