@@ -45,6 +45,7 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
     reset,
     formState: { errors },
     clearErrors,
+    trigger
   } = useForm({
     resolver,
     defaultValues: {
@@ -77,6 +78,14 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
     }
 
   }, [travelingWith]);
+
+  useEffect(() => {
+    if (travelingWith === options[1].value) {
+    familyMembers.forEach(member => {
+        trigger(member.id)
+    });
+  }
+  }, [fields, trigger])
 
   useEffect(() => {
     reset(value)
