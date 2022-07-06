@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { connect } from 'frontity';
 import React, { useState, useEffect } from "react";
-import { StyledButton } from '../common';
+import { StyledButton, ErrorPageWrapper } from '../common';
 import Link from "@frontity/components/link";
 
 const NotFound = ({ state, libraries }) => {
@@ -29,23 +29,26 @@ const NotFound = ({ state, libraries }) => {
       justifyContent: 'center',
       alignItems: 'center',
     }}>
-      <Typography variant="h1" 
+      <Typography 
         sx={{ 
-          fontSize: "36px", 
-          fontWeight: "bold",
+          // fontSize: "24px", 
+          // fontWeight: "bold",
           color: 'textColor.main',
-          padding: '30px 0'
+          padding: '120px 0px 50px 0px'
         }}
         >
-        <Html2React html={errorInfoState.errorPageMessage}/>
+        <ErrorPageWrapper>
+          <Html2React html={errorInfoState.errorPageMessage}/>
+        </ErrorPageWrapper>
       </Typography>
       </Box>
         <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center',}}>
           <Link link={`/home/${currentLanguage}/`} style={{ textDecoration: "none" }}>
             <StyledButton
               label={errorInfoState.errorPageReturnButton}
-              width={'125px'}
               variant="outlined"
+              color="buttonColor"
+              width={{ mobile: "100%", tablet: "288px" }}
             />
           </Link>
         </Box>

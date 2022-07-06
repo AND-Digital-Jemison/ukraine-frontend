@@ -17,6 +17,16 @@ export const PageHeader = styled.div`
   width: 100vw;
 `;
 
+export const ErrorPageWrapper = styled.div`
+  h2 {
+    padding: 0px 0px 50px 0px;
+    text-align: center;
+  }
+  p {
+    text-align: center;
+  }
+`;
+
 export const ContentBlockWrapper = styled.div`
   h1,
   h2,
