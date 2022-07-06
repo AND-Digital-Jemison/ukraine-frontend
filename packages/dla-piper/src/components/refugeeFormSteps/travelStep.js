@@ -44,11 +44,12 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
     handleSubmit,
     reset,
     formState: { errors },
+    clearErrors,
   } = useForm({
     resolver,
     defaultValues: {
       traveling_with: '',
-    },
+    }
   });
 
   const { fields, append, remove, update } = useFieldArray({
@@ -66,19 +67,16 @@ const TravelStep = ({ state, onNext, onPrevious }) => {
     name: 'family_members',
   });
 
-  // add an empty relation dropdown when 'Me and my family' option is selected
   useEffect(() => {
-    if(travelingWith === options[1].value && !fields.length) {
-      append({ relation: '' })
+    if (travelingWith === options[0].value) {
+      // remove all the old values from the fieldArray
+      familyMembers.forEach(member => remove(member.id));
+      // clean up any old errors (can be done by key name but in this
+      // case we might as well just clean everything up)
+      clearErrors(); 
     }
-  }, [travelingWith])
 
-  // clear the relation dropdowns when 'Just me' option is selected
-  useEffect(() => {
-    if(travelingWith === options[0].value) {
-      fields.forEach((field) => remove(field.id))
-    } 
-  }, [familyMembers, travelingWith])
+  }, [travelingWith]);
 
   useEffect(() => {
     reset(value)
