@@ -46,7 +46,7 @@ const NotFound = ({ state, libraries }) => {
           <Link link={`/home/${currentLanguage}/`} style={{ textDecoration: "none" }}>
             <StyledButton
               label={errorInfoState.errorPageReturnButton}
-              variant="outlined"
+              // variant="outlined"
               color="buttonColor"
               width={{ mobile: "100%", tablet: "288px" }}
             />
