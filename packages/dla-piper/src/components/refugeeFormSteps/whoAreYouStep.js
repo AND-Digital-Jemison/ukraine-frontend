@@ -24,7 +24,7 @@ const schema = {
 const validationSchema = yup.object().shape({
   firstname: yup.string().max(64, 'cannot excide 64 characters').required('First name is required'),
   lastname: yup.string().max(64, 'cannot excide 64 characters').required('Last name is required'),
-  date_of_birth: yup.date().required('Date of birth is required').nullable(),
+  date_of_birth: yup.date().typeError('Date of birth is invalid').required('Date of birth is required').nullable(),
   email: yup.string().email('Email is invalid').required('Email is required'),
 })
 
