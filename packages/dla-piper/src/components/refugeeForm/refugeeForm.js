@@ -70,11 +70,6 @@ const RefugeeForm = ({ state, actions }) => {
     } 
   }, [form]);
 
-  useEffect(() => {
-    console.log('FORM ERROR')
-    console.log(form.error)
-  }, [form.error])
-
   const handleNextStep = () => {
     setCurrentStep((step) => {
       if (step === formConfig.length - 1) {
