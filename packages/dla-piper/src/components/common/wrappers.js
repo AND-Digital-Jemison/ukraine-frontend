@@ -22,11 +22,9 @@ export const ErrorPageWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  h2 {
-    padding: 120px 0px 50px 0px;
-  }
-  p {
-    padding: 0px 0px 50px 0px;
+  padding: 120px 0 0 0;
+  h2, p {
+    padding: 0 0px 30px 0px;
   }
 `;
 
