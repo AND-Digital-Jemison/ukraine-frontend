@@ -141,20 +141,20 @@ const RefugeeForm = ({ state, actions }) => {
       // also log this submission to our logs, however we don't
       // need to wait for this request to finish or care about
       // its response as it does't effect the users experience
-      fetch(
-        state.env.LOG_API_URL,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          mode: 'no-cors',
-          body: JSON.stringify({
-            name: payload?.client?.firstname,
-            email: payload?.client?.email,
-          }),
-        }
-      )
+      // fetch(
+      //   state.env.LOG_API_URL,
+      //   {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     mode: 'no-cors',
+      //     body: JSON.stringify({
+      //       name: payload?.client?.firstname,
+      //       email: payload?.client?.email,
+      //     }),
+      //   }
+      // )
     
     } catch (error) {
       setFormStatus(state => ({
