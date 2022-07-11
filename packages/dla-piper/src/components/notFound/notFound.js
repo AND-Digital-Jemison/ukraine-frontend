@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { connect } from 'frontity';
 import { useState, useEffect } from "react";
-import { StyledButton, ErrorPageWrapper } from '../common';
+import { StyledButton, ErrorPageWrapper, MaxRestraintWrapper } from '../common';
 import Link from "@frontity/components/link";
 
 const NotFound = ({ state, libraries }) => {
@@ -11,7 +11,6 @@ const NotFound = ({ state, libraries }) => {
   const Html2React = libraries.html2react.Component;
 
   const getNotFoundLanguage = () => {
-    console.log(state);
     const data = state.source.get(`/errorpage/${currentLanguage}/`);
     const errorPage = state.source[data.type][data.id];
 
@@ -28,7 +27,7 @@ const NotFound = ({ state, libraries }) => {
   }
   
   return (
-    <>
+    <MaxRestraintWrapper>
     <Box sx={{ 
       display: 'flex',
       justifyContent: 'center',
@@ -48,8 +47,7 @@ const NotFound = ({ state, libraries }) => {
             />
           </Link>
         </Box>
-    
-    </>
+    </MaxRestraintWrapper>
   )
 };
 
