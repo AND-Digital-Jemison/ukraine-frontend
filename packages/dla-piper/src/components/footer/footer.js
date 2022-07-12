@@ -76,7 +76,7 @@ const Footer = () => {
 
 const FooterWrapper = styled('footer')({
   backgroundColor: '#F8F8F8',
-  padding: '48px 0 96px 0',
+  padding: '10px 0 10px 0',
 
 });
 
