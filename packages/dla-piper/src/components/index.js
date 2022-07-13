@@ -10,3 +10,4 @@ export * from './notFound';
 
 // ui components 
 export * from './menu';
+export * from './footer';
