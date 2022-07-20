@@ -20,7 +20,8 @@ const Menu = ({ state }) => {
           <Link link={`/home/${currentLanguage ?? 'en'}`} style={{ textDecoration: "none", display: 'flex', alignItems: 'center' }}>
             <Typography
               sx={{
-                fontSize: "14px",
+                fontSize: "1.25rem",
+                fontWeight: "500",
                 color: "textColor.main",
               }}
             >
