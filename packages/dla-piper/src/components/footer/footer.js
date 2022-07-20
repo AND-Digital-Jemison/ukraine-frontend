@@ -69,8 +69,6 @@ const Footer = ({ state }) => {
             }}
           >
             <FooterLink link={`/faq/${currentLanguage}`} text='FAQs' type='internal' />
-            {/* <FooterLink link='#' text='Cookie Policy' type='internal' /> */}
-            {/* <FooterLink link='#' text='Legal Statement' type='internal' /> */}
           </Box>
         </Box>
     </FooterWrapper>
