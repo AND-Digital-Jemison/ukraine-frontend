@@ -1,8 +1,10 @@
 import { styled, Box, Typography } from '@mui/material';
 import Link from '@frontity/components/link';
-import { MaxRestraintWrapper } from '../common';
+import { connect } from 'frontity';
 
-const Footer = () => {
+const Footer = ({ state }) => {
+
+  const { currentLanguage } = state.theme;
 
   return (
     <FooterWrapper>
@@ -47,6 +49,7 @@ const Footer = () => {
             }}
           >
             <FooterLink link='https://www.dlapiper.com/' text='DLA Piper' type='external' />
+            <FooterLink link='https://www.and.digital/about/' text='AND Digital' type='external' />
             <FooterLink link='https://www.legalconnection.co/' text='Legal Connection' type='external' />
           </Box>
           
@@ -60,14 +63,14 @@ const Footer = () => {
               gap: '1rem',
               alignItems: 'center',
               justifyContent: {
-                desktop: 'flex-start',
+                desktop: 'flex-start', 
                 mobile: 'center',
               }
             }}
           >
-            <FooterLink link='#' text='FAQs' type='internal' />
-            <FooterLink link='#' text='Cookie Policy' type='internal' />
-            <FooterLink link='#' text='Legal Statement' type='internal' />
+            <FooterLink link={`/faq/${currentLanguage}`} text='FAQs' type='internal' />
+            {/* <FooterLink link='#' text='Cookie Policy' type='internal' /> */}
+            {/* <FooterLink link='#' text='Legal Statement' type='internal' /> */}
           </Box>
         </Box>
     </FooterWrapper>
@@ -86,6 +89,7 @@ const FooterLink = ({ link, text, type }) => {
       style={{
         textDecoration: type === 'external' ? 'underline': 'none',
         color: '#2C6ECB',
+        padding: '0 10px',
       }}
     >
       <Typography variant='p'
@@ -99,4 +103,4 @@ const FooterLink = ({ link, text, type }) => {
   )
 }
 
-export default Footer;
+export default connect(Footer);
