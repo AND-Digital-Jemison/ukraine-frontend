@@ -41,6 +41,11 @@ const settings = {
               type: "errorpage",
               endpoint: "errorpage",
               archive: "/errorpage"
+            },
+            {
+              type: "faq",
+              endpoint: "faq",
+              archive: "/faq"
             }
           ],
           data: {
