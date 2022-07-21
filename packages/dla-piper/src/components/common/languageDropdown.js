@@ -44,6 +44,7 @@ const LanguageDropdown = ({ state, actions }) => {
     matchCurrentLanguage(link, 'home');
     matchCurrentLanguage(link, 'refugee-form');
     matchCurrentLanguage(link, 'confirmation');
+    matchCurrentLanguage(link, 'faq');
   }, [currentLanguage]);
 
   const open = Boolean(anchorEl);
